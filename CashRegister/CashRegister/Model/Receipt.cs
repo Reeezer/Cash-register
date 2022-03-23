@@ -12,14 +12,12 @@ namespace CashRegister.Model
         public DateTime Date { get; set; }
         public User Client { get; set; }
         public Discount Discount { get; set; }
-        public IEnumerable<ReceiptLine> Lines { get; set; }
 
         public Receipt(DateTime date, User client)
         {
             ID = id++;
             Date = date;
             Client = client;
-            Lines = new List<ReceiptLine>();
         }
     }
 }
