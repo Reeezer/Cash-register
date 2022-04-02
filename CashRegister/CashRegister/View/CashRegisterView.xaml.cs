@@ -37,5 +37,23 @@ namespace CashRegister.View
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
             cashRegisterVM.AddItemOnReceipt(item);
         }
+
+        public void RemoveItem(object sender, EventArgs args)
+        {
+            Button button = sender as Button;
+            ReceiptLine line = button.BindingContext as ReceiptLine;
+
+            CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
+            cashRegisterVM.RemoveItemOnReceipt(line);
+        }
+
+        public void RemoveAllSameItems(object sender, EventArgs args)
+        {
+            Button button = sender as Button;
+            ReceiptLine line = button.BindingContext as ReceiptLine;
+
+            CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
+            cashRegisterVM.RemoveAllSameItemsOnReceipt(line);
+        }
     }
 }

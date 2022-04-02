@@ -36,5 +36,10 @@ namespace CashRegister.Model
         {
             Quantity += quantity;
         }
+
+        public void RemoveItem(int quantity=1)
+        {
+            Quantity -= quantity;
+        }
     }
 }

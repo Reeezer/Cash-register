@@ -51,7 +51,7 @@
                 </StackLayout>
             </ScrollView>
 
-            <!-- Items from a category -->
+            <!-- Receipt -->
             <ScrollView Grid.Column="2">
                 <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="8">
                     <BindableLayout.ItemTemplate>
@@ -60,6 +60,8 @@
                                 <Label Text="{Binding Item.Name}"/>
                                 <Label Text="{Binding Quantity}"/>
                                 <Label Text="{Binding Item.Price}"/>
+                                <Button Text="-" Clicked="RemoveItem"/>
+                                <Button Text="X" Clicked="RemoveAllSameItems"/>
                             </StackLayout>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>

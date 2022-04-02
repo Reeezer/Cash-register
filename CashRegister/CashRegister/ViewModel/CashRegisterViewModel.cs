@@ -63,7 +63,7 @@ namespace CashRegister.ViewModel
 
         public void AddItemOnReceipt(Item item)
         {
-            ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.ID == item.ID);
+            ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.Item.ID == item.ID);
 
             if (line != null)
             {
@@ -80,6 +80,25 @@ namespace CashRegister.ViewModel
                 ReceiptLines.Add(line);
             }
             ReceiptLines.OrderBy(i => i.Item.Name);
+        }
+
+        public void RemoveItemOnReceipt(ReceiptLine line)
+        {
+            line.RemoveItem();
+            ReceiptLines.Remove(line);
+            if (line.Quantity > 0)
+            {
+                ReceiptLines.Add(line);
+            }
+            ReceiptLines.OrderBy(i => i.Item.Name);
+            // TODO Save
+        }
+
+        public void RemoveAllSameItemsOnReceipt(ReceiptLine line)
+        {
+            ReceiptLines.Remove(line);
+            ReceiptLines.OrderBy(i => i.Item.Name);
+            // TODO Save
         }
 
         public void SelectCategory(Category category)
