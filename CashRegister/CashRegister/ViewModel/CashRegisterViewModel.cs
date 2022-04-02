@@ -51,14 +51,9 @@ namespace CashRegister.ViewModel
         {
             Categories = Seeder.GetInstance().Categories;
             Items = new ObservableCollection<Item>();
-            PopulateList<Item>(Items, Seeder.GetInstance().Items);
+            PopulateList(Items, Seeder.GetInstance().Items);
             Receipt = new Receipt();
             ReceiptLines = new ObservableCollection<ReceiptLine>();
-        }
-
-        private void PopulateList(ObservableCollection<Item> items1, List<Item> items2)
-        {
-            throw new NotImplementedException();
         }
 
         public void AddItemOnReceipt(Item item)
@@ -79,7 +74,7 @@ namespace CashRegister.ViewModel
 
                 ReceiptLines.Add(line);
             }
-            ReceiptLines.OrderBy(i => i.Item.Name);
+            Sort(ReceiptLines);
         }
 
         public void RemoveItemOnReceipt(ReceiptLine line)
@@ -90,14 +85,14 @@ namespace CashRegister.ViewModel
             {
                 ReceiptLines.Add(line);
             }
-            ReceiptLines.OrderBy(i => i.Item.Name);
+            Sort(ReceiptLines);
             // TODO Save
         }
 
         public void RemoveAllSameItemsOnReceipt(ReceiptLine line)
         {
             ReceiptLines.Remove(line);
-            ReceiptLines.OrderBy(i => i.Item.Name);
+            Sort(ReceiptLines);
             // TODO Save
         }
 
@@ -106,7 +101,7 @@ namespace CashRegister.ViewModel
             if (CurrentCategory != null && category.ID == CurrentCategory.ID)
             {
                 CurrentCategory = null;
-                PopulateList<Item>(Items, Seeder.GetInstance().Items);
+                PopulateList(Items, Seeder.GetInstance().Items);
             }
             else if (CurrentCategory == null || category.ID != CurrentCategory.ID)
             {
@@ -119,12 +114,22 @@ namespace CashRegister.ViewModel
                 }
             }
         }
+
         private static void PopulateList<T>(ObservableCollection<T> list1, IEnumerable<T> list2)
         {
             list1.Clear();
             foreach (T item in list2)
             {
                 list1.Add(item);
+            }
+        }
+
+        private static void Sort<T>(ObservableCollection<T> collection) where T : IComparable
+        {
+            List<T> sorted = collection.OrderBy(x => x).ToList();
+            for (int i = 0; i < sorted.Count(); i++)
+            {
+                collection.Move(collection.IndexOf(sorted[i]), i);
             }
         }
     }

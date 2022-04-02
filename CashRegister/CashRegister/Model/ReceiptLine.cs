@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CashRegister.Model
 {
-    public class ReceiptLine : ViewModelBase
+    public class ReceiptLine : ViewModelBase, IComparable
     {
         public static int id = 1;
 
@@ -40,6 +40,12 @@ namespace CashRegister.Model
         public void RemoveItem(int quantity=1)
         {
             Quantity -= quantity;
+        }
+
+        public int CompareTo(object obj)
+        {
+            ReceiptLine c2 = obj as ReceiptLine;
+            return Item.Name.CompareTo(c2.Item.Name);
         }
     }
 }
