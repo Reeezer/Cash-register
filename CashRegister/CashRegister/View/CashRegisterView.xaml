@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:CashRegister.ViewModel"
+             x:Class="CashRegister.View.CashRegisterView">
+
+    <ContentPage.BindingContext>
+        <local:CashRegisterViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Categories -->
+            <ScrollView Grid.Column="0">
+                <StackLayout BindableLayout.ItemsSource="{Binding Categories}" Orientation="Vertical" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Vertical" BackgroundColor="{Binding Color}">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="SelectCategory"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{Binding Name}"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+
+            <!-- Items from a category -->
+            <ScrollView Grid.Column="1">
+                <StackLayout BindableLayout.ItemsSource="{Binding Items}" Orientation="Vertical" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" BackgroundColor="AntiqueWhite">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="SelectItem"/>
+                                </StackLayout.GestureRecognizers>
+                                
+                                <Label Text="{Binding Name}"/>
+                                <Label Text="{Binding EAN}"/>
+                                <Label Text="{Binding Price}"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+
+            <!-- Items from a category -->
+            <ScrollView Grid.Column="2">
+                <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="8">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" BackgroundColor="Aquamarine">
+                                <Label Text="{Binding Item.Name}"/>
+                                <Label Text="{Binding Quantity}"/>
+                                <Label Text="{Binding Item.Price}"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

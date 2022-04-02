@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CashRegister.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace CashRegister
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        private async void NavigateButton_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CashRegisterView());
         }
     }
 }

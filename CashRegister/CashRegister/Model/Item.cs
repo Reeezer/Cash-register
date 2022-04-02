@@ -9,14 +9,14 @@ namespace CashRegister.Model
     {
         public static int id = 1;
 
-        public int ID { get; set; }
-        public Category Category { get; set; }
-        public string Name { get; set; }
-        public double Price { get; set; }
+        public int ID { get; }
+        public Category Category { get; }
+        public string Name { get; }
+        public double Price { get; }
         public int Quantity { get; set; }
-        public int EAN { get; set; }
+        public string EAN { get; }
 
-        public Item(Category category, string name, double price, int quantity, int ean)
+        public Item(Category category, string name, double price, int quantity, string ean)
         {
             ID = id++;
             Category = category;

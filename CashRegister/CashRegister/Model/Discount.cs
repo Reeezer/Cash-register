@@ -8,10 +8,10 @@ namespace CashRegister.Model
     {
         public static int id = 1;
 
-        public int ID { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public Category Category { get; set; }
+        public int ID { get; }
+        public DateTime StartDate { get; }
+        public DateTime EndDate { get; }
+        public Category Category { get; }
 
         public Discount(DateTime startDate, DateTime endDate, Category category)
         {

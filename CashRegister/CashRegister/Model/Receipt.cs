@@ -8,16 +8,20 @@ namespace CashRegister.Model
     {
         public static int id = 1;
 
-        public int ID { get; set; }
-        public DateTime Date { get; set; }
+        public int ID { get; }
+        public DateTime Date { get; }
         public User Client { get; set; }
         public Discount Discount { get; set; }
 
-        public Receipt(DateTime date, User client)
+        public Receipt()
         {
             ID = id++;
-            Date = date;
-            Client = client;
+            Date = DateTime.Now;
+        }
+
+        public bool Contains(Item item)
+        {
+            return true; // FIXME
         }
     }
 }

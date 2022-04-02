@@ -8,7 +8,7 @@ namespace CashRegister.Model
     {
         public static int id = 1;
 
-        public int ID { get; set; }
+        public int ID { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
