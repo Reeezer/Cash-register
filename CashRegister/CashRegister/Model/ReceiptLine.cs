@@ -20,7 +20,18 @@ namespace CashRegister.Model
             set
             {
                 quantity = value;
-                OnPropertyChanged(nameof(quantity));
+                OnPropertyChanged(nameof(Quantity));
+            }
+        }
+
+        private double linePrice;
+        public double LinePrice
+        {
+            get => linePrice;
+            set
+            {
+                linePrice = value;
+                OnPropertyChanged(nameof(LinePrice));
             }
         }
 
@@ -30,22 +41,30 @@ namespace CashRegister.Model
             Receipt = receipt;
             Item = item;
             Quantity = quantity;
+            LinePrice = Quantity * Item.Price;
         }
 
         public void AddItem(int quantity=1)
         {
             Quantity += quantity;
+            RefreshLinePrice();
         }
 
         public void RemoveItem(int quantity=1)
         {
             Quantity -= quantity;
+            RefreshLinePrice();
+        }
+
+        private void RefreshLinePrice()
+        {
+            LinePrice = Quantity * Item.Price;
         }
 
         public int CompareTo(object obj)
         {
             ReceiptLine c2 = obj as ReceiptLine;
-            return Item.Name.CompareTo(c2.Item.Name);
+            return Item.CompareTo(c2.Item);
         }
     }
 }

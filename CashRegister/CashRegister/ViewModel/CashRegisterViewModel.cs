@@ -21,7 +21,7 @@ namespace CashRegister.ViewModel
             set
             {
                 currentCategory = value;
-                OnPropertyChanged(nameof(currentCategory));
+                OnPropertyChanged(nameof(CurrentCategory));
             }
         }
 
@@ -32,7 +32,7 @@ namespace CashRegister.ViewModel
             set
             {
                 user = value;
-                OnPropertyChanged(nameof(user));
+                OnPropertyChanged(nameof(User));
             }
         }
 
@@ -43,7 +43,18 @@ namespace CashRegister.ViewModel
             set
             {
                 receipt = value;
-                OnPropertyChanged(nameof(receipt));
+                OnPropertyChanged(nameof(Receipt));
+            }
+        }
+
+        private double totalPrice;
+        public double TotalPrice
+        {
+            get => totalPrice;
+            set
+            {
+                totalPrice = value;
+                OnPropertyChanged(nameof(TotalPrice));
             }
         }
 
@@ -54,6 +65,7 @@ namespace CashRegister.ViewModel
             PopulateList(Items, Seeder.GetInstance().Items);
             Receipt = new Receipt();
             ReceiptLines = new ObservableCollection<ReceiptLine>();
+            TotalPrice = 0;
         }
 
         public void AddItemOnReceipt(Item item)
@@ -75,6 +87,7 @@ namespace CashRegister.ViewModel
                 ReceiptLines.Add(line);
             }
             Sort(ReceiptLines);
+            RefreshTotalPrice();
         }
 
         public void RemoveItemOnReceipt(ReceiptLine line)
@@ -86,6 +99,7 @@ namespace CashRegister.ViewModel
                 ReceiptLines.Add(line);
             }
             Sort(ReceiptLines);
+            RefreshTotalPrice();
             // TODO Save
         }
 
@@ -93,6 +107,7 @@ namespace CashRegister.ViewModel
         {
             ReceiptLines.Remove(line);
             Sort(ReceiptLines);
+            RefreshTotalPrice();
             // TODO Save
         }
 
@@ -112,6 +127,15 @@ namespace CashRegister.ViewModel
                 {
                     Items.Add(item);
                 }
+            }
+        }
+
+        private void RefreshTotalPrice()
+        {
+            TotalPrice = 0;
+            foreach (ReceiptLine line in ReceiptLines)
+            {
+                TotalPrice += line.LinePrice;
             }
         }
 

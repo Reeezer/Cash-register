@@ -25,6 +25,7 @@
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="SelectCategory"/>
                                 </StackLayout.GestureRecognizers>
+                                
                                 <Label Text="{Binding Name}"/>
                             </StackLayout>
                         </DataTemplate>
@@ -41,33 +42,45 @@
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="SelectItem"/>
                                 </StackLayout.GestureRecognizers>
-                                
+
                                 <Label Text="{Binding Name}"/>
-                                <Label Text="{Binding EAN}"/>
-                                <Label Text="{Binding Price}"/>
+                                <Label Text="{Binding Price, StringFormat='{0:0.00}'}"/>
                             </StackLayout>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
             </ScrollView>
 
-            <!-- Receipt -->
-            <ScrollView Grid.Column="2">
-                <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="8">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Orientation="Horizontal" BackgroundColor="Aquamarine">
-                                <Label Text="{Binding Item.Name}"/>
-                                <Label Text="{Binding Quantity}"/>
-                                <Label Text="{Binding Item.Price}"/>
-                                <Button Text="-" Clicked="RemoveItem"/>
-                                <Button Text="X" Clicked="RemoveAllSameItems"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
-            </ScrollView>
+            <!-- Right pane -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
+                <!-- Receipt -->
+                <ScrollView Grid.Row="0">
+                    <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="8">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Horizontal" BackgroundColor="Aquamarine">
+                                    <Label Text="{Binding Item.Name}"/>
+                                    <Label Text="{Binding Quantity}"/>
+                                    <Label Text="{Binding Item.Price, StringFormat='{0:0.00}'}"/>
+                                    <Label Text="{Binding LinePrice, StringFormat='{0:0.00}'}"/>
+                                    <Button Text="-" Clicked="RemoveItem" WidthRequest="40"/>
+                                    <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="40"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
+
+                <!-- Price -->
+                <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="Chocolate">
+                    <Label Text="{Binding TotalPrice, StringFormat='Total price: {0:0.00}'}"/>
+                </StackLayout>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

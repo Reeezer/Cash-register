@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace CashRegister.Model
 {
-    public class Item
+    public class Item : IComparable
     {
         public static int id = 1;
 
@@ -24,6 +24,12 @@ namespace CashRegister.Model
             Price = price;
             Quantity = quantity;
             EAN = ean;
+        }
+
+        public int CompareTo(object obj)
+        {
+            Item c2 = obj as Item;
+            return ID.CompareTo(c2.ID);
         }
     }
 }
