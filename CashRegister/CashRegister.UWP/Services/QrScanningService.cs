@@ -16,7 +16,12 @@ namespace CashRegister.UWP.Services
         public async Task<string> ScanAsync()
         {
             var optionsDefault = new MobileBarcodeScanningOptions();
-            var optionsCustom = new MobileBarcodeScanningOptions();
+            var optionsCustom = new MobileBarcodeScanningOptions()
+            {
+                AutoRotate = false,
+                UseFrontCameraIfAvailable = true,
+                TryHarder = true
+            };
 
             var scanner = new MobileBarcodeScanner()
             {
@@ -25,7 +30,6 @@ namespace CashRegister.UWP.Services
                 CancelButtonText = "Go Back"
                 
             };
-
             var scanResult = await scanner.Scan(optionsCustom);
             return scanResult.Text;
         }
