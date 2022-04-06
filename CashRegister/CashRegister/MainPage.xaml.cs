@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using CashRegister.Services;
 
 namespace CashRegister
 {
@@ -19,6 +20,23 @@ namespace CashRegister
         private async void NavigateButton_OnClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new CashRegisterView());
+        }
+
+        private async void btnScan_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                var scanner = DependencyService.Get<IQrScanningService>();
+                var result = await scanner.ScanAsync();
+                if (result != null)
+                {
+                    txtBarcode.Text = result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
