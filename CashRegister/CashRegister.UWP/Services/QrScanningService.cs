@@ -1,27 +1,20 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ZXing.Mobile;
-using CashRegister.Services;
-using Xamarin.Forms;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+using CashRegister.Services;
+using ZXing.Mobile;
 
-[assembly: Dependency(typeof(CashRegister.Droid.Services.QrScanningService))]
+[assembly: Dependency(typeof(CashRegister.UWP.Services.QrScanningService))]
 
-namespace CashRegister.Droid.Services
+namespace CashRegister.UWP.Services
 {
     public class QrScanningService : IQrScanningService
     {
         public async Task<string> ScanAsync()
         {
-
             var optionsDefault = new MobileBarcodeScanningOptions();
             var optionsCustom = new MobileBarcodeScanningOptions();
 
@@ -29,9 +22,9 @@ namespace CashRegister.Droid.Services
             {
                 TopText = "Scan the QR Code",
                 BottomText = "Please Wait",
-                CancelButtonText = "Cancel"
+                CancelButtonText = "Go Back"
+                
             };
-
 
             var scanResult = await scanner.Scan(optionsCustom);
             return scanResult.Text;
