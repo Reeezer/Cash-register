@@ -9,7 +9,7 @@ namespace CashRegister.Manager
     public class Seeder
     {
         private static Seeder instance = null;
-        private Random random = new Random();
+        private readonly Random random = new Random();
         public List<Item> Items { get; } = new List<Item>();
         public List<Category> Categories { get; } = new List<Category>();
 
