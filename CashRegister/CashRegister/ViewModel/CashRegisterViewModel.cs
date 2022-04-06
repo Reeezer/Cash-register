@@ -6,11 +6,14 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 using CashRegister.Tools;
+using Xamarin.Essentials;
+using System.Threading.Tasks;
 
 namespace CashRegister.ViewModel
 {
     public class CashRegisterViewModel : ViewModelBase
     {
+
         public List<Category> Categories { get; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
@@ -67,6 +70,9 @@ namespace CashRegister.ViewModel
             Receipt = new Receipt();
             ReceiptLines = new ObservableCollection<ReceiptLine>();
             TotalPrice = 0;
+
+            // TODO [Debug]
+            User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr");
         }
 
         public void AddItemOnReceipt(Item item)
@@ -128,6 +134,36 @@ namespace CashRegister.ViewModel
                 {
                     Items.Add(item);
                 }
+            }
+        }
+
+        public async Task SendMail()
+        {
+            if (User == null)
+            {
+                return;
+            }
+
+            try
+            {
+                EmailMessage mail = new EmailMessage
+                {
+                    Subject = $"Receipt from Cas#h Register on {Receipt.Date}",
+                    Body = "body",
+                    To = new List<string> { User.Email },
+                };
+
+                //mail.Attachments.Add();
+
+                await Email.ComposeAsync(mail);
+            }
+            catch (FeatureNotSupportedException)
+            {
+                // Email is not supported on this device
+            }
+            catch (Exception)
+            {
+                // Some other exception occurred
             }
         }
 

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using CashRegister.Services;
+using Xamarin.Essentials;
 
 namespace CashRegister
 {
@@ -33,7 +34,7 @@ namespace CashRegister
                     txtBarcode.Text = result;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
