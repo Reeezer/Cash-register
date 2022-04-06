@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 using CashRegister.Tools;
-using Syncfusion.Pdf;
 
 namespace CashRegister.ViewModel
 {
