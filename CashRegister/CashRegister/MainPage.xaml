@@ -4,13 +4,9 @@
              xmlns:local="clr-namespace:CashRegister"
              x:Class="CashRegister.MainPage">
 
-    <ContentPage.Content>
-        <StackLayout Spacing="10">
-            <Button Text="Click"  
-                x:Name="btnScan"  
-                Clicked="btnScan_Clicked"/>
-            <Entry x:Name="txtBarcode"  
-               Placeholder="Text Do scan"/>
-        </StackLayout>
-    </ContentPage.Content>
+    <StackLayout BackgroundColor="White" Padding="60" VerticalOptions="Center">
+        <Button Text="Second Page" BackgroundColor="Blue" Clicked="NavigateButton_OnClicked"/>
+        <Button Text="Click" x:Name="btnScan" Clicked="btnScan_Clicked"/>
+        <Entry x:Name="txtBarcode" Placeholder="Text Do scan"/>
+    </StackLayout>
 </ContentPage>

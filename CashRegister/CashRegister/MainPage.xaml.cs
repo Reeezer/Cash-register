@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CashRegister.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace CashRegister
             InitializeComponent();
         }
 
+        private async void NavigateButton_OnClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CashRegisterView());
+        }
+
         private async void btnScan_Clicked(object sender, EventArgs e)
         {
             try
@@ -29,7 +35,6 @@ namespace CashRegister
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
