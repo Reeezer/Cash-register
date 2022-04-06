@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
+using CashRegister.Tools;
+using Syncfusion.Pdf;
 
 namespace CashRegister.ViewModel
 {
@@ -62,7 +64,7 @@ namespace CashRegister.ViewModel
         {
             Categories = Seeder.GetInstance().Categories;
             Items = new ObservableCollection<Item>();
-            PopulateList(Items, Seeder.GetInstance().Items);
+            Toolbox.PopulateList(Items, Seeder.GetInstance().Items);
             Receipt = new Receipt();
             ReceiptLines = new ObservableCollection<ReceiptLine>();
             TotalPrice = 0;
@@ -86,7 +88,7 @@ namespace CashRegister.ViewModel
 
                 ReceiptLines.Add(line);
             }
-            Sort(ReceiptLines);
+            Toolbox.Sort(ReceiptLines);
             RefreshTotalPrice();
         }
 
@@ -98,7 +100,7 @@ namespace CashRegister.ViewModel
             {
                 ReceiptLines.Add(line);
             }
-            Sort(ReceiptLines);
+            Toolbox.Sort(ReceiptLines);
             RefreshTotalPrice();
             // TODO Save
         }
@@ -106,7 +108,7 @@ namespace CashRegister.ViewModel
         public void RemoveAllSameItemsOnReceipt(ReceiptLine line)
         {
             ReceiptLines.Remove(line);
-            Sort(ReceiptLines);
+            Toolbox.Sort(ReceiptLines);
             RefreshTotalPrice();
             // TODO Save
         }
@@ -116,7 +118,7 @@ namespace CashRegister.ViewModel
             if (CurrentCategory != null && category.ID == CurrentCategory.ID)
             {
                 CurrentCategory = null;
-                PopulateList(Items, Seeder.GetInstance().Items);
+                Toolbox.PopulateList(Items, Seeder.GetInstance().Items);
             }
             else if (CurrentCategory == null || category.ID != CurrentCategory.ID)
             {
@@ -136,24 +138,6 @@ namespace CashRegister.ViewModel
             foreach (ReceiptLine line in ReceiptLines)
             {
                 TotalPrice += line.LinePrice;
-            }
-        }
-
-        private static void PopulateList<T>(ObservableCollection<T> list1, IEnumerable<T> list2)
-        {
-            list1.Clear();
-            foreach (T item in list2)
-            {
-                list1.Add(item);
-            }
-        }
-
-        private static void Sort<T>(ObservableCollection<T> collection) where T : IComparable
-        {
-            List<T> sorted = collection.OrderBy(x => x).ToList();
-            for (int i = 0; i < sorted.Count(); i++)
-            {
-                collection.Move(collection.IndexOf(sorted[i]), i);
             }
         }
     }

@@ -44,7 +44,6 @@
                                 </StackLayout.GestureRecognizers>
 
                                 <Label Text="{Binding Name}"/>
-                                <Label Text="{Binding Price, StringFormat='{0:0.00}'}"/>
                             </StackLayout>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
@@ -65,8 +64,8 @@
                             <DataTemplate>
                                 <StackLayout Orientation="Horizontal" BackgroundColor="Aquamarine">
                                     <Label Text="{Binding Item.Name}"/>
-                                    <Label Text="{Binding Quantity}"/>
                                     <Label Text="{Binding Item.Price, StringFormat='{0:0.00}'}"/>
+                                    <Label Text="{Binding Quantity}"/>
                                     <Label Text="{Binding LinePrice, StringFormat='{0:0.00}'}"/>
                                     <Button Text="-" Clicked="RemoveItem" WidthRequest="40"/>
                                     <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="40"/>
@@ -78,7 +77,7 @@
 
                 <!-- Price -->
                 <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="Chocolate">
-                    <Label Text="{Binding TotalPrice, StringFormat='Total price: {0:0.00}'}"/>
+                    <Label Text="{Binding TotalPrice, StringFormat='Total price: {0:0.00}.-'}"/>
                 </StackLayout>
             </Grid>
         </Grid>
