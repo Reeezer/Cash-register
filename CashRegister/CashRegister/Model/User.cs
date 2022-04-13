@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using SQLite;
 
 namespace CashRegister.Model
 {
     public class User
     {
-        public static int id = 1;
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; }
 
-        public int ID { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }
         public int Role { get; set; } // 0: customer, 1: seller, 2: admin
 
-        public User(string firstName, string lastName, DateTime birthDate, string email, int role = 0)
+        public User() { }
+
+        public User(string firstName, string lastName, DateTime birthDate, string email, int role)
         {
-            ID = id++;
             FirstName = firstName;
             LastName = lastName;
             BirthDate = birthDate;

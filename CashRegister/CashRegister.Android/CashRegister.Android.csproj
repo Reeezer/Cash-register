@@ -54,34 +54,6 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <Version>5.0.15</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
-      <Version>5.0.15</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
-      <Version>5.0.15</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
-      <Version>5.0.15</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="OpenFoodFacts4Net.ApiClient">
-      <Version>0.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="OpenFoodFacts4Net.Csv">
-      <Version>0.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="OpenFoodFacts4Net.Json">
-      <Version>0.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="OpenFoodFacts4Net.Taxonomy.Json">
-      <Version>0.1.0</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Annotations">
       <Version>28.0.0.3</Version>
     </PackageReference>

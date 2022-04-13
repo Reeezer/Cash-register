@@ -78,6 +78,7 @@
                 <!-- Price -->
                 <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="Chocolate">
                     <Label Text="{Binding TotalPrice, StringFormat='Total price: {0:0.00}.-'}"/>
+                    <Button Text="Send email" Clicked="SendEmail"/>
                 </StackLayout>
             </Grid>
         </Grid>

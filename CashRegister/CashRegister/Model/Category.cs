@@ -8,7 +8,7 @@ namespace CashRegister.Model
 {
     public class Category
     {
-        public static int id = 1;
+        private static int id = 1;
 
         public int ID { get; }
         public string Name { get; }

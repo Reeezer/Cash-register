@@ -55,5 +55,11 @@ namespace CashRegister.View
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
             cashRegisterVM.RemoveAllSameItemsOnReceipt(line);
         }
+
+        public void SendEmail(object sender, EventArgs args)
+        {
+            CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
+            cashRegisterVM.SendMail();
+        }
     }
 }

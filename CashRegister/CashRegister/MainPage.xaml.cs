@@ -1,10 +1,5 @@
 ﻿using CashRegister.View;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using CashRegister.Services;
 using System.Diagnostics;
@@ -42,7 +37,7 @@ namespace CashRegister
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
