@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="ServiceStack.Interfaces" Version="6.0.2" />
+    <PackageReference Include="Syncfusion.Xamarin.Pdf" Version="20.1.0.47" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />

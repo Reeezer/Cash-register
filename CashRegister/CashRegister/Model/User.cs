@@ -6,7 +6,7 @@ namespace CashRegister.Model
 {
     public class User
     {
-        public static int id = 1;
+        private static int id = 1;
 
         public int ID { get; }
         public string FirstName { get; set; }

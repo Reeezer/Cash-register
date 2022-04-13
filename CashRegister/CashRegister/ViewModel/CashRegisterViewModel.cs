@@ -8,6 +8,9 @@ using System.Linq;
 using CashRegister.Tools;
 using Xamarin.Essentials;
 using System.Threading.Tasks;
+using Syncfusion.Pdf;
+using System.IO;
+using System.Diagnostics;
 
 namespace CashRegister.ViewModel
 {
@@ -73,6 +76,7 @@ namespace CashRegister.ViewModel
 
             // TODO [Debug]
             User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr");
+            Receipt.Client = User;
         }
 
         public void AddItemOnReceipt(Item item)
@@ -149,11 +153,12 @@ namespace CashRegister.ViewModel
                 EmailMessage mail = new EmailMessage
                 {
                     Subject = $"Receipt from Cas#h Register on {Receipt.Date}",
-                    Body = "body",
+                    Body = "Receipt from Cas# Register",
                     To = new List<string> { User.Email },
                 };
 
-                //mail.Attachments.Add();
+                string file = Toolbox.GenerateReceiptFile(Receipt, ReceiptLines.ToList(), TotalPrice);
+                mail.Attachments.Add(new EmailAttachment(file));
 
                 await Email.ComposeAsync(mail);
             }
