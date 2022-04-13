@@ -6,7 +6,7 @@ using System.Text;
 namespace CashRegister.Database
 {
     internal interface ISQLite
-    {        
+    {
         SQLiteConnection GetConnection();
     }
 }

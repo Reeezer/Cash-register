@@ -45,6 +45,6 @@ namespace CashRegister.Database
         public int DeleteItem(int id)
         {
             return sqliteConnection.Delete<Item>(id);
-        }}
+        }
     }
 }

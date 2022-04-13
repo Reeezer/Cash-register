@@ -15,5 +15,14 @@ namespace CashRegister.Model
         public int Role { get; set; } // 0: customer, 1: seller, 2: admin
 
         public User() { }
+
+        public User(string firstName, string lastName, DateTime birthDate, string email, int role)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            BirthDate = birthDate;
+            Email = email;
+            Role = role;
+        }
     }
 }

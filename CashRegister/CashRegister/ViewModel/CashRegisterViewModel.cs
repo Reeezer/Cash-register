@@ -76,13 +76,13 @@ namespace CashRegister.ViewModel
             TotalPrice = 0;
 
             // TODO [Debug]
-            User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr");
+            User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr", 0);
             Receipt.Client = User;
         }
 
         public void AddItemOnReceipt(Item item)
         {
-            ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.Item.ID == item.ID);
+            ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.Item.Id == item.Id);
 
             if (line != null)
             {
