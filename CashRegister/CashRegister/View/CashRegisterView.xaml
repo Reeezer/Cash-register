@@ -9,74 +9,79 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+        <Grid Margin="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-            <!-- Categories -->
-            <ScrollView Grid.Column="0">
-                <StackLayout BindableLayout.ItemsSource="{Binding Categories}" Orientation="Vertical" Spacing="8">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Orientation="Vertical" BackgroundColor="{Binding Color}">
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="SelectCategory"/>
-                                </StackLayout.GestureRecognizers>
-                                
-                                <Label Text="{Binding Name}"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
-            </ScrollView>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- Items from a category -->
-            <ScrollView Grid.Column="1">
-                <StackLayout BindableLayout.ItemsSource="{Binding Items}" Orientation="Vertical" Spacing="8">
-                    <BindableLayout.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Orientation="Horizontal" BackgroundColor="AntiqueWhite">
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="SelectItem"/>
-                                </StackLayout.GestureRecognizers>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                                <Label Text="{Binding Name}"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </BindableLayout.ItemTemplate>
-                </StackLayout>
-            </ScrollView>
+                    <!-- Categories -->
+                    <ScrollView Grid.Row="0" Orientation="Horizontal">
+                        <StackLayout BindableLayout.ItemsSource="{Binding Categories}" Spacing="4"  Orientation="Horizontal">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Text="{Binding Name}" Clicked="SelectCategory" BackgroundColor="{Binding Color}" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </ScrollView>
 
-            <!-- Right pane -->
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+                    <!-- Items from a category -->
+                    <ScrollView Grid.Row="1">
+                        <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start" AlignItems="Start" VerticalOptions="Start" BindableLayout.ItemsSource="{Binding Items}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Text="{Binding Name}" Clicked="SelectItem" BackgroundColor="AntiqueWhite" Margin="4" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </ScrollView>
+                </Grid>
 
                 <!-- Receipt -->
-                <ScrollView Grid.Row="0">
-                    <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="8">
+                <ScrollView Grid.Column="1">
+                    <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="4">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout Orientation="Horizontal" BackgroundColor="Aquamarine">
-                                    <Label Text="{Binding Item.Name}"/>
-                                    <Label Text="{Binding Item.Price, StringFormat='{0:0.00}'}"/>
-                                    <Label Text="{Binding Quantity}"/>
-                                    <Label Text="{Binding LinePrice, StringFormat='{0:0.00}'}"/>
-                                    <Button Text="-" Clicked="RemoveItem" WidthRequest="40"/>
-                                    <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="40"/>
-                                </StackLayout>
+                                <Frame BackgroundColor="Aquamarine" Padding="0" CornerRadius="4" HasShadow="False">
+                                    <StackLayout Orientation="Horizontal" Padding="4">
+                                        <Label Text="{Binding Item.Name}" VerticalOptions="Center"/>
+                                        <Label Text="{Binding Item.Price, StringFormat='{0:0.00}'}" VerticalOptions="Center"/>
+                                        <Label Text="{Binding Quantity}" VerticalOptions="Center"/>
+                                        <Label Text="{Binding LinePrice, StringFormat='{0:0.00}'}" VerticalOptions="Center"/>
+                                        <Button Text="-" Clicked="RemoveItem" WidthRequest="30" HeightRequest="30" Padding="0"  BackgroundColor="LightGray"  VerticalOptions="Center"/>
+                                        <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="30" HeightRequest="30" Padding="0" BackgroundColor="LightGray" VerticalOptions="Center"/>
+                                    </StackLayout>
+                                </Frame>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
                 </ScrollView>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Scan EAN -->
+                <Button Grid.Column="0" Text="Scan"/>
 
                 <!-- Price -->
-                <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="Chocolate">
+                <StackLayout Grid.Column="1" Orientation="Vertical" BackgroundColor="Chocolate">
                     <Label Text="{Binding TotalPrice, StringFormat='Total price: {0:0.00}.-'}"/>
                     <Button Text="Send email" Clicked="SendEmail"/>
                 </StackLayout>

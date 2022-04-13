@@ -76,7 +76,7 @@ namespace CashRegister.ViewModel
             TotalPrice = 0;
 
             // TODO [Debug]
-            User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr");
+            User = new User("Leon", "Muller", DateTime.Now, "luca.campana@he-arc.ch");
             Receipt.Client = User;
         }
 

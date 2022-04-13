@@ -22,8 +22,8 @@ namespace CashRegister.View
 
         public void SelectCategory(object sender, EventArgs args)
         {
-            StackLayout layout = sender as StackLayout;
-            Category category = layout.BindingContext as Category;
+            Button button = sender as Button;
+            Category category = button.BindingContext as Category;
 
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
             cashRegisterVM.SelectCategory(category);
@@ -31,8 +31,8 @@ namespace CashRegister.View
 
         public void SelectItem(object sender, EventArgs args)
         {
-            StackLayout layout = sender as StackLayout;
-            Item item = layout.BindingContext as Item;
+            Button button = sender as Button;
+            Item item = button.BindingContext as Item;
 
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
             cashRegisterVM.AddItemOnReceipt(item);
