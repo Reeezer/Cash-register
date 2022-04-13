@@ -6,7 +6,7 @@
 
     <StackLayout BackgroundColor="White" Padding="60" VerticalOptions="Center">
         <Button Text="Second Page" BackgroundColor="Blue" Clicked="NavigateButton_OnClicked"/>
-        <Button Text="Click" BackgroundColor="Green" x:Name="btnScan" Clicked="btnScan_Clicked"/>
+        <Button Text="Click" x:Name="btnScan" Clicked="btnScan_Clicked"/>
         <Entry x:Name="txtBarcode" Placeholder="Text Do scan"/>
     </StackLayout>
 </ContentPage>

@@ -21,7 +21,6 @@ namespace CashRegister.Droid.Services
     {
         public async Task<string> ScanAsync()
         {
-
             var optionsDefault = new MobileBarcodeScanningOptions();
             var optionsCustom = new MobileBarcodeScanningOptions();
 
@@ -29,9 +28,7 @@ namespace CashRegister.Droid.Services
             {
                 TopText = "Scan the QR Code",
                 BottomText = "Please Wait",
-                CancelButtonText = "Cancel"
             };
-
 
             var scanResult = await scanner.Scan(optionsCustom);
             return scanResult.Text;
