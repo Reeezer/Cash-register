@@ -6,19 +6,21 @@ namespace CashRegister.Model
 {
     public class Discount
     {
-        public static int id = 1;
+        private static int id = 1;
 
         public int ID { get; }
         public DateTime StartDate { get; }
         public DateTime EndDate { get; }
         public Category Category { get; }
+        public int Percentage { get; }
 
-        public Discount(DateTime startDate, DateTime endDate, Category category)
+        public Discount(DateTime startDate, DateTime endDate, Category category, int percentage)
         {
             ID = id++;
             StartDate = startDate;
             EndDate = endDate;
             Category = category;
+            Percentage = percentage;
         }
     }
 }

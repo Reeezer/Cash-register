@@ -6,11 +6,18 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 using CashRegister.Tools;
+using Xamarin.Essentials;
+using System.Threading.Tasks;
+using Syncfusion.Pdf;
+using System.IO;
+using System.Diagnostics;
+using System.Net.Mail;
 
 namespace CashRegister.ViewModel
 {
     public class CashRegisterViewModel : ViewModelBase
     {
+
         public List<Category> Categories { get; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
@@ -67,6 +74,10 @@ namespace CashRegister.ViewModel
             Receipt = new Receipt();
             ReceiptLines = new ObservableCollection<ReceiptLine>();
             TotalPrice = 0;
+
+            // TODO [Debug]
+            User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr");
+            Receipt.Client = User;
         }
 
         public void AddItemOnReceipt(Item item)
@@ -128,6 +139,42 @@ namespace CashRegister.ViewModel
                 {
                     Items.Add(item);
                 }
+            }
+        }
+
+        public void SendMail()
+        {
+            if (User == null)
+            {
+                return;
+            }
+
+            try
+            {
+                string file = Toolbox.GenerateReceiptFile(Receipt, ReceiptLines.ToList(), TotalPrice);
+
+                MailMessage mail = new MailMessage
+                {
+                    From = new MailAddress("cashregister@he-arc.ch"),
+                    Subject = $"Receipt from Cas#h Register on {Receipt.Date}",
+                    Body = "Receipt from Cas# Register"
+                };
+                mail.To.Add(User.Email);
+                mail.Attachments.Add(new Attachment(file));
+
+                SmtpClient SmtpServer = new SmtpClient
+                {
+                    Port = 25,
+                    Host = "smtprel.he-arc.ch",
+                    UseDefaultCredentials = false,
+                    Credentials = new System.Net.NetworkCredential("cashregister@he-arc.ch", "azertyuiop")
+                };
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error SMTP: {ex}");
             }
         }
 
