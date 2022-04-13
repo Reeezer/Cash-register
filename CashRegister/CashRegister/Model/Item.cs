@@ -7,7 +7,7 @@ namespace CashRegister.Model
 {
     public class Item : IComparable
     {
-        public static int id = 1;
+        private static int id = 1;
 
         public int ID { get; }
         public Category Category { get; }
