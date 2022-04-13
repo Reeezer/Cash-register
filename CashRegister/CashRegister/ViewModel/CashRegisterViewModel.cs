@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Syncfusion.Pdf;
 using System.IO;
 using System.Diagnostics;
+using System.Net.Mail;
 
 namespace CashRegister.ViewModel
 {
@@ -141,7 +142,7 @@ namespace CashRegister.ViewModel
             }
         }
 
-        public async Task SendMail()
+        public void SendMail()
         {
             if (User == null)
             {
@@ -150,25 +151,30 @@ namespace CashRegister.ViewModel
 
             try
             {
-                EmailMessage mail = new EmailMessage
+                string file = Toolbox.GenerateReceiptFile(Receipt, ReceiptLines.ToList(), TotalPrice);
+
+                MailMessage mail = new MailMessage
                 {
+                    From = new MailAddress("cashregister@he-arc.ch"),
                     Subject = $"Receipt from Cas#h Register on {Receipt.Date}",
-                    Body = "Receipt from Cas# Register",
-                    To = new List<string> { User.Email },
+                    Body = "Receipt from Cas# Register"
+                };
+                mail.To.Add(User.Email);
+                mail.Attachments.Add(new Attachment(file));
+
+                SmtpClient SmtpServer = new SmtpClient
+                {
+                    Port = 25,
+                    Host = "smtprel.he-arc.ch",
+                    UseDefaultCredentials = false,
+                    Credentials = new System.Net.NetworkCredential("cashregister@he-arc.ch", "azertyuiop")
                 };
 
-                string file = Toolbox.GenerateReceiptFile(Receipt, ReceiptLines.ToList(), TotalPrice);
-                mail.Attachments.Add(new EmailAttachment(file));
-
-                await Email.ComposeAsync(mail);
+                SmtpServer.Send(mail);
             }
-            catch (FeatureNotSupportedException)
+            catch (Exception ex)
             {
-                // Email is not supported on this device
-            }
-            catch (Exception)
-            {
-                // Some other exception occurred
+                Debug.WriteLine($"Error SMTP: {ex}");
             }
         }
 
