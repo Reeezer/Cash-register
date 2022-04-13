@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OpenFoodFacts4Net.ApiClient" Version="0.3.0" />
+    <PackageReference Include="OpenFoodFacts4Net.Csv" Version="0.2.0" />
+    <PackageReference Include="OpenFoodFacts4Net.Json" Version="0.2.0" />
+    <PackageReference Include="OpenFoodFacts4Net.Taxonomy.Json" Version="0.1.0" />
     <PackageReference Include="ServiceStack.Interfaces" Version="6.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
