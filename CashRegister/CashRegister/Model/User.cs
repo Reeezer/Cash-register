@@ -16,13 +16,9 @@ namespace CashRegister.Model
 
         public User() { }
 
-        public User(string firstName, string lastName, DateTime birthDate, string email, int role)
+        public override string ToString()
         {
-            FirstName = firstName;
-            LastName = lastName;
-            BirthDate = birthDate;
-            Email = email;
-            Role = role;
+            return $"{FirstName} {LastName} (id={Id}; birthdate={BirthDate}; email={Email}; role={Role})";
         }
     }
 }

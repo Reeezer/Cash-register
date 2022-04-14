@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CashRegister.Database
 {
-    internal interface ISQLite
+    public interface ISQLite
     {
         SQLiteConnection GetConnection();
     }

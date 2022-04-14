@@ -76,8 +76,8 @@ namespace CashRegister.ViewModel
             TotalPrice = 0;
 
             // TODO [Debug]
-            User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr", 0);
-            Receipt.Client = User;
+            //User = new User("Leon", "Muller", DateTime.Now, "leonmuller@hotmail.fr", 0);
+            Receipt.Client = null; // FIXME
         }
 
         public void AddItemOnReceipt(Item item)

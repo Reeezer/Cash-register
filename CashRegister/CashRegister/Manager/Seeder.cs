@@ -15,17 +15,17 @@ namespace CashRegister.Manager
 
         public Seeder()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                Category category = new Category($"Category{i}", Color.FromArgb(random.Next(256), random.Next(256), random.Next(256)));
-                Categories.Add(category);
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Category category = new Category($"Category{i}", Color.FromArgb(random.Next(256), random.Next(256), random.Next(256)));
+            //    Categories.Add(category);
 
-                for (int j = 0; j < 15; j++)
-                {
-                    Item item = new Item(category, $"Item{Items.Count}", j * i, j + i, "---");
-                    Items.Add(item);
-                }
-            }
+            //    for (int j = 0; j < 15; j++)
+            //    {
+            //        Item item = new Item(category, $"Item{Items.Count}", j * i, j + i, "---");
+            //        Items.Add(item);
+            //    }
+            //}
         }
 
         public static Seeder GetInstance()
