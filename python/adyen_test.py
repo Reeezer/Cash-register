@@ -7,6 +7,8 @@ import json
 from dotenv import load_dotenv
 import os
 
+# https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_py_5
+
 # to load the .env file
 load_dotenv()
 
@@ -46,7 +48,7 @@ def bidon():
 def with_adyen(host_url):    
     adyen = Adyen.Adyen()
     adyen.payment.client.xapikey = API_KEY
-    adyen.payment.client.platform = "test" # change to live for production
+    adyen.payment.client.platform = "test"
     adyen.payment.client.merchant_account = MERCHANT_ACCOUNT
 
     request = {}
@@ -69,6 +71,6 @@ def with_adyen(host_url):
         print(f'{k}: {v}')
 
 
-bidon()
-# with_adyen("http://localhost:8000")
+# bidon()
+with_adyen("http://localhost:8000")
 
