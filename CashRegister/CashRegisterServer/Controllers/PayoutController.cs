@@ -25,23 +25,31 @@ namespace CashRegisterServer.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetPayout")]
-        public IActionResult Get()
+        [HttpPost(Name = "PostPayout")]
+        public IActionResult Post(float amount, string sender)
         {
-            string? payoutStatus = Environment.GetEnvironmentVariable("API_KEY");
+            string? apiKey = Environment.GetEnvironmentVariable("API_KEY");
             string? merchantAccount = Environment.GetEnvironmentVariable("MERCHANT_ACCOUNT");
-            Console.WriteLine("\n\nBONJOUR: " + payoutStatus + " " + merchantAccount);
+            if (apiKey == null || merchantAccount == null)
+            {
+                return StatusCode(500, "API_KEY or MERCHANT_ACCOUNT not set");
+            }
+            var data = DoThingWithAdyen(amount, sender);
+            
+            return Ok(data);
+        }
+
+        private PayoutData DoThingWithAdyen(float amount, string sender)
+        {
             var data = new PayoutData()
             {
                 PayoutId = "12345",
-                PayoutStatus = payoutStatus,
-                MerchantAccount = merchantAccount,
-                Amount = 100.00f,
-                Sender = "John Doe"
+                PayoutStatus = "dunno bro",
+                MerchantAccount = "merchantAccount",
+                Amount = amount,
+                Sender = sender
             };
-            
-
-            return Ok(data);
+            return data;
         }
     }
 }

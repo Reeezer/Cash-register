@@ -26,7 +26,7 @@ def bidon():
     "merchantAccount": \""""+MERCHANT_ACCOUNT+"""\",
     "reference": "My first Adyen test payment",
     "amount": {
-        "value": 1000,
+        "value": 5000,
         "currency": "EUR"
     },
         "paymentMethod": {
@@ -51,7 +51,7 @@ def with_adyen(host_url):
 
     request = {}
 
-    request['amount'] = {"value": "1000", "currency": "CHF"}
+    request['amount'] = {"value": "300", "currency": "CHF"}
     request['reference'] = f"Reference {uuid.uuid4()}"  # provide your unique payment reference
     # set redirect URL required for some payment methods
     request['returnUrl'] = f"{host_url}/redirect?shopperOrder=myRef"
@@ -69,6 +69,6 @@ def with_adyen(host_url):
         print(f'{k}: {v}')
 
 
-# bidon()
-with_adyen("http://localhost:8000")
+bidon()
+# with_adyen("http://localhost:8000")
 
