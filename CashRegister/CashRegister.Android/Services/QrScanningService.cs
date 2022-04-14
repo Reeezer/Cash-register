@@ -31,7 +31,14 @@ namespace CashRegister.Droid.Services
             };
 
             var scanResult = await scanner.Scan(optionsCustom);
-            return scanResult.Text;
+            if (scanResult != null)
+            {
+                return scanResult.Text;
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }

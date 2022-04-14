@@ -9,6 +9,7 @@
         <Button Text="Show users from Database" x:Name="btnShowUser" Clicked="btnShowUsers_Clicked"/>
         <Button Text="Second Page" BackgroundColor="Blue" Clicked="NavigateButton_OnClicked"/>
         <Button Text="Click" x:Name="btnScan" Clicked="btnScan_Clicked"/>
-        <Entry x:Name="txtBarcode" Placeholder="Text Do scan"/>
+        <Entry x:Name="txtBarcode" Placeholder="Barcode" BackgroundColor="Black" TextColor="AntiqueWhite"/>
+        <Entry x:Name="txtArticleDescr" Placeholder="Description" BackgroundColor="Black" TextColor="AntiqueWhite"/>
     </StackLayout>
 </ContentPage>

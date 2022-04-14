@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OpenFoodFacts4Net.ApiClient" Version="0.3.0" />
+    <PackageReference Include="OpenFoodFacts4Net.Csv" Version="0.2.0" />
+    <PackageReference Include="OpenFoodFacts4Net.Json" Version="0.2.0" />
+    <PackageReference Include="OpenFoodFacts4Net.Taxonomy.Json" Version="0.1.0" />
     <PackageReference Include="ServiceStack.Interfaces" Version="6.0.2" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="Syncfusion.Xamarin.Pdf" Version="20.1.0.48" />
