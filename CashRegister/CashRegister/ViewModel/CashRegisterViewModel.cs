@@ -80,6 +80,23 @@ namespace CashRegister.ViewModel
             Receipt.Client = User;
         }
 
+        public void AddItemOnReceiptFromEAN(string ean)
+        {
+            Item item = null;
+            foreach (Item i in Seeder.GetInstance().Items)
+            {
+                if (i.EAN == ean)
+                {
+                    item = i;
+                }
+            }
+
+            if (item != null)
+            {
+                AddItemOnReceipt(item);
+            }
+        }
+
         public void AddItemOnReceipt(Item item)
         {
             ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.Item.ID == item.ID);

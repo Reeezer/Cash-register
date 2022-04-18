@@ -58,9 +58,7 @@
                                 <Frame BackgroundColor="Aquamarine" Padding="0" CornerRadius="4" HasShadow="False">
                                     <StackLayout Orientation="Horizontal" Padding="4">
                                         <Label Text="{Binding Item.Name}" VerticalOptions="Center"/>
-                                        <Label Text="{Binding Item.Price, StringFormat='{0:0.00}'}" VerticalOptions="Center"/>
                                         <Label Text="{Binding Quantity}" VerticalOptions="Center"/>
-                                        <Label Text="{Binding LinePrice, StringFormat='{0:0.00}'}" VerticalOptions="Center"/>
                                         <Button Text="-" Clicked="RemoveItem" WidthRequest="30" HeightRequest="30" Padding="0"  BackgroundColor="LightGray"  VerticalOptions="Center"/>
                                         <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="30" HeightRequest="30" Padding="0" BackgroundColor="LightGray" VerticalOptions="Center"/>
                                     </StackLayout>
