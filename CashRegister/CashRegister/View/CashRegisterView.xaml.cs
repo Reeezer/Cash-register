@@ -59,7 +59,13 @@ namespace CashRegister.View
         public void SendEmail(object sender, EventArgs args)
         {
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
-            cashRegisterVM.SendMail();
+            _ = SendEmailAsync(cashRegisterVM);
+        }
+
+        private async Task SendEmailAsync(CashRegisterViewModel cashRegisterVM)
+        {
+            string result = await DisplayPromptAsync("Mail", "Please enter your email to receive the receipt");
+            cashRegisterVM.SendMail(result);
         }
     }
 }

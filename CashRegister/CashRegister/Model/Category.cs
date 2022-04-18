@@ -3,22 +3,38 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using CashRegister.Manager;
+using CashRegister.ViewModel;
 
 namespace CashRegister.Model
 {
-    public class Category
+    public class Category : ViewModelBase, IComparable
     {
         private static int id = 1;
 
         public int ID { get; }
         public string Name { get; }
-        public Color Color { get; }
+        public Color PrincipalColor { get; }
+        public Color SecondaryColor { get; }
 
-        public Category(string name, Color color)
+        private Color actualColor;
+        public Color ActualColor
+        {
+            get => actualColor;
+            set
+            {
+                actualColor = value;
+                OnPropertyChanged(nameof(ActualColor));
+            }
+        }
+
+        public Category(string name, Color principalColor, Color secondaryColor)
         {
             ID = id++;
             Name = name;
-            Color = color;
+            PrincipalColor = principalColor;
+            SecondaryColor = secondaryColor;
+
+            ActualColor = principalColor;
         }
 
         public List<Item> GetItems()
@@ -34,6 +50,12 @@ namespace CashRegister.Model
             }
 
             return items;
+        }
+
+        public int CompareTo(object obj)
+        {
+            Category c2 = obj as Category;
+            return ID.CompareTo(c2.ID);
         }
     }
 }

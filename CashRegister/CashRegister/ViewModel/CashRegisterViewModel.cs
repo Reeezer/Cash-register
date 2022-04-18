@@ -94,7 +94,7 @@ namespace CashRegister.ViewModel
 
         public void AddItemOnReceipt(Item item)
         {
-            ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.Item.ID == item.ID);
+            ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.Item == item);
 
             if (line != null)
             {
@@ -137,12 +137,18 @@ namespace CashRegister.ViewModel
 
         public void SelectCategory(Category category)
         {
-            if (CurrentCategory != null && category.ID == CurrentCategory.ID)
+            if (CurrentCategory != null && category == CurrentCategory)
             {
                 CurrentCategory = null;
                 Toolbox.PopulateList(Items, Seeder.GetInstance().Items);
+
+                // Color gesture
+                foreach (Category c in Categories)
+                {
+                    c.ActualColor = c.PrincipalColor;
+                }
             }
-            else if (CurrentCategory == null || category.ID != CurrentCategory.ID)
+            else if (CurrentCategory == null || category != CurrentCategory)
             {
                 CurrentCategory = category;
 
@@ -151,10 +157,23 @@ namespace CashRegister.ViewModel
                 {
                     Items.Add(item);
                 }
+
+                // Color gesture
+                foreach (Category c in Categories)
+                {
+                    if (c == CurrentCategory)
+                    {
+                        c.ActualColor = c.PrincipalColor;
+                    }
+                    else
+                    {
+                        c.ActualColor = c.SecondaryColor;
+                    }
+                }
             }
         }
 
-        public void SendMail()
+        public void SendMail(string clientMail)
         {
             if (User == null)
             {
@@ -171,7 +190,7 @@ namespace CashRegister.ViewModel
                     Subject = $"Receipt from Cas#h Register on {Receipt.Date}",
                     Body = "Receipt from Cas# Register"
                 };
-                mail.To.Add(User.Email);
+                mail.To.Add(clientMail);
                 mail.Attachments.Add(new Attachment(file));
 
                 SmtpClient SmtpServer = new SmtpClient

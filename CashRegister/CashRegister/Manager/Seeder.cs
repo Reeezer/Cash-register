@@ -3,21 +3,26 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using CashRegister.Tools;
 
 namespace CashRegister.Manager
 {
     public class Seeder
     {
         private static Seeder instance = null;
-        private readonly Random random = new Random();
         public List<Item> Items { get; } = new List<Item>();
         public List<Category> Categories { get; } = new List<Category>();
 
         public Seeder()
         {
-            for (int i = 0; i < 10; i++)
+            int nbCategories = 10;
+
+            for (int i = 0; i < nbCategories; i++)
             {
-                Category category = new Category($"Category{i}", Color.FromArgb(random.Next(256), random.Next(256), random.Next(256)));
+                Color principalColor = Toolbox.ColorFromHSL(1.0 / nbCategories * i, 0.5, 0.6);
+                Color secondaryColor = Color.FromArgb(125, principalColor.R, principalColor.G, principalColor.B);
+
+                Category category = new Category($"Category{i}", principalColor, secondaryColor);
                 Categories.Add(category);
 
                 for (int j = 0; j < 15; j++)
