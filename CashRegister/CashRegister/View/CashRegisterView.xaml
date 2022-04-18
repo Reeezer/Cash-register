@@ -51,38 +51,46 @@
                 </Grid>
 
                 <!-- Receipt -->
-                <ScrollView Grid.Column="1">
-                    <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="4">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <Frame BackgroundColor="Aquamarine" Padding="0" CornerRadius="4" HasShadow="False">
-                                    <StackLayout Orientation="Horizontal" Padding="4">
-                                        <Label Text="{Binding Item.Name}" VerticalOptions="Center"/>
-                                        <Label Text="{Binding Quantity}" VerticalOptions="Center"/>
-                                        <Button Text="-" Clicked="RemoveItem" WidthRequest="30" HeightRequest="30" Padding="0"  BackgroundColor="LightGray"  VerticalOptions="Center"/>
-                                        <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="30" HeightRequest="30" Padding="0" BackgroundColor="LightGray" VerticalOptions="Center"/>
-                                    </StackLayout>
-                                </Frame>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
+                <Frame Grid.Column="1" BackgroundColor="LightGray" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">
+                    <StackLayout  Orientation="Vertical" Padding="4">
+                        <Label Text="Receipt" FontSize="18"/>
+                        
+                        <ScrollView>
+                            <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="4">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame BackgroundColor="Aquamarine" Padding="0" CornerRadius="4" HasShadow="False">
+                                            <StackLayout Orientation="Horizontal" Padding="4" >
+                                                <Label Text="{Binding Item.Name}" VerticalOptions="Center"/>
+                                                <Label Text="{Binding Quantity}" VerticalOptions="Center"  HorizontalOptions="StartAndExpand"/>
+                                                <Button Text="-" Clicked="RemoveItem" WidthRequest="30" HeightRequest="30" Padding="0"  BackgroundColor="LightGray"  VerticalOptions="Center"/>
+                                                <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="30" HeightRequest="30" Padding="0" BackgroundColor="LightGray" VerticalOptions="Center"/>
+                                            </StackLayout>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </ScrollView>
                     </StackLayout>
-                </ScrollView>
+                </Frame>
             </Grid>
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Scan EAN -->
                 <Button Grid.Column="0" Text="Scan"/>
 
                 <!-- Price -->
-                <StackLayout Grid.Column="1" Orientation="Vertical" BackgroundColor="Chocolate">
-                    <Label Text="{Binding TotalPrice, StringFormat='Total price: {0:0.00}.-'}"/>
-                    <Button Text="Send email" Clicked="SendEmail"/>
-                </StackLayout>
+                <Frame Grid.Column="1" BackgroundColor="SandyBrown" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">
+                    <StackLayout  Orientation="Vertical">
+                        <Label Text="{Binding TotalPrice, StringFormat='Total price:    {0:0.00}.-'}" Padding="4" FontSize="16"/>
+                        <Button Text="Send email" Clicked="SendEmail"/>
+                    </StackLayout>
+                </Frame>
             </Grid>
         </Grid>
     </ContentPage.Content>
