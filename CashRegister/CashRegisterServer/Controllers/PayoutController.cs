@@ -92,7 +92,6 @@ namespace CashRegisterServer.Controllers
                 ReturnUrl = @"dunno"
             };
             var paymentsResponse = checkout.Payments(paymentRequest);
-            Console.WriteLine("\n" + paymentsResponse + "\n");
 
             return new PayoutData
             {

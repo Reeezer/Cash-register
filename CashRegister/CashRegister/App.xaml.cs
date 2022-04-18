@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.IO;
+using CashRegister.moneyIsEverything;
 
 namespace CashRegister
 {
@@ -9,11 +10,7 @@ namespace CashRegister
     {
         public App()
         {
-            // https://dusted.codes/dotenv-in-dotnet
-            var root = Directory.GetCurrentDirectory();
-            var dotenv = Path.Combine(root, ".env");
-            DotEnv.Load(dotenv);
-
+            PayoutManager.Instance.MakePayement(13, 13, 13, 13, 12.5f, "myreference");
             InitializeComponent();
             MainPage = new MainPage();
             
