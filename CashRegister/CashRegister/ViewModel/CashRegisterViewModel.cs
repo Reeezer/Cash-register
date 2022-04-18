@@ -76,24 +76,19 @@ namespace CashRegister.ViewModel
             TotalPrice = 0;
 
             // TODO [Debug]
-            User = new User("Leon", "Muller", DateTime.Now, "luca.campana@he-arc.ch");
+            User = new User("Luca", "Campana", DateTime.Now, "luca.campana@he-arc.ch");
             Receipt.Client = User;
         }
 
         public void AddItemOnReceiptFromEAN(string ean)
         {
-            Item item = null;
             foreach (Item i in Seeder.GetInstance().Items)
             {
                 if (i.EAN == ean)
                 {
-                    item = i;
+                    AddItemOnReceipt(i);
+                    break; // Each EAN is unique, then if we find one don't want to look for another
                 }
-            }
-
-            if (item != null)
-            {
-                AddItemOnReceipt(item);
             }
         }
 
