@@ -11,15 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenFoodFacts4Net.ApiClient" Version="0.3.0" />
-    <PackageReference Include="OpenFoodFacts4Net.Csv" Version="0.2.0" />
-    <PackageReference Include="OpenFoodFacts4Net.Json" Version="0.2.0" />
-    <PackageReference Include="OpenFoodFacts4Net.Taxonomy.Json" Version="0.1.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.4" />
     <PackageReference Include="ServiceStack.Interfaces" Version="6.0.2" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-    <PackageReference Include="Syncfusion.Xamarin.Pdf" Version="20.1.0.48" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
   </ItemGroup>
@@ -28,9 +23,5 @@
     <EmbeddedResource Update="View\CashRegisterView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Database\" />
   </ItemGroup>
 </Project>
