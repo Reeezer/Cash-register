@@ -19,8 +19,8 @@ namespace CashRegister.Model
 
         public int CompareTo(object obj)
         {
-            Item c2 = obj as Item;
-            return Id.CompareTo(c2.Id);
+            Item i2 = obj as Item;
+            return ID.CompareTo(i2.ID);
         }
     }
 }

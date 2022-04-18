@@ -1,8 +1,5 @@
 ﻿using CashRegister.Model;
-using Syncfusion.Drawing;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Graphics;
-using Syncfusion.Pdf.Grid;
+using System.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Xamarin.Essentials;
+using System.Diagnostics;
 
 namespace CashRegister.Tools
 {
@@ -36,7 +34,7 @@ namespace CashRegister.Tools
         public static string GenerateReceiptFile(Receipt receipt, List<ReceiptLine> lines, double totalPrice)
         {
             string fileName = "Receipt.txt";
-            string file = Path.Combine(FileSystem.CacheDirectory, fileName);
+            string file = Path.Combine(FileSystem.CacheDirectory, fileName); // TODO Delete it before creating it
             string text = "";
 
             // Receipt informations
@@ -64,6 +62,46 @@ namespace CashRegister.Tools
             File.WriteAllText(file, text);
 
             return file;
+        }
+
+        public static Color ColorFromHSL(double h, double s, double l)
+        {
+            double r = 0, g = 0, b = 0;
+            if (l != 0)
+            {
+                if (s == 0)
+                    r = g = b = l;
+                else
+                {
+                    double temp2 = (l < 0.5) ? l * (1.0 + s) : l + s - (l * s);
+                    double temp1 = 2.0 * l - temp2;
+
+                    r = GetColorComponent(temp1, temp2, h + 1.0 / 3.0);
+                    g = GetColorComponent(temp1, temp2, h);
+                    b = GetColorComponent(temp1, temp2, h - 1.0 / 3.0);
+                }
+            }
+
+            Debug.WriteLine($"({h}, {s}, {l}) -> ({r}, {g}, {b})");
+            return Color.FromArgb((int)(255 * r), (int)(255 * g), (int)(255 * b));
+
+        }
+
+        private static double GetColorComponent(double temp1, double temp2, double temp3)
+        {
+            if (temp3 < 0.0)
+                temp3 += 1.0;
+            else if (temp3 > 1.0)
+                temp3 -= 1.0;
+
+            if (temp3 < 1.0 / 6.0)
+                return temp1 + (temp2 - temp1) * 6.0 * temp3;
+            else if (temp3 < 0.5)
+                return temp2;
+            else if (temp3 < 2.0 / 3.0)
+                return temp1 + ((temp2 - temp1) * ((2.0 / 3.0) - temp3) * 6.0);
+            else
+                return temp1;
         }
     }
 }
