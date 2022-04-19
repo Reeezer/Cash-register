@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SQLite;
 
 namespace CashRegister.Model
 {
     public class Receipt
     {
-        private static int id = 1;
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
 
-        public int ID { get; }
         public DateTime Date { get; }
         public User Client { get; set; }
         public Discount Discount { get; set; }
 
         public Receipt()
         {
-            ID = id++;
             Date = DateTime.Now;
-        }
-
-        public bool Contains(Item item)
-        {
-            return true; // FIXME
         }
     }
 }

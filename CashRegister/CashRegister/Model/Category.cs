@@ -4,14 +4,15 @@ using System.Text;
 using System.Drawing;
 using CashRegister.Manager;
 using CashRegister.ViewModel;
+using SQLite;
 
 namespace CashRegister.Model
 {
     public class Category : ViewModelBase, IComparable
     {
-        private static int id = 1;
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
 
-        public int ID { get; }
         public string Name { get; }
         public Color PrincipalColor { get; }
         public Color SecondaryColor { get; }
@@ -29,12 +30,15 @@ namespace CashRegister.Model
 
         public Category(string name, Color principalColor, Color secondaryColor)
         {
-            ID = id++;
             Name = name;
             PrincipalColor = principalColor;
             SecondaryColor = secondaryColor;
 
             ActualColor = principalColor;
+        }
+
+        public Category()
+        {
         }
 
         public List<Item> GetItems()
@@ -43,7 +47,7 @@ namespace CashRegister.Model
 
             foreach (Item item in Seeder.GetInstance().Items)
             {
-                if (item.Category.ID == ID)
+                if (item.Category.Id == Id)
                 {
                     items.Add(item);
                 }
@@ -55,7 +59,7 @@ namespace CashRegister.Model
         public int CompareTo(object obj)
         {
             Category c2 = obj as Category;
-            return ID.CompareTo(c2.ID);
+            return Id.CompareTo(c2.Id);
         }
     }
 }

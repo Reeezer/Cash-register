@@ -15,18 +15,17 @@ namespace CashRegister.Model
         public int Quantity { get; set; }
         public string EAN { get; }
 
-        public Item() 
-        {
-
-        }
-
-        public Item(Category category, string v1, double v2, int v3, string v4)
+        public Item(Category category, string name, double price, int quantity, string ean)
         {
             Category = category;
-            Name = v1;
-            Price = v2;
-            Quantity = v3;
-            EAN = v4;
+            Name = name;
+            Price = price;
+            Quantity = quantity;
+            EAN = ean;
+        }
+
+        public Item()
+        {
         }
 
         public int CompareTo(object obj)

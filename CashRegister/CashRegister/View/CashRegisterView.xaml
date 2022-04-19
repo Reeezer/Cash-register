@@ -32,7 +32,7 @@
                         <StackLayout BindableLayout.ItemsSource="{Binding Categories}" Spacing="4"  Orientation="Horizontal">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Text="{Binding Name}" Clicked="SelectCategory" BackgroundColor="{Binding ActualColor}" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
+                                    <Button Text="{Binding Name}" Clicked="SelectCategory" BackgroundColor="{Binding ActualColor}" BorderColor="Black" BorderWidth="2" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>

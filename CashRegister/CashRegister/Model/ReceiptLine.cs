@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SQLite;
 
 namespace CashRegister.Model
 {
     public class ReceiptLine : ViewModelBase, IComparable
     {
-        private static int id = 1;
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
 
-        public int ID { get; }
         public Receipt Receipt { get; }
         public Item Item { get; }
 
@@ -37,7 +38,6 @@ namespace CashRegister.Model
 
         public ReceiptLine(Receipt receipt, Item item, int quantity=1)
         {
-            ID = id++;
             Receipt = receipt;
             Item = item;
             Quantity = quantity;

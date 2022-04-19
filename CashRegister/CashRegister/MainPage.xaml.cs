@@ -20,13 +20,13 @@ namespace CashRegister
 {
     public partial class MainPage : ContentPage
     {
-        private SQLiteConnection sqliteco;
+        private readonly SQLiteConnection sqliteco;
 
         public MainPage()
         {
             InitializeComponent();
             sqliteco = DependencyService.Get<ISQLite>().GetConnection();
-            sqliteco.DropTable<User>();
+            sqliteco.DropTable<User>(); // FIXME
             sqliteco.CreateTable<User>();
         }
 
@@ -46,7 +46,6 @@ namespace CashRegister
                 {
                     txtBarcode.Text = result;
                     GetProductAsync(txtBarcode.Text);
-
                 }
             }
             catch (Exception)
@@ -57,12 +56,7 @@ namespace CashRegister
 
         private async void btnTestAddUser_Clicked(object sender, EventArgs e)
         {
-            User testUser = new User();
-            testUser.FirstName = "Wesh";
-            testUser.LastName = "Man";
-            testUser.BirthDate = DateTime.Now;
-            testUser.Email = "bleh@bleh.com";
-            testUser.Role = 0;
+            User testUser = new User("Wesh", "Man", DateTime.Now, "bleh@bleh.com", "password", 0);
 
             sqliteco.Insert(testUser);
         }
