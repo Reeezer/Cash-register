@@ -14,6 +14,7 @@ using OpenFoodFacts4Net.Csv;
 using OpenFoodFacts4Net.Json.Data;
 using OpenFoodFacts4Net.Taxonomy.Json;
 using OpenFoodFacts4Net.Taxonomy.Json.Data;
+using System.Threading.Tasks;
 
 namespace CashRegister
 {
@@ -71,10 +72,11 @@ namespace CashRegister
             IEnumerable<User> users = (from t in sqliteco.Table<User>() select t).ToList();
             foreach (User user in users)
             {
-                Console.WriteLine(user);
+                Console.WriteLine(user.FirstName);
             }
             await DisplayAlert("Users", "All users displayed in console", "OK");
         }
+
         private async Task GetProductAsync(string barcode)
         {
             try
