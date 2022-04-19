@@ -66,7 +66,7 @@ namespace CashRegister
             IEnumerable<User> users = (from t in sqliteco.Table<User>() select t).ToList();
             foreach (User user in users)
             {
-                Console.WriteLine(user.FirstName);
+                Console.WriteLine(user.Id+" "+user.FirstName+ " "+user.BirthDate);
             }
             await DisplayAlert("Users", "All users displayed in console", "OK");
         }
