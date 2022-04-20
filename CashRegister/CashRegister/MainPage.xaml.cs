@@ -15,19 +15,25 @@ using OpenFoodFacts4Net.Json.Data;
 using OpenFoodFacts4Net.Taxonomy.Json;
 using OpenFoodFacts4Net.Taxonomy.Json.Data;
 using System.Threading.Tasks;
+using MySqlConnector;
 
 namespace CashRegister
 {
     public partial class MainPage : ContentPage
     {
         private readonly SQLiteConnection sqliteco;
+        private readonly MySqlConnection  mysqlco;
 
         public MainPage()
         {
             InitializeComponent();
             sqliteco = DependencyService.Get<ISQLite>().GetConnection();
+            //mysqlco = DependencyService.Get<IMySQL>().GetConnection(myVar);
             sqliteco.DropTable<User>(); // FIXME
             sqliteco.CreateTable<User>();
+            //mysqlco.OpenAsync();
+
+
         }
 
         private async void NavigateButton_OnClicked(object sender, EventArgs e)
