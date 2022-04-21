@@ -31,9 +31,14 @@ namespace CashRegister
             sqliteco.CreateTable<User>();
         }
 
-        private async void NavigateButton_OnClicked(object sender, EventArgs e)
+        public async void ToLogin(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new LoginView()); // FIXME Remove
+            await Navigation.PushAsync(new LoginView());
+        }
+
+        public async void ToSignup(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new SignupView());
         }
 
         private async void btnScan_Clicked(object sender, EventArgs e)

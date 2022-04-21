@@ -34,7 +34,7 @@ namespace CashRegister.View
                 User user = new User(FirstName.Text, LastName.Text, Email.Text, Pass.Text, 0);
                 // TODO Save 
                 // TODO encrypt password
-                // TODO if curstomer -> CashRegisterView, seller -> seller view
+                // TODO if customer -> CashRegisterView, seller -> seller view
                 await Navigation.PushAsync(new CashRegisterView(user));
             }
         }

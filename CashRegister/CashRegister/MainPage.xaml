@@ -4,10 +4,15 @@
              xmlns:local="clr-namespace:CashRegister"
              x:Class="CashRegister.MainPage">
 
-    <StackLayout BackgroundColor="White" Padding="60" VerticalOptions="Center">
+    <StackLayout BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
         <Button Text="Add Test User to Database" x:Name="btnTestAddUser" Clicked="btnTestAddUser_Clicked"/>
         <Button Text="Show users from Database" x:Name="btnShowUser" Clicked="btnShowUsers_Clicked"/>
-        <Button Text="Second Page" BackgroundColor="Blue" Clicked="NavigateButton_OnClicked"/>
+        
+        <Label HeightRequest="50"></Label>
+        <Button Text="Sign up" Clicked="ToSignup"></Button>
+        <Button Text="Login" Clicked="ToLogin"></Button>
+        <Label HeightRequest="50"></Label> 
+        
         <Button Text="Click" x:Name="btnScan" Clicked="btnScan_Clicked"/>
         <Entry x:Name="txtBarcode" Placeholder="Barcode" BackgroundColor="Black" TextColor="AntiqueWhite"/>
         <Entry x:Name="txtArticleDescr" Placeholder="Description" BackgroundColor="Black" TextColor="AntiqueWhite"/>
