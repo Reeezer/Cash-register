@@ -47,7 +47,7 @@ namespace CashRegister.Model
 
             foreach (Item item in Seeder.GetInstance().Items)
             {
-                if (item.Category.Id == Id)
+                if (item.Category == this)
                 {
                     items.Add(item);
                 }

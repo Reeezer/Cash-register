@@ -5,7 +5,7 @@
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
             <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
-            <Entry Placeholder="Password" x:Name="Pass"/>
+            <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
             <Button Text="Login" Clicked="Login"></Button>
             <Button Text="Create an account" Clicked="ToSignup"></Button>
         </StackLayout>
