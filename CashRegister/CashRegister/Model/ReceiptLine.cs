@@ -44,6 +44,10 @@ namespace CashRegister.Model
             LinePrice = Quantity * Item.Price;
         }
 
+        public ReceiptLine()
+        {
+        }
+
         public void AddItem(int quantity=1)
         {
             Quantity += quantity;

@@ -10,16 +10,14 @@ namespace CashRegister.Model
 
         public string FirstName { get; }
         public string LastName { get; }
-        public DateTime BirthDate { get; }
         public string Email { get; }
         public string Password { get; }
         public int Role { get; } // 0: customer, 1: seller, 2: admin
 
-        public User(string firstName, string lastName, DateTime birthDate, string email, string password, int role)
+        public User(string firstName, string lastName, string email, string password, int role)
         {
             FirstName = firstName;
             LastName = lastName;
-            BirthDate = birthDate;
             Email = email;
             Password = password;
             Role = role;
@@ -31,7 +29,7 @@ namespace CashRegister.Model
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName} (id={Id}; birthdate={BirthDate}; email={Email}; role={Role})";
+            return $"{FirstName} {LastName} (id={Id}; email={Email}; role={Role})";
         }
     }
 }
