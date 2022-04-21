@@ -28,6 +28,7 @@ namespace CashRegister
         {
             InitializeComponent();
             sqliteco = DependencyService.Get<ISQLite>().GetConnection();
+
             //mysqlco = DependencyService.Get<IMySQL>().GetConnection(myVar);
             sqliteco.DropTable<User>(); // FIXME
             sqliteco.CreateTable<User>();
@@ -36,9 +37,14 @@ namespace CashRegister
 
         }
 
-        private async void NavigateButton_OnClicked(object sender, EventArgs e)
+        public async void ToLogin(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new CashRegisterView());
+            await Navigation.PushAsync(new LoginView());
+        }
+
+        public async void ToSignup(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new SignupView());
         }
 
         private async void btnScan_Clicked(object sender, EventArgs e)
@@ -62,7 +68,7 @@ namespace CashRegister
 
         private async void btnTestAddUser_Clicked(object sender, EventArgs e)
         {
-            User testUser = new User("Wesh", "Man", DateTime.Now, "bleh@bleh.com", "password", 0);
+            User testUser = new User("Wesh", "Man", "bleh@bleh.com", "password", 0);
 
             sqliteco.Insert(testUser);
         }
@@ -72,7 +78,7 @@ namespace CashRegister
             IEnumerable<User> users = (from t in sqliteco.Table<User>() select t).ToList();
             foreach (User user in users)
             {
-                Console.WriteLine(user.Id+" "+user.FirstName+ " "+user.BirthDate);
+                Console.WriteLine(user.Id + " " + user.FirstName);
             }
             await DisplayAlert("Users", "All users displayed in console", "OK");
         }

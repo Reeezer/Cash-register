@@ -17,7 +17,7 @@ namespace CashRegister.ViewModel
 {
     public class CashRegisterViewModel : ViewModelBase
     {
-
+        public User User { get; set; }
         public List<Category> Categories { get; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
@@ -30,17 +30,6 @@ namespace CashRegister.ViewModel
             {
                 currentCategory = value;
                 OnPropertyChanged(nameof(CurrentCategory));
-            }
-        }
-
-        private User user;
-        public User User
-        {
-            get => user;
-            set
-            {
-                user = value;
-                OnPropertyChanged(nameof(User));
             }
         }
 
@@ -74,9 +63,6 @@ namespace CashRegister.ViewModel
             Receipt = new Receipt();
             ReceiptLines = new ObservableCollection<ReceiptLine>();
             TotalPrice = 0;
-
-            // TODO [Debug]
-            User = new User("Luca", "Campana", DateTime.Now, "luca.campana@he-arc.ch", "password", 0);
             Receipt.Client = User;
         }
 

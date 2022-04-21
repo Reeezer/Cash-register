@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CashRegister.View.SignupView">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
+            <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
+            <Entry Placeholder="Password confirmation" x:Name="PassConf" IsPassword="true"/>
+            <Entry Placeholder="First Name" x:Name="FirstName"/>
+            <Entry Placeholder="Last Name" x:Name="LastName"/>
+            <Button Text="Sign up" Clicked="Signup"></Button>
+            <Button Text="Already have an account ?" Clicked="ToLogin"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -14,10 +14,13 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CashRegisterView : ContentPage
     {
-        public CashRegisterView()
+        public CashRegisterView(User user)
         {
             InitializeComponent();
-            BindingContext = new CashRegisterViewModel();
+
+            CashRegisterViewModel cashRegisterVM = new CashRegisterViewModel();
+            cashRegisterVM.User = user;
+            BindingContext = cashRegisterVM;
         }
 
         public void SelectCategory(object sender, EventArgs args)
