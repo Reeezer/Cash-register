@@ -1,12 +1,9 @@
 ﻿using CashRegister.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using CashRegister.Tools;
+using System.Diagnostics;
 
 namespace CashRegister.View
 {
@@ -25,17 +22,28 @@ namespace CashRegister.View
 
         public async void Signup(object sender, EventArgs args)
         {
-            if (Email.Text == null || Pass.Text == null || FirstName.Text == null || LastName.Text == null)
+            if (Email.Text == null || Pass.Text == null || FirstName.Text == null || LastName.Text == null || PassConf.Text == null)
             {
-                await DisplayAlert("Login failed", "Something is missing", "Okay", "Cancel");
+                await DisplayAlert("Sign up failed", "Something is missing", "Okay", "Cancel");
             }
             else
             {
-                User user = new User(FirstName.Text, LastName.Text, Email.Text, Pass.Text, 0);
-                // TODO Save 
-                // TODO encrypt password
-                // TODO if customer -> CashRegisterView, seller -> seller view
-                await Navigation.PushAsync(new CashRegisterView(user));
+                if (Pass.Text != PassConf.Text)
+                {
+                    await DisplayAlert("Sign up failed", "Your passwords has to be similar", "Okay", "Cancel");
+                }
+                else
+                {
+                    // Password encryption
+                    string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
+
+                    Debug.WriteLine(encryptedPassword);
+
+                    User user = new User(FirstName.Text, LastName.Text, Email.Text, encryptedPassword, 0);
+                    // TODO Save 
+                    // TODO if customer -> CashRegisterView, seller -> seller view
+                    await Navigation.PushAsync(new CashRegisterView(user));
+                }
             }
         }
     }

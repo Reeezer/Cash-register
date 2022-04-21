@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Xamarin.Essentials;
-using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace CashRegister.Tools
 {
@@ -81,10 +80,17 @@ namespace CashRegister.Tools
                     b = GetColorComponent(temp1, temp2, h - 1.0 / 3.0);
                 }
             }
-
-            Debug.WriteLine($"({h}, {s}, {l}) -> ({r}, {g}, {b})");
+            
             return Color.FromArgb((int)(255 * r), (int)(255 * g), (int)(255 * b));
 
+        }
+
+        public static string EncryptPassword(string password)
+        {
+            using (SHA512 sha = SHA512.Create())
+            {
+                return Convert.ToBase64String(sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+            }
         }
 
         private static double GetColorComponent(double temp1, double temp2, double temp3)
