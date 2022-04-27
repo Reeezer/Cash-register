@@ -20,6 +20,7 @@ using OpenFoodFacts4Net.Json.Data;
 using OpenFoodFacts4Net.Taxonomy.Json;
 using OpenFoodFacts4Net.Taxonomy.Json.Data;
 using MySqlConnector;
+using CashRegister.Manager;
 
 namespace CashRegister.View
 {
@@ -39,6 +40,11 @@ namespace CashRegister.View
             //sqliteco.DropTable<User>(); // FIXME
             //sqliteco.CreateTable<User>();
             //mysqlco.OpenAsync();
+
+            if (UserManager.GetInstance().User.Role == ((int)Role.Customer))
+            {
+                StatisticsButton.IsVisible = false;
+            }
         }
 
         public async void ToCashRegister(object sender, EventArgs args)

@@ -31,7 +31,13 @@ namespace CashRegister.View
                 UserManager.GetInstance().User = user;
                 // TODO Verify if customer exists, and get it
                 // TODO if curstomer -> CashRegisterView, seller -> seller view
+
+                var navigation = Application.Current.MainPage.Navigation;
+                var lastPage = navigation.NavigationStack.LastOrDefault();
+
                 await Navigation.PushAsync(new MainMenuView());
+
+                navigation.RemovePage(lastPage);
             }
         }
 

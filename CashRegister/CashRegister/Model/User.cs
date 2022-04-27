@@ -15,13 +15,29 @@ namespace CashRegister.Model
         public string Password { get; set; }
         public int Role { get; set; } // 0: customer, 1: seller, 2: admin
 
-        public User(string firstName, string lastName, string email, string password, int role)
+        public User(string firstName, string lastName, string email, string password, Role role)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
             Password = password;
-            Role = role;
+            
+            switch(role)
+            {
+                case Model.Role.Admin:
+                    Role = 2;
+                    break;
+                case Model.Role.Seller:
+                    Role = 1;
+                    break;
+                case Model.Role.Customer:
+                    Role = 0;
+                    break;
+                default:
+                    break;
+            }
+
+            // TODO to save the user in the database get the role in int and transform it to the enum
         }
 
         public User()

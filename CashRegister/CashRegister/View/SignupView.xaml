@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CashRegister.View.SignupView"
              BackgroundColor="White">
-    
+
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
             <Label Style="{StaticResource TitleLabel}" Text="Sign up"/>
@@ -12,6 +12,7 @@
             <Entry Placeholder="Password confirmation" x:Name="PassConf" IsPassword="true"/>
             <Entry Placeholder="First Name" x:Name="FirstName"/>
             <Entry Placeholder="Last Name" x:Name="LastName"/>
+            <Picker x:Name="RolePicker"/>
             <Button Style="{StaticResource DefaultButton}" Text="Sign up" Clicked="Signup"></Button>
             <Button Style="{StaticResource DefaultButton}" Text="Already have an account ?" Clicked="ToLogin"></Button>
         </StackLayout>

@@ -13,8 +13,8 @@
                 <Button Style="{StaticResource DefaultButton}" Text="[Debug] Show users from DB" x:Name="ShowUsersButton" Clicked="ShowUsers"/>
 
                 <Label HeightRequest="50"/>
-                <Button Style="{StaticResource DefaultButton}" Text="To Statistics" Clicked="ToStatistics"/>
-                <Button Style="{StaticResource DefaultButton}" Text="To Cash register" Clicked="ToCashRegister"/>
+                <Button Style="{StaticResource DefaultButton}" x:Name="StatisticsButton" Text="To Statistics" Clicked="ToStatistics"/>
+                <Button Style="{StaticResource DefaultButton}" x:Name="CashRegisterButton" Text="To Cash register" Clicked="ToCashRegister"/>
                 <Label HeightRequest="50"/>
 
                 <Button Style="{StaticResource DefaultButton}" Text="[Debug] Scan" x:Name="ScanButton" Clicked="Scan"/>

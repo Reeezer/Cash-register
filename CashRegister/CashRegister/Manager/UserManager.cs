@@ -12,7 +12,6 @@ namespace CashRegister.Manager
 
         private UserManager()
         {
-            
         }
 
         public static UserManager GetInstance()
