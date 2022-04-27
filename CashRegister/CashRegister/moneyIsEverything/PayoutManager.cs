@@ -1,7 +1,13 @@
-﻿using System;
+﻿using CashRegister.moneyIsEverything.models;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace CashRegister.moneyIsEverything
 {
@@ -32,24 +38,33 @@ namespace CashRegister.moneyIsEverything
 
         }
 
-        private class Data
+        private class Test : GetParams {
+            public string name { get; set; }
+            public long age { get; set; }
+        };
+
+        /**
+         * method used to test the connection to the server
+         * https://zetcode.com/csharp/getpostrequest/
+         * post with params doesnt work (even if it works when posting with python, for example
+         * so we use get, sorry lads
+         */
+        private async void test()
         {
-            public string encryptedCardNumber { get; set; }
-            public string encryptedExpiryMonth { get; set; }
-            public string encryptedExpiryYear { get; set; }
-            public string encryptedSecurityCode { get; set; }
-            public long amount { get; set; }
-            public string currency { get; set; }
-            public string reference { get; set; }
+            string url = "http://localhost:55000/Test";
+            var test = new Test() { name = "jean", age=(long)42 };
+
+            var client = new HttpClient();
+            var response = await client.GetAsync(url + test.GetParamsString());
+
+            string result = response.Content.ReadAsStringAsync().Result;
+            Debug.WriteLine(result);
         }
-        private void test()
+        public async Task<ServerData> MakePayement(uint cardNumber, uint expiryMonth, uint expiryYear, uint securityCode, float amount, string reference)
         {
-            // TODO: post on server
-        }
-        public void MakePayement(uint cardNumber, uint expiryMonth, uint expiryYear, uint securityCode, float amount, string reference)
-        {
-            test();
-            return;
+            //test();
+            //return;
+            
             // amount is set in long => 10.40CHF => 1040
             long lAmount = (long)(amount * 100);
             if (lAmount != amount * 100)
@@ -63,33 +78,32 @@ namespace CashRegister.moneyIsEverything
 
             string amountCurrency = "CHF";
 
-            string url = "http://localhost:55003/Payout";
-            WebRequest request = WebRequest.Create(url);
-            request.Method = "POST";
+            string url = "http://localhost:55000/Payout";
 
-            var data = new Data
+            var data = new ClientData
             {
                 encryptedCardNumber = encryptedCardNumber,
                 encryptedExpiryMonth = encryptedExpiryMonth,
                 encryptedExpiryYear = encryptedExpiryYear,
                 encryptedSecurityCode = encryptedSecurityCode,
 
-                amount = lAmount,
-                currency = amountCurrency,
+                amountValue = lAmount,
+                amountCurrency = amountCurrency,
 
                 reference = reference
             };
-            var jsonData = JsonSerializer.Serialize(data);
-            request.GetRequestStream().Write(System.Text.Encoding.UTF8.GetBytes(jsonData), 0, jsonData.Length);
 
-            var response = request.GetResponse();
-            HttpWebResponse httpWebResponse = (HttpWebResponse)response;
-            Console.WriteLine("\nresponse: " + httpWebResponse.StatusCode + " " + httpWebResponse.StatusDescription);
+            var client = new HttpClient();
+            var response = await client.GetAsync(url + data.GetParamsString());
 
-            var reader = new StreamReader(response.GetResponseStream());
-            string outputData = reader.ReadToEnd();
-            Console.WriteLine("data: " + outputData + "\n");
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new PaymentFailedException(response.Content.ReadAsStringAsync().Result);
+            }
+            
+                ServerData serverData = ServerData.CreateFromJsonString(response.Content.ReadAsStringAsync().Result);
 
+            return serverData;
             // proxy thing ?
             // https://docs.microsoft.com/en-us/troubleshoot/developer/webapps/iis/development/make-get-request
         }

@@ -1,10 +1,4 @@
-﻿using Adyen;
-using Adyen.Model.Checkout;
-using Adyen.Service;
-using Microsoft.AspNetCore.Mvc;
-
-using System.IO;
-using System.Runtime.Serialization;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace CashRegisterServer.Controllers
 {
@@ -20,10 +14,10 @@ namespace CashRegisterServer.Controllers
             _logger = logger;
         }
 
-        [HttpPost(Name = "PostTest")]
-        public string Post()
+        [HttpGet(Name = "PostTest")]
+        public string Test(string name, long age)
         {
-            return "bonjour";
+            return "bonjour " + name + " agé de " + age;
         }
     }
 }

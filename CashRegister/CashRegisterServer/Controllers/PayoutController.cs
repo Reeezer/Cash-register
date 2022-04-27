@@ -1,10 +1,11 @@
 ﻿using Adyen;
-using Adyen.Model.Checkout;
 using Adyen.Service;
+using CashRegister.moneyIsEverything.models;
+using CashRegisterServer.Models.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-using System.IO;
 using System.Runtime.Serialization;
+using System.Text.Json;
 
 namespace CashRegisterServer.Controllers
 {
@@ -13,22 +14,19 @@ namespace CashRegisterServer.Controllers
     [Route("[controller]")]
     public class PayoutController : ControllerBase
     {
-        private class PayoutData
-        {
-            public string PayoutId { get; set; }
-            public string PayoutStatus { get; set; }
-            public string MerchantAccount { get; set; }
-            public Amount Amount { get; set; }
-            public string Reference { get; set; }
-        
-        }
-
         private readonly ILogger<PayoutController> _logger;
 
         public PayoutController(ILogger<PayoutController> logger)
         {
             _logger = logger;
         }
+
+        [HttpGet(Name = "GetPayout")]
+        public IActionResult Get(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode,
+            long amountValue, string amountCurrency, string reference, string clientApiKey)
+        {
+            return Post(encryptedCardNumber, encryptedExpiryMonth, encryptedExpiryYear, encryptedSecurityCode, amountValue, amountCurrency, reference, clientApiKey);
+        }            
 
         [HttpPost(Name = "PostPayout")]
         // 'encryptedCardNumber': 'test_4111111111111111',
@@ -39,30 +37,45 @@ namespace CashRegisterServer.Controllers
         // 'amountCurrency': 'CHF',
         // 'reference': 'Reference ' + str(uuid.uuid4()),	
         public IActionResult Post(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode,
-            long amountValue, string amountCurrency, string reference)
+            long amountValue, string amountCurrency, string reference, string clientApiKey)
         {
-            try
+            // Check if the client API key is valid
+            if (checkClientApiKey(clientApiKey) == false)
+            {
+                return BadRequest("Invalid client API key");
+            }
+                try
             {
                 //var data = test(apiKey, merchantAccount);
 
-                var data = DoThingWithAdyen(encryptedCardNumber, encryptedExpiryMonth, encryptedExpiryYear, encryptedSecurityCode, 
+                ServerData data = DoThingWithAdyen(encryptedCardNumber, encryptedExpiryMonth, encryptedExpiryYear, encryptedSecurityCode, 
                     amountCurrency, amountValue, reference);
                 
-                return Ok(data);
+                data.ClientApiKey = clientApiKey;
+                
+                return Ok(JsonSerializer.Serialize<ServerData>(data));
             } catch (CustomException500 e)
             {
                 return StatusCode(500, e.Message);
             } catch(Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(501, e.Message);
             }
         }
 
-        // https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
-        private PayoutData DoThingWithAdyen(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode, 
+        /**
+         * verify if the client requesting the API is valid
+         */
+        public bool checkClientApiKey(string clientApiKey)
+        {
+            // TODO: add db thing
+            return true;
+        }
+        
+            // https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
+            private ServerData DoThingWithAdyen(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode, 
             string amountCurrency, long amountToPay, string reference)
         {
-
             string? apiKey = Environment.GetEnvironmentVariable("API_KEY");
             string? merchantAccount = Environment.GetEnvironmentVariable("MERCHANT_ACCOUNT");
             if (apiKey == null || merchantAccount == null)
@@ -93,17 +106,23 @@ namespace CashRegisterServer.Controllers
             };
             var paymentsResponse = checkout.Payments(paymentRequest);
 
-            return new PayoutData
+            if (!amount.Value.HasValue)
+            {
+                throw new CustomException500("Amount is undefined");
+            }
+            
+            return new ServerData
             {
                 PayoutId = "an id mha man",
                 PayoutStatus = "status",
                 MerchantAccount = merchantAccount,
-                Amount = amount,
+                AmountValue = amount.Value.Value,
+                AmountCurrency = "CHF",
                 Reference = reference
             };
         }
 
-        private PayoutData test(string apiKey, string merchantAccount)
+        private ServerData test(string apiKey, string merchantAccount)
         {
             var client = new Client(apiKey, Adyen.Model.Enum.Environment.Test);
             var checkout = new Checkout(client);
@@ -125,30 +144,15 @@ namespace CashRegisterServer.Controllers
                 ReturnUrl = @"http://localhost:8000/redirect?shopperOrder=myRef"
             };
             var paymentsResponse = checkout.Payments(paymentRequest);
-            return new PayoutData
+            return new ServerData
             {
                 PayoutId = "an id mha man",
                 PayoutStatus = "status",
                 MerchantAccount = "merch",
-                Amount = new Adyen.Model.Checkout.Amount("EUR", 1000),
+                AmountValue = 1000,
+                AmountCurrency = "CHF",
                 Reference = "reference"
             };
-        }
-
-        [Serializable]
-        private class CustomException500 : Exception
-        {
-            public CustomException500(string? message) : base(message)
-            {
-            }
-
-            public CustomException500(string? message, Exception? innerException) : base(message, innerException)
-            {
-            }
-
-            protected CustomException500(SerializationInfo info, StreamingContext context) : base(info, context)
-            {
-            }
         }
     }
 }
