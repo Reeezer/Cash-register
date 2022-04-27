@@ -28,6 +28,8 @@ namespace CashRegister
             UserRepository userRepository = new UserRepository();
             foreach (User user in userRepository.FindAll("Meyer"))
                 Console.WriteLine($"{user}");
+            
+            Console.WriteLine($"{userRepository.FindById(2)}");
         }
 
         public async void ToLogin(object sender, EventArgs args)

@@ -1,11 +1,12 @@
 ﻿using System;
-using SQLite;
 
 namespace CashRegister.Model
 {
     public class User
     {
-        [PrimaryKey, AutoIncrement]
+        /// <summary>
+        /// IMPORTANT : Do NOT change the ID manually
+        /// </summary>
         public int Id { get; set; }
 
         public string FirstName { get; set; }
