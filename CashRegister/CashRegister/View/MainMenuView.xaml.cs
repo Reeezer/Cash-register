@@ -33,11 +33,11 @@ namespace CashRegister.View
         {
             InitializeComponent();
 
-            sqliteco = DependencyService.Get<ISQLite>().GetConnection();
+            //sqliteco = DependencyService.Get<ISQLite>().GetConnection();
 
             //mysqlco = DependencyService.Get<IMySQL>().GetConnection(myVar);
-            sqliteco.DropTable<User>(); // FIXME
-            sqliteco.CreateTable<User>();
+            //sqliteco.DropTable<User>(); // FIXME
+            //sqliteco.CreateTable<User>();
             //mysqlco.OpenAsync();
         }
 

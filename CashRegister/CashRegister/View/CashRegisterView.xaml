@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:local="clr-namespace:CashRegister.ViewModel"
-             x:Class="CashRegister.View.CashRegisterView">
+             x:Class="CashRegister.View.CashRegisterView"
+             BackgroundColor="White">
 
     <ContentPage.BindingContext>
         <local:CashRegisterViewModel />
@@ -32,7 +33,7 @@
                         <StackLayout BindableLayout.ItemsSource="{Binding Categories}" Spacing="4"  Orientation="Horizontal">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Text="{Binding Name}" Clicked="SelectCategory" BackgroundColor="{Binding ActualColor}" BorderColor="Black" BorderWidth="2" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
+                                    <Button Text="{Binding Name}" Clicked="SelectCategory" BackgroundColor="{Binding ActualColor}" TextColor="Black" BorderColor="Black" BorderWidth="2" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
@@ -43,7 +44,7 @@
                         <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start" AlignItems="Start" VerticalOptions="Start" BindableLayout.ItemsSource="{Binding Items}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Text="{Binding Name}" Clicked="SelectItem" BackgroundColor="{Binding Category.ActualColor}" Margin="4" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
+                                    <Button Text="{Binding Name}" Clicked="SelectItem" BackgroundColor="{Binding Category.ActualColor}" TextColor="Black" Margin="4" WidthRequest="80" HeightRequest="60" CornerRadius="8"/>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </FlexLayout>
@@ -53,7 +54,7 @@
                 <!-- Receipt -->
                 <Frame Grid.Column="1" BackgroundColor="LightGray" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">
                     <StackLayout  Orientation="Vertical" Padding="4">
-                        <Label Text="Receipt" FontSize="18"/>
+                        <Label Style="{StaticResource BigLabel}" Text="Receipt" FontSize="18"/>
                         
                         <ScrollView>
                             <StackLayout BindableLayout.ItemsSource="{Binding ReceiptLines}" Orientation="Vertical" Spacing="4">
@@ -61,10 +62,10 @@
                                     <DataTemplate>
                                         <Frame BackgroundColor="Aquamarine" Padding="0" CornerRadius="4" HasShadow="False">
                                             <StackLayout Orientation="Horizontal" Padding="4" >
-                                                <Label Text="{Binding Item.Name}" VerticalOptions="Center"/>
-                                                <Label Text="{Binding Quantity}" VerticalOptions="Center"  HorizontalOptions="StartAndExpand"/>
-                                                <Button Text="-" Clicked="RemoveItem" WidthRequest="30" HeightRequest="30" Padding="0"  BackgroundColor="LightGray"  VerticalOptions="Center"/>
-                                                <Button Text="X" Clicked="RemoveAllSameItems" WidthRequest="30" HeightRequest="30" Padding="0" BackgroundColor="LightGray" VerticalOptions="Center"/>
+                                                <Label Style="{StaticResource DefaultLabel}" Text="{Binding Item.Name}" VerticalOptions="Center"/>
+                                                <Label Style="{StaticResource DefaultLabel}" Text="{Binding Quantity}" VerticalOptions="Center"  HorizontalOptions="StartAndExpand"/>
+                                                <Button Style="{StaticResource DefaultButton}" Text="-" Clicked="RemoveItem" WidthRequest="30" HeightRequest="30" Padding="0" VerticalOptions="Center"/>
+                                                <Button Style="{StaticResource DefaultLabel}" Text="X" Clicked="RemoveAllSameItems" WidthRequest="30" HeightRequest="30" Padding="0" VerticalOptions="Center"/>
                                             </StackLayout>
                                         </Frame>
                                     </DataTemplate>
@@ -82,13 +83,13 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Scan EAN -->
-                <Button Grid.Column="0" Text="Scan"/>
+                <Button Style="{StaticResource DefaultButton}" Grid.Column="0" Text="Scan"/>
 
                 <!-- Price -->
                 <Frame Grid.Column="1" BackgroundColor="SandyBrown" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">
                     <StackLayout  Orientation="Vertical">
-                        <Label Text="{Binding TotalPrice, StringFormat='Total price:    {0:0.00}.-'}" Padding="4" FontSize="16"/>
-                        <Button Text="Send email" Clicked="SendEmail"/>
+                        <Label Style="{StaticResource BigLabel}" Text="{Binding TotalPrice, StringFormat='Total price:    {0:0.00}.-'}" Padding="4"/>
+                        <Button Style="{StaticResource DefaultButton}" Text="Send email" Clicked="SendEmail"/>
                     </StackLayout>
                 </Frame>
             </Grid>
