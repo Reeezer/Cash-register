@@ -32,6 +32,7 @@ namespace CashRegister.ViewModel
             List<Category> categories = Seeder.GetInstance().Categories;
             foreach(Category category in categories)
             {
+                // For the day
                 // TODO calculate category total income
                 // TODO get the 3 bests items
                 // TODO create StatisticCategory and populate Categories

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CashRegister.View.MainMenuView">
+    <ContentPage.Content>
+        <Frame BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
+            <StackLayout Orientation="Vertical">
+                <Label Text="Main menu" FontSize="32"/>
+
+                <Button Text="[Debug] Add user to DB" x:Name="AddUserButton" Clicked="AddUser"/>
+                <Button Text="[Debug] Show users from DB" x:Name="ShowUsersButton" Clicked="ShowUsers"/>
+
+                <Label HeightRequest="50"/>
+                <Button Text="To Statistics" Clicked="ToStatistics"/>
+                <Button Text="To Cash register" Clicked="ToCashRegister"/>
+                <Label HeightRequest="50"/>
+
+                <Button Text="[Debug] Scan" x:Name="ScanButton" Clicked="Scan"/>
+                <Entry x:Name="txtBarcode" Placeholder="Barcode" BackgroundColor="AntiqueWhite" TextColor="Black"/>
+                <Entry x:Name="txtArticleDescr" Placeholder="Description" BackgroundColor="AntiqueWhite" TextColor="Black"/>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

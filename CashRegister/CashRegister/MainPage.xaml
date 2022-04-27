@@ -4,18 +4,13 @@
              xmlns:local="clr-namespace:CashRegister"
              x:Class="CashRegister.MainPage">
 
-    <StackLayout BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
-        <Button Text="Add Test User to Database" x:Name="btnTestAddUser" Clicked="btnTestAddUser_Clicked"/>
-        <Button Text="Show users from Database" x:Name="btnShowUser" Clicked="btnShowUsers_Clicked"/>
-        
-        <Label HeightRequest="50"></Label>
-        <Button Text="To Statistics" Clicked="ToStatistics"></Button>
-        <Button Text="Sign up" Clicked="ToSignup"></Button>
-        <Button Text="Login" Clicked="ToLogin"></Button>
-        <Label HeightRequest="50"></Label> 
-        
-        <Button Text="Click" x:Name="btnScan" Clicked="btnScan_Clicked"/>
-        <Entry x:Name="txtBarcode" Placeholder="Barcode" BackgroundColor="Black" TextColor="AntiqueWhite"/>
-        <Entry x:Name="txtArticleDescr" Placeholder="Description" BackgroundColor="Black" TextColor="AntiqueWhite"/>
-    </StackLayout>
+    <Frame HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="16">
+        <StackLayout Orientation="Vertical">
+            <Label Text="Cas# Register" FontSize="50" Margin="16"/>
+            <Button Text="Sign up" x:Name="SignupButton" Clicked="ToSignup"/>
+            <Button Text="Login" x:Name="LoginButton" Clicked="ToLogin"/>
+            <Button Text="Logout" x:Name="LogoutButton" Clicked="Logout"/>
+            <Button Text="[Debug] Default login" x:Name="DefaultLoginButton" Clicked="DefaultLogin"/>
+        </StackLayout>
+    </Frame>
 </ContentPage>

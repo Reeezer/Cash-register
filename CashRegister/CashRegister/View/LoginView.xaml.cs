@@ -1,4 +1,5 @@
-﻿using CashRegister.Model;
+﻿using CashRegister.Manager;
+using CashRegister.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,10 @@ namespace CashRegister.View
             else
             {
                 User user = new User("Leon", "Muller", Email.Text, Pass.Text, 0);
+                UserManager.GetInstance().User = user;
                 // TODO Verify if customer exists, and get it
                 // TODO if curstomer -> CashRegisterView, seller -> seller view
-                await Navigation.PushAsync(new CashRegisterView(user));
+                await Navigation.PushAsync(new MainMenuView());
             }
         }
 
