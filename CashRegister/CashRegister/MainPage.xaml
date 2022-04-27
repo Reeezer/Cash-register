@@ -9,6 +9,7 @@
         <Button Text="Show users from Database" x:Name="btnShowUser" Clicked="btnShowUsers_Clicked"/>
         
         <Label HeightRequest="50"></Label>
+        <Button Text="To Statistics" Clicked="ToStatistics"></Button>
         <Button Text="Sign up" Clicked="ToSignup"></Button>
         <Button Text="Login" Clicked="ToLogin"></Button>
         <Label HeightRequest="50"></Label> 

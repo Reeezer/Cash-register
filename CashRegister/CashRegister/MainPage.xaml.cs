@@ -47,6 +47,11 @@ namespace CashRegister
             await Navigation.PushAsync(new SignupView());
         }
 
+        public async void ToStatistics(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new StatisticsView());
+        }
+
         private async void btnScan_Clicked(object sender, EventArgs e)
         {
             try
