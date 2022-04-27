@@ -7,6 +7,8 @@ using CashRegister.Model;
 using OpenFoodFacts4Net.ApiClient;
 using OpenFoodFacts4Net.Json.Data;
 using System.Threading.Tasks;
+using MySqlConnector;
+using CashRegister.Manager;
 
 namespace CashRegister
 {
@@ -42,51 +44,24 @@ namespace CashRegister
             await Navigation.PushAsync(new SignupView());
         }
 
-        private async void btnScan_Clicked(object sender, EventArgs e)
+        public async void Logout(object sender, EventArgs args)
         {
-            try
+            if (UserManager.GetInstance().User == null)
             {
-                var scanner = DependencyService.Get<IQrScanningService>();
-                var result = await scanner.ScanAsync();
-
-                if (result != null)
-                {
-                    txtBarcode.Text = result;
-                    GetProductAsync(txtBarcode.Text);
-                }
+                await DisplayAlert("Logout", "You we're not already connected", "Ok");
             }
-            catch (Exception)
+            else
             {
-                throw;
+                UserManager.GetInstance().User = null;
+                await DisplayAlert("Logout", "You have been logged out successfully", "Ok");
             }
         }
 
-        private async void btnTestAddUser_Clicked(object sender, EventArgs e)
+        public async void DefaultLogin(object sender, EventArgs args)
         {
-            User testUser = new User("Wesh", "Man", "bleh@bleh.com", "password", 0);
+            // FIXME Remove
+            UserManager.GetInstance().User = new User("Leon", "Muller", "leonmuller@hotmail.fr", "leon", 0);
+            await Navigation.PushAsync(new MainMenuView());
         }
-
-        private async void btnShowUsers_Clicked(object sender, EventArgs e)
-        {
-        }
-
-        private async Task GetProductAsync(string barcode)
-        {
-            try
-            {
-                String userAgent = UserAgentHelper.GetUserAgent("OpenFoodFacts4Net.ApiClient.CashRegister", ".Net Standard", "2.0", null);
-                Client client = new Client(Constants.BaseUrl, userAgent);
-                GetProductResponse productResponse = await client.GetProductAsync(barcode);
-                Console.WriteLine(productResponse.Product.ProductName);
-                txtArticleDescr.Text = productResponse.Product.ProductName;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Article not found");
-                txtArticleDescr.Text = "Article not found";
-            }
-
-        }
-
     }
 }

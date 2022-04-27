@@ -17,7 +17,6 @@ namespace CashRegister.ViewModel
 {
     public class CashRegisterViewModel : ViewModelBase
     {
-        public User User { get; set; }
         public List<Category> Categories { get; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
@@ -63,7 +62,7 @@ namespace CashRegister.ViewModel
             Receipt = new Receipt();
             ReceiptLines = new ObservableCollection<ReceiptLine>();
             TotalPrice = 0;
-            Receipt.Client = User;
+            Receipt.Client = UserManager.GetInstance().User;
         }
 
         public void AddItemOnReceiptFromEAN(string ean)
@@ -161,7 +160,7 @@ namespace CashRegister.ViewModel
 
         public void SendMail(string clientMail)
         {
-            if (User == null)
+            if (UserManager.GetInstance().IsConnected())
             {
                 return;
             }

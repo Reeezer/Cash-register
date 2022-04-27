@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CashRegister.ViewModel"
+             x:Class="CashRegister.View.StatisticsView"
+             BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <local:StatisticsViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <Grid Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Date -->
+            <Label Style="{StaticResource TitleLabel}" Grid.Row="0" Text="{Binding Date, StringFormat='{0:MMMM dd, yyyy}'}"/>
+
+            <!-- Chiffre d'affaire -->
+            <Label Style="{StaticResource BigLabel}" Grid.Row="1" Text="{Binding TotalIncome, StringFormat='Total income of the day: {0:0.00} .-'}"/>
+
+            <!-- Categories -->
+            <ScrollView Grid.Row="3" Orientation="Vertical">
+                <StackLayout BindableLayout.ItemsSource="{Binding Categories}" Spacing="16" Orientation="Vertical">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Vertical" Spacing="8">
+                                <!-- Title bar -->
+                                <Frame BackgroundColor="{Binding Category.PrincipalColor}" CornerRadius="8" Padding="8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Style="{StaticResource DefaultLabel}" Grid.Column="0" Text="{Binding Category.Name}"/>
+                                        <Label Style="{StaticResource DefaultLabel}" Grid.Column="1" Text="{Binding TotalIncome, StringFormat='{0:0.00} .-'}"/>
+                                    </Grid>
+                                </Frame>
+                                
+                                <!-- Items -->
+                                <StackLayout Orientation="Vertical" BindableLayout.ItemsSource="{Binding BestItems}" Spacing="4">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Style="{StaticResource DefaultLabel}" Text="{Binding Name, StringFormat='            {0}'}"/>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </StackLayout>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

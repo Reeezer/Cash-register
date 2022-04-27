@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CashRegister.View.LoginView">
+             x:Class="CashRegister.View.LoginView"
+             BackgroundColor="White">
+    
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Style="{StaticResource TitleLabel}" Text="Login"/>
             <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
             <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
-            <Button Text="Login" Clicked="Login"></Button>
-            <Button Text="Create an account" Clicked="ToSignup"></Button>
+            <Button Style="{StaticResource DefaultButton}" Text="Login" Clicked="Login"></Button>
+            <Button Style="{StaticResource DefaultButton}" Text="Create an account" Clicked="ToSignup"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

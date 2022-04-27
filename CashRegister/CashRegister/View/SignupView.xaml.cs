@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CashRegister.Tools;
 using System.Diagnostics;
+using CashRegister.Manager;
 
 namespace CashRegister.View
 {
@@ -37,12 +38,11 @@ namespace CashRegister.View
                     // Password encryption
                     string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
 
-                    Debug.WriteLine(encryptedPassword);
-
                     User user = new User(FirstName.Text, LastName.Text, Email.Text, encryptedPassword, 0);
+                    UserManager.GetInstance().User = user;
                     // TODO Save 
                     // TODO if customer -> CashRegisterView, seller -> seller view
-                    await Navigation.PushAsync(new CashRegisterView(user));
+                    await Navigation.PushAsync(new MainMenuView());
                 }
             }
         }
