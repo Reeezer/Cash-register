@@ -1,6 +1,9 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.IO;
+using CashRegister.moneyIsEverything;
+using System.Diagnostics;
 
 namespace CashRegister
 {
@@ -9,7 +12,6 @@ namespace CashRegister
         public App()
         {
             InitializeComponent();
-
             MainPage = new NavigationPage(new MainPage());
         }
 
