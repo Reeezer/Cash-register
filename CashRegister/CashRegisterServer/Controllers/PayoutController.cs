@@ -66,7 +66,7 @@ namespace CashRegisterServer.Controllers
         /**
          * verify if the client requesting the API is valid
          */
-        public bool checkClientApiKey(string clientApiKey)
+        private bool checkClientApiKey(string clientApiKey)
         {
             // TODO: add db thing
             return true;

@@ -1,20 +1,18 @@
 ﻿using CashRegister.moneyIsEverything.models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+//using System.Net;
+//using System.Net.Http;
+//using System.Threading.Tasks;
 
 namespace CashRegister.moneyIsEverything
 {
     // ICI
     // https://docs.adyen.com/get-started-with-adyen
     /**
-     * class allowing online payements using TWINT payment gateway
+     * class allowing online payements using a payment gateway
      */
     public class PayoutManager
     {
@@ -78,7 +76,9 @@ namespace CashRegister.moneyIsEverything
 
             string amountCurrency = "CHF";
 
-            string url = "http://localhost:55000/Payout";
+            string clientApiKey = "test_debug";
+
+            string url = "http://localhost:55002/Payout";
 
             var data = new ClientData
             {
@@ -90,12 +90,17 @@ namespace CashRegister.moneyIsEverything
                 amountValue = lAmount,
                 amountCurrency = amountCurrency,
 
-                reference = reference
+                reference = reference,
+                ClientApiKey = clientApiKey
             };
 
             var client = new HttpClient();
+            Debug.WriteLine("sending request...");
+            Debug.WriteLine(url + data.GetParamsString());
             var response = await client.GetAsync(url + data.GetParamsString());
-
+            Debug.WriteLine("response:");
+            Debug.WriteLine(response.StatusCode);
+            Debug.WriteLine(response.Content);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new PaymentFailedException(response.Content.ReadAsStringAsync().Result);
@@ -103,6 +108,7 @@ namespace CashRegister.moneyIsEverything
             
                 ServerData serverData = ServerData.CreateFromJsonString(response.Content.ReadAsStringAsync().Result);
 
+            Debug.WriteLine("payout: " + serverData);
             return serverData;
             // proxy thing ?
             // https://docs.microsoft.com/en-us/troubleshoot/developer/webapps/iis/development/make-get-request

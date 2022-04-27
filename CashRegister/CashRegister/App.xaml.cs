@@ -4,6 +4,7 @@ using Xamarin.Forms.Xaml;
 using System.IO;
 using CashRegister.moneyIsEverything;
 using System.Diagnostics;
+using CashRegister.moneyIsEverything.models;
 
 namespace CashRegister
 {
@@ -12,6 +13,11 @@ namespace CashRegister
         public App()
         {
             InitializeComponent();
+            Debug.WriteLine("debug");
+
+            ServerData s = PayoutManager.Instance.MakePayement(13, 13, 13, 13, 12.5f, "my-ref");
+            Debug.WriteLine("result: " + s);
+
             MainPage = new NavigationPage(new MainPage());
         }
 
