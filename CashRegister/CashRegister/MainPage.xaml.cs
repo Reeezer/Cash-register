@@ -2,39 +2,32 @@
 using System;
 using Xamarin.Forms;
 using CashRegister.Services;
-using Xamarin.Essentials;
 using CashRegister.Database;
 using CashRegister.Model;
-using System.Collections.Generic;
-using SQLite;
-using System.Linq;
-using System.Diagnostics;
 using OpenFoodFacts4Net.ApiClient;
-using OpenFoodFacts4Net.Csv;
 using OpenFoodFacts4Net.Json.Data;
-using OpenFoodFacts4Net.Taxonomy.Json;
-using OpenFoodFacts4Net.Taxonomy.Json.Data;
 using System.Threading.Tasks;
-using MySqlConnector;
 
 namespace CashRegister
 {
     public partial class MainPage : ContentPage
     {
-        private readonly SQLiteConnection sqliteco;
-        private readonly MySqlConnection  mysqlco;
-
         public MainPage()
         {
             InitializeComponent();
-            sqliteco = DependencyService.Get<ISQLite>().GetConnection();
 
-            //mysqlco = DependencyService.Get<IMySQL>().GetConnection(myVar);
-            sqliteco.DropTable<User>(); // FIXME
-            sqliteco.CreateTable<User>();
-            //mysqlco.OpenAsync();
+            Console.WriteLine("Initializing database");
+            CashDatabase cashDatabase = CashDatabase.Instance;
+            Console.WriteLine("Opening database connection");
+            cashDatabase.Open();
 
+            // FIXME debug
+            Console.WriteLine("Printing all tables in database");
+            cashDatabase.PrintTables();
 
+            UserRepository userRepository = new UserRepository();
+            foreach (User user in userRepository.FindAll("Meyer"))
+                Console.WriteLine($"{user}");
         }
 
         public async void ToLogin(object sender, EventArgs args)
@@ -69,18 +62,10 @@ namespace CashRegister
         private async void btnTestAddUser_Clicked(object sender, EventArgs e)
         {
             User testUser = new User("Wesh", "Man", "bleh@bleh.com", "password", 0);
-
-            sqliteco.Insert(testUser);
         }
 
         private async void btnShowUsers_Clicked(object sender, EventArgs e)
         {
-            IEnumerable<User> users = (from t in sqliteco.Table<User>() select t).ToList();
-            foreach (User user in users)
-            {
-                Console.WriteLine(user.Id + " " + user.FirstName);
-            }
-            await DisplayAlert("Users", "All users displayed in console", "OK");
         }
 
         private async Task GetProductAsync(string barcode)
