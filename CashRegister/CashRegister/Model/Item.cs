@@ -9,11 +9,11 @@ namespace CashRegister.Model
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public Category Category { get; }
-        public string Name { get; }
-        public double Price { get; }
+        public Category Category { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
         public int Quantity { get; set; }
-        public string EAN { get; }
+        public string EAN { get; set; }
 
         public Item(Category category, string name, double price, int quantity, string ean)
         {

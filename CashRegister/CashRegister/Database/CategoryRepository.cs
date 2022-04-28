@@ -94,6 +94,7 @@ namespace CashRegister.Database
         {
             string querystring = "UPDATE category SET name = @name, principalcolor = @principalcolor, secondarycolor = @secondarycolor, actualcolor = @actualcolor WHERE id = @id";
             Dictionary<string, object> parameters = new Dictionary<string, object>() {
+                { "id", category.Id },
                 { "name", category.Name },
                 { "principalcolor", category.PrincipalColor.ToString() },
                 { "secondarycolor", category.SecondaryColor.ToString() },

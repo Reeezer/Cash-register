@@ -10,10 +10,10 @@ namespace CashRegister.Model
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public DateTime StartDate { get; }
-        public DateTime EndDate { get; }
-        public Category Category { get; }
-        public int Percentage { get; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set;  }
+        public Category Category { get; set; }
+        public int Percentage { get; set; }
 
         public Discount(DateTime startDate, DateTime endDate, Category category, int percentage)
         {
