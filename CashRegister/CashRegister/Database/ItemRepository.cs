@@ -161,6 +161,34 @@ namespace CashRegister.Database
             return item;
         }
 
+        public Item FindByEAN(string _ean)
+        {
+            string querystring = "SELECT * FROM items WHERE ean = @ean";
+            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
+                { "ean", _ean }
+            });
+
+            Item item = null;
+            if (reader.Read())
+            {
+                CategoryRepository categoryRepository = new CategoryRepository();
+                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+
+                item = new Item
+                {
+                    Id = reader.GetInt32("id"),
+                    Category = cat,
+                    Name = reader.GetString("name"),
+                    Price = reader.GetDouble("price"),
+                    Quantity = reader.GetInt32("quantity"),
+                    EAN = reader.GetString("ean")
+                };
+            }
+            reader.Close();
+
+            return item;
+        }
+
         /// <summary>
         /// Deletes the item with the specified ID.
         /// </summary>

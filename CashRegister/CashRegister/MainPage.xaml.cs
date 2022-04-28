@@ -41,7 +41,7 @@ namespace CashRegister
 
             ChangeButtonVisibility();
         }
-        
+
         public async void ToMainMenu(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new MainMenuView());

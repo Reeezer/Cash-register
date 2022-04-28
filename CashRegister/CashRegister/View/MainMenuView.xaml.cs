@@ -28,7 +28,6 @@ namespace CashRegister.View
     public partial class MainMenuView : ContentPage
     {
         private readonly SQLiteConnection sqliteco;
-        private readonly MySqlConnection mysqlco;
 
         public MainMenuView()
         {
@@ -66,8 +65,16 @@ namespace CashRegister.View
 
                 if (result != null)
                 {
-                    txtBarcode.Text = result;
-                    GetProductAsync(txtBarcode.Text);
+                    txtBarcode.Text = result.Trim();
+
+                    ItemRepository itemRepository = new ItemRepository();
+                    Item foundItem = itemRepository.FindByEAN(txtBarcode.Text);
+
+                    //If the item doesn't exists in DB
+                    if (foundItem == null)
+                        GetProductAsync(txtBarcode.Text);
+                    else
+                        txtArticleDescr.Text = "DB : " + foundItem.Name;
                 }
             }
             catch (Exception)
@@ -100,7 +107,32 @@ namespace CashRegister.View
                 String userAgent = UserAgentHelper.GetUserAgent("OpenFoodFacts4Net.ApiClient.CashRegister", ".Net Standard", "2.0", null);
                 Client client = new Client(Constants.BaseUrl, userAgent);
                 GetProductResponse productResponse = await client.GetProductAsync(barcode);
-                Console.WriteLine(productResponse.Product.ProductName);
+                string foundCat = productResponse.Product.CategoriesTags.First();
+
+                CategoryRepository categoryRepository = new CategoryRepository();
+                List<Category> cat = categoryRepository.FindAll(foundCat);
+                Category newCat = new Category();
+
+                if (cat.Count <= 0)
+                {
+                    newCat.Name = foundCat;
+                    newCat.PrincipalColor = new Color(0.0);
+                    newCat.SecondaryColor = new Color(0.0);
+                    newCat.ActualColor = new Color(0.0);
+                    categoryRepository.Save(newCat);
+                }
+                else
+                    newCat = cat[0];
+
+                Item newItem = new Item();
+                newItem.Name = productResponse.Product.ProductName;
+                newItem.Category = newCat;
+                newItem.EAN = barcode.Trim();
+                newItem.Price = 0.0;
+                newItem.Quantity = 0;
+
+                ItemRepository itemRepository = new ItemRepository();
+                itemRepository.Save(newItem);
                 txtArticleDescr.Text = productResponse.Product.ProductName;
             }
             catch (Exception ex)
