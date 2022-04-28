@@ -36,8 +36,6 @@ namespace CashRegister.Model
                 default:
                     break;
             }
-
-            // TODO to save the user in the database get the role in int and transform it to the enum
         }
 
         public User()
@@ -46,7 +44,7 @@ namespace CashRegister.Model
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName} (id={Id}; email={Email}; role={Role})";
+            return $"{FirstName} {LastName} (id={Id}; email={Email}; password={Password}; role={Role})";
         }
     }
 }

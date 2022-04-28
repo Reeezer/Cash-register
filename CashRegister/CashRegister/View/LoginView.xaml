@@ -9,8 +9,7 @@
             <Label Style="{StaticResource TitleLabel}" Text="Login"/>
             <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
             <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
-            <Button Style="{StaticResource DefaultButton}" Text="Login" Clicked="Login"></Button>
-            <Button Style="{StaticResource DefaultButton}" Text="Create an account" Clicked="ToSignup"></Button>
+            <Button Style="{StaticResource DefaultButton}" Text="Login" Clicked="Login"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
