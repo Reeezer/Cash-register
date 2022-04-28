@@ -1,4 +1,5 @@
 ﻿using CashRegister.moneyIsEverything.models;
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
@@ -36,7 +37,7 @@ namespace CashRegister.moneyIsEverything
 
         }
 
-        private class Test : GetParams {
+        private class TestData : GetParams {
             public string name { get; set; }
             public long age { get; set; }
         };
@@ -47,21 +48,32 @@ namespace CashRegister.moneyIsEverything
          * post with params doesnt work (even if it works when posting with python, for example
          * so we use get, sorry lads
          */
-        private async void test()
+        private async Task<ServerData> Test()
         {
             string url = "http://localhost:55000/Test";
-            var test = new Test() { name = "jean", age=(long)42 };
+            var test = new TestData() { name = "jean", age=(long)42 };
 
             var client = new HttpClient();
             var response = await client.GetAsync(url + test.GetParamsString());
 
             string result = response.Content.ReadAsStringAsync().Result;
             Debug.WriteLine(result);
+
+            return new ServerData
+            {
+                PayoutId = "id_test",
+                PayoutStatus = "status_test",
+                MerchantAccount = "account_test",
+                AmountValue = 10,
+                AmountCurrency = "CHF",
+                Reference = "ref_test",
+                ClientApiKey = "api_test",
+            };
         }
+
         public async Task<ServerData> MakePayement(uint cardNumber, uint expiryMonth, uint expiryYear, uint securityCode, float amount, string reference)
         {
-            //test();
-            //return;
+            //return await Test();
             
             // amount is set in long => 10.40CHF => 1040
             long lAmount = (long)(amount * 100);
@@ -76,9 +88,15 @@ namespace CashRegister.moneyIsEverything
 
             string amountCurrency = "CHF";
 
-            string clientApiKey = "test_debug";
+            string clientApiKey = "debug_api_key";
 
-            string url = "http://localhost:55002/Payout";
+            string base_url = Environment.GetEnvironmentVariable("CASHREGISTER_ENTRYPOINT");
+            string port = Environment.GetEnvironmentVariable("CASHREGISTER_PORT");
+            string endpoint = Environment.GetEnvironmentVariable("CASHREGISTER_ENDPOINT");
+            string url = base_url + ":" + port + "/" + endpoint;
+            Debug.WriteLine("url\n" + url + "\n");
+            return await Test();
+            string _url = "http://localhost:55000/Payout";
 
             var data = new ClientData
             {
