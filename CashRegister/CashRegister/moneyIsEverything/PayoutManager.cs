@@ -90,13 +90,12 @@ namespace CashRegister.moneyIsEverything
 
             string clientApiKey = "debug_api_key";
 
-            string base_url = Environment.GetEnvironmentVariable("CASHREGISTER_ENTRYPOINT");
-            string port = Environment.GetEnvironmentVariable("CASHREGISTER_PORT");
-            string endpoint = Environment.GetEnvironmentVariable("CASHREGISTER_ENDPOINT");
-            string url = base_url + ":" + port + "/" + endpoint;
-            Debug.WriteLine("url\n" + url + "\n");
-            return await Test();
-            string _url = "http://localhost:55000/Payout";
+            //string base_url = Environment.GetEnvironmentVariable("CASHREGISTER_ENTRYPOINT");
+            //string port = Environment.GetEnvironmentVariable("CASHREGISTER_PORT");
+            //string endpoint = Environment.GetEnvironmentVariable("CASHREGISTER_ENDPOINT");
+            //string url = base_url + ":" + port + "/" + endpoint;
+            
+            string url = "http://localhost:49153/Payout";
 
             var data = new ClientData
             {
@@ -113,12 +112,9 @@ namespace CashRegister.moneyIsEverything
             };
 
             var client = new HttpClient();
-            Debug.WriteLine("sending request...");
-            Debug.WriteLine(url + data.GetParamsString());
+
             var response = await client.GetAsync(url + data.GetParamsString());
-            Debug.WriteLine("response:");
-            Debug.WriteLine(response.StatusCode);
-            Debug.WriteLine(response.Content);
+
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 throw new PaymentFailedException(response.Content.ReadAsStringAsync().Result);
@@ -126,7 +122,6 @@ namespace CashRegister.moneyIsEverything
             
                 ServerData serverData = ServerData.CreateFromJsonString(response.Content.ReadAsStringAsync().Result);
 
-            Debug.WriteLine("payout: " + serverData);
             return serverData;
             // proxy thing ?
             // https://docs.microsoft.com/en-us/troubleshoot/developer/webapps/iis/development/make-get-request

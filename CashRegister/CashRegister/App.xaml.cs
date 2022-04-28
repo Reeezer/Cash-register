@@ -14,16 +14,6 @@ namespace CashRegister
     {
         public App()
         {
-            // Load the DotEnv file
-            var root = Directory.GetCurrentDirectory();
-            var dotenv = Path.Combine(root, ".env");
-            DotEnv.Load(dotenv);
-            //// dunno what it is, works also without
-            //var config =
-            //    new ConfigurationBuilder()
-            //        .AddEnvironmentVariables()
-            //        .Build();            
-            
             InitializeComponent();
 
             TryServer();
