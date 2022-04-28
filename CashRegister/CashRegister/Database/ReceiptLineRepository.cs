@@ -36,6 +36,7 @@ namespace CashRegister.Database
                     Id = reader.GetInt32("id"),
                     Receipt = rec,
                     Item = item,
+                    Quantity = reader.GetInt32("quantity")
                 });
             }
             reader.Close();
@@ -82,10 +83,11 @@ namespace CashRegister.Database
         /// <param name="receiptline">The receiptline to add</param>
         private void Insert(ReceiptLine receiptLine)
         {
-            string querystring = "INSERT INTO receiptlines (receipt, item) VALUES (@receipt, @item)";
+            string querystring = "INSERT INTO receiptlines (receipt, item, quantity) VALUES (@receipt, @item, @quantity)";
             Dictionary<string, object> parameters = new Dictionary<string, object>() {
                 { "receipt", receiptLine.Receipt.Id },
-                { "item", receiptLine.Item.Id }
+                { "item", receiptLine.Item.Id },
+                { "quantity", receiptLine.Quantity },
             };
 
             receiptLine.Id = cashDatabase.ExecuteNonQuery(querystring, parameters);
@@ -97,11 +99,12 @@ namespace CashRegister.Database
         /// <param name="receiptline">The receiptline to update</param>
         private void Update(ReceiptLine receiptLine)
         {
-            string querystring = "UPDATE receiptlines SET receipt = @receipt, item = @item WHERE id = @id";
+            string querystring = "UPDATE receiptlines SET receipt = @receipt, item = @item, quantity = @quantity WHERE id = @id";
             Dictionary<string, object> parameters = new Dictionary<string, object>() {
                 { "id", receiptLine.Id },
                 { "receipt", receiptLine.Receipt.Id },
-                { "item", receiptLine.Item.Id }
+                { "item", receiptLine.Item.Id },
+                { "quantity", receiptLine.Quantity }
             };
             cashDatabase.ExecuteNonQuery(querystring, parameters);
         }
@@ -147,7 +150,8 @@ namespace CashRegister.Database
                 {
                     Id = reader.GetInt32("id"),
                     Receipt = rec,
-                    Item = item
+                    Item = item,
+                    Quantity = reader.GetInt32("quantity"),
                 };
             }
             reader.Close();
