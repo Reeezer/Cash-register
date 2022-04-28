@@ -17,6 +17,8 @@ data = {
     'amountCurrency': 'CHF',
     
     'reference': 'Reference ' + str(uuid.uuid4()),	
+    
+    'clientApiKey': 'test_api_key',
 }
 
 try:
