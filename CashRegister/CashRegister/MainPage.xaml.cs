@@ -26,12 +26,6 @@ namespace CashRegister
             // FIXME debug
             Console.WriteLine("Printing all tables in database");
             cashDatabase.PrintTables();
-
-            UserRepository userRepository = new UserRepository();
-            foreach (User user in userRepository.FindAll("Meyer"))
-                Console.WriteLine($"{user}");
-            
-            Console.WriteLine($"{userRepository.FindById(2)}");
         }
 
         protected override void OnAppearing()
