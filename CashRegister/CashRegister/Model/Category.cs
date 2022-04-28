@@ -13,9 +13,9 @@ namespace CashRegister.Model
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public string Name { get; }
-        public Color PrincipalColor { get; }
-        public Color SecondaryColor { get; }
+        public string Name { get; set; }
+        public Color PrincipalColor { get; set; }
+        public Color SecondaryColor { get; set; }
 
         private Color actualColor;
         public Color ActualColor
