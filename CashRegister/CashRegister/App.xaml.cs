@@ -35,9 +35,16 @@ namespace CashRegister
 
         private async void TryServer()
         {
-            Task<ServerData> tsd = PayoutManager.Instance.MakePayement(13, 13, 13, 13, 12.5f, "my-ref");
-            ServerData sd = await tsd;
-            Debug.WriteLine("result:\n" + sd);
+            try
+            {
+                Task<ServerData> tsd = PayoutManager.Instance.MakePayement(13, 13, 13, 13, 12.5f, "my-ref");
+                ServerData sd = await tsd;
+                Debug.WriteLine("result:\n" + sd);
+            }
+            catch
+            {
+                Debug.WriteLine("Error Try server");
+            }
         }
     }
 }

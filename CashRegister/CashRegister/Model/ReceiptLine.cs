@@ -11,8 +11,8 @@ namespace CashRegister.Model
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public Receipt Receipt { get; }
-        public Item Item { get; }
+        public Receipt Receipt { get; set; }
+        public Item Item { get; set; }
 
         private int quantity;
         public int Quantity
