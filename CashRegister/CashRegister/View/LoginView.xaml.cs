@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using CashRegister.Database;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,21 +23,28 @@ namespace CashRegister.View
         {
             if (Email.Text == null || Pass.Text == null)
             {
-                await DisplayAlert("Login failed", "Something is missing", "Okay", "Cancel");
+                await DisplayAlert("Login failed", "Something is missing", "Ok");
             }
             else
             {
-                User user = new User("Leon", "Muller", Email.Text, Pass.Text, 0);
-                UserManager.GetInstance().User = user;
-                // TODO Verify if customer exists, and get it
-                // TODO if curstomer -> CashRegisterView, seller -> seller view
+                UserRepository userRepository = new UserRepository();
+                User user = userRepository.FindByEmailPassword(Email.Text, Pass.Text);
 
-                var navigation = Application.Current.MainPage.Navigation;
-                var lastPage = navigation.NavigationStack.LastOrDefault();
+                if (user != null)
+                {
+                    UserManager.GetInstance().User = user;
 
-                await Navigation.PushAsync(new MainMenuView());
+                    var navigation = Application.Current.MainPage.Navigation;
+                    var lastPage = navigation.NavigationStack.LastOrDefault();
 
-                navigation.RemovePage(lastPage);
+                    await Navigation.PushAsync(new MainMenuView());
+
+                    navigation.RemovePage(lastPage);
+                }
+                else
+                {
+                    await DisplayAlert("Login failed", "Email or password is incorrect", "Ok");
+                }
             }
         }
 

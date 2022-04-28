@@ -152,6 +152,38 @@ namespace CashRegister.Database
         }
 
         /// <summary>
+        /// Finds the user with the specified password and email.
+        /// </summary>
+        /// <param name="password">The user's password</param>
+        /// <param name="email">The user's email</param>
+        /// <returns>The user, or null if it was not found</returns>
+        public User FindByEmailPassword(string email, string password)
+        {
+            string querystring = "SELECT * FROM users WHERE password = @password AND email = @email";
+            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
+                { "password", password },
+                { "email", email }
+            });
+
+            User user = null;
+            if (reader.Read())
+            {
+                user = new User
+                {
+                    Id = reader.GetInt32("id"),
+                    FirstName = reader.GetString("firstname"),
+                    LastName = reader.GetString("lastname"),
+                    Email = reader.GetString("email"),
+                    Password = reader.GetString("password"),
+                    Role = reader.GetInt32("role")
+                };
+            }
+            reader.Close();
+
+            return user;
+        }
+
+        /// <summary>
         /// Deletes the user with the specified ID.
         /// </summary>
         /// <param name="id">The user's ID</param>

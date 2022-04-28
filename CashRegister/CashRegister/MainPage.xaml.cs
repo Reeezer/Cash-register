@@ -38,18 +38,7 @@ namespace CashRegister
         {
             base.OnAppearing();
 
-            if (UserManager.GetInstance().IsConnected())
-            {
-                LoginButton.IsVisible = false;
-                SignupButton.IsVisible = false;
-                LogoutButton.IsVisible = true;
-            }
-            else
-            {
-                LoginButton.IsVisible = true;
-                SignupButton.IsVisible = true;
-                LogoutButton.IsVisible = false;
-            }
+            ChangeButtonVisibility();
         }        
 
         public async void ToLogin(object sender, EventArgs args)
@@ -72,17 +61,27 @@ namespace CashRegister
             {
                 UserManager.GetInstance().User = null;
                 await DisplayAlert("Logout", "You have been logged out successfully", "Ok");
-                LoginButton.IsVisible = true;
-                SignupButton.IsVisible = true;
-                LogoutButton.IsVisible = false;
+
+                ChangeButtonVisibility();
             }
         }
 
-        public async void DefaultLogin(object sender, EventArgs args)
+        public void ChangeButtonVisibility()
         {
-            // FIXME Remove
-            UserManager.GetInstance().User = new User("Leon", "Muller", "leonmuller@hotmail.fr", "leon", Role.Admin);
-            await Navigation.PushAsync(new MainMenuView());
+            if (UserManager.GetInstance().IsConnected())
+            {
+                LoginButton.IsVisible = false;
+                SignupButton.IsVisible = false;
+                LogoutButton.IsVisible = true;
+                ToMainMenuButton.IsVisible = true;
+            }
+            else
+            {
+                LoginButton.IsVisible = true;
+                SignupButton.IsVisible = true;
+                LogoutButton.IsVisible = false;
+                ToMainMenuButton.IsVisible = false;
+            }
         }
     }
 }

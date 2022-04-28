@@ -6,6 +6,7 @@ using CashRegister.Tools;
 using System.Diagnostics;
 using CashRegister.Manager;
 using System.Linq;
+using CashRegister.Database;
 
 namespace CashRegister.View
 {
@@ -44,8 +45,10 @@ namespace CashRegister.View
 
                     User user = new User(FirstName.Text, LastName.Text, Email.Text, encryptedPassword, 0);
                     UserManager.GetInstance().User = user;
-                    // TODO Save 
-                    // TODO if customer -> CashRegisterView, seller -> seller view
+                    
+                    // Save
+                    UserRepository userRepository = new UserRepository();
+                    userRepository.Save(user);
 
                     var navigation = Application.Current.MainPage.Navigation;
                     var lastPage = navigation.NavigationStack.LastOrDefault();

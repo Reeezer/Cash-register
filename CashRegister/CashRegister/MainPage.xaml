@@ -11,7 +11,7 @@
             <Button Style="{StaticResource DefaultButton}" Text="Sign up" x:Name="SignupButton" Clicked="ToSignup"/>
             <Button Style="{StaticResource DefaultButton}" Text="Login" x:Name="LoginButton" Clicked="ToLogin"/>
             <Button Style="{StaticResource DefaultButton}" Text="Logout" x:Name="LogoutButton" Clicked="Logout"/>
-            <Button Style="{StaticResource DefaultButton}" Text="[Debug] Default login" x:Name="DefaultLoginButton" Clicked="DefaultLogin"/>
+            <Button Style="{StaticResource DefaultButton}" Text="To Main Menu" x:Name="ToMainMenuButton" Clicked="ToMainMenu"/>
         </StackLayout>
     </Frame>
 </ContentPage>
