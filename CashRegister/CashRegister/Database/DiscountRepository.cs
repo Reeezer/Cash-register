@@ -4,7 +4,7 @@ using MySqlConnector;
 
 namespace CashRegister.Database
 {
-    class DiscountRepository
+    internal class DiscountRepository
     {
         private CashDatabase cashDatabase;
 

@@ -10,7 +10,7 @@ namespace CashRegister.Model
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public DateTime Date { get; }
+        public DateTime Date { get; set; }
         public User Client { get; set; }
         public Discount Discount { get; set; }
 
