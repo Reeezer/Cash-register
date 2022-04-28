@@ -3,20 +3,17 @@ using CashRegister.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Linq;
 using CashRegister.Tools;
-using Xamarin.Essentials;
-using System.Threading.Tasks;
-using Syncfusion.Pdf;
-using System.IO;
 using System.Diagnostics;
 using System.Net.Mail;
+using CashRegister.Database;
 
 namespace CashRegister.ViewModel
 {
     public class CashRegisterViewModel : ViewModelBase
     {
+        
         public List<Category> Categories { get; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
@@ -56,18 +53,24 @@ namespace CashRegister.ViewModel
 
         public CashRegisterViewModel()
         {
-            Categories = Seeder.GetInstance().Categories;
+            Categories = RepositoryManager.Instance.CategoryRepository.GetAll();
+            
             Items = new ObservableCollection<Item>();
-            Toolbox.PopulateList(Items, Seeder.GetInstance().Items);
-            Receipt = new Receipt();
+            Toolbox.PopulateList(Items, RepositoryManager.Instance.ItemRepository.GetAll());
+
+            Receipt = new Receipt
+            {
+                Client = UserManager.Instance.User
+            };
+            
             ReceiptLines = new ObservableCollection<ReceiptLine>();
+            
             TotalPrice = 0;
-            Receipt.Client = UserManager.GetInstance().User;
         }
 
         public void AddItemOnReceiptFromEAN(string ean)
         {
-            foreach (Item i in Seeder.GetInstance().Items)
+            foreach (Item i in Seeder.Instance.Items)
             {
                 if (i.EAN == ean)
                 {
@@ -86,13 +89,10 @@ namespace CashRegister.ViewModel
                 line.AddItem();
                 ReceiptLines.Remove(line);
                 ReceiptLines.Add(line);
-                // TODO Save
             }
             else
             {
                 line = new ReceiptLine(Receipt, item);
-                // TODO Save
-
                 ReceiptLines.Add(line);
             }
             Toolbox.Sort(ReceiptLines);
@@ -109,7 +109,6 @@ namespace CashRegister.ViewModel
             }
             Toolbox.Sort(ReceiptLines);
             RefreshTotalPrice();
-            // TODO Save
         }
 
         public void RemoveAllSameItemsOnReceipt(ReceiptLine line)
@@ -117,7 +116,6 @@ namespace CashRegister.ViewModel
             ReceiptLines.Remove(line);
             Toolbox.Sort(ReceiptLines);
             RefreshTotalPrice();
-            // TODO Save
         }
 
         public void SelectCategory(Category category)
@@ -125,7 +123,7 @@ namespace CashRegister.ViewModel
             if (CurrentCategory != null && category == CurrentCategory)
             {
                 CurrentCategory = null;
-                Toolbox.PopulateList(Items, Seeder.GetInstance().Items);
+                Toolbox.PopulateList(Items, Seeder.Instance.Items);
 
                 // Color gesture
                 foreach (Category c in Categories)
@@ -160,9 +158,11 @@ namespace CashRegister.ViewModel
 
         public void SendMail(string clientMail)
         {
-            if (UserManager.GetInstance().IsConnected())
+            // Save into db
+            RepositoryManager.Instance.ReceiptRepository.Save(Receipt);
+            foreach (ReceiptLine line in ReceiptLines)
             {
-                return;
+                RepositoryManager.Instance.ReceiptLineRepository.Save(line);
             }
 
             try

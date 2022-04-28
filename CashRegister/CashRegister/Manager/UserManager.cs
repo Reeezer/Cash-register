@@ -7,20 +7,11 @@ namespace CashRegister.Manager
 {
     public class UserManager
     {
-        private static UserManager instance = null;
+        public static UserManager Instance { get; } = new UserManager();
         public User User { get; set; }
 
         private UserManager()
         {
-        }
-
-        public static UserManager GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new UserManager();
-            }
-            return instance;
         }
 
         public bool IsConnected()

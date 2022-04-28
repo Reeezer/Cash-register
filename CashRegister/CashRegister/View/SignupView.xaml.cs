@@ -39,11 +39,10 @@ namespace CashRegister.View
                     string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
 
                     User user = new User(FirstName.Text, LastName.Text, Email.Text, encryptedPassword, 0);
-                    UserManager.GetInstance().User = user;
+                    UserManager.Instance.User = user;
                     
                     // Save
-                    UserRepository userRepository = new UserRepository();
-                    userRepository.Save(user);
+                    RepositoryManager.Instance.UserRepository.Save(user);
 
                     var navigation = Application.Current.MainPage.Navigation;
                     var lastPage = navigation.NavigationStack.LastOrDefault();

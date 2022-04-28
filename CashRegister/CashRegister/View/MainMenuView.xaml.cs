@@ -41,7 +41,7 @@ namespace CashRegister.View
             //sqliteco.CreateTable<User>();
             //mysqlco.OpenAsync();
 
-            if (UserManager.GetInstance().User.Role == ((int)Role.Customer))
+            if (UserManager.Instance.User.Role == ((int)Role.Customer))
             {
                 StatisticsButton.IsVisible = false;
             }

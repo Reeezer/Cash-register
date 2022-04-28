@@ -47,7 +47,7 @@ namespace CashRegister.Model
         {
             List<Item> items = new List<Item>();
 
-            foreach (Item item in Seeder.GetInstance().Items)
+            foreach (Item item in Seeder.Instance.Items)
             {
                 if (item.Category == this)
                 {

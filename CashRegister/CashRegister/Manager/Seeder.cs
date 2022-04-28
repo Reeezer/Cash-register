@@ -12,7 +12,7 @@ namespace CashRegister.Manager
 {
     public class Seeder
     {
-        private static Seeder instance = null;
+        public static Seeder Instance { get; } = new Seeder();
 
         public List<Item> Items { get; } = new List<Item>();
         public List<Category> Categories { get; } = new List<Category>();
@@ -35,15 +35,6 @@ namespace CashRegister.Manager
                     Items.Add(item);
                 }
             }
-        }
-
-        public static Seeder GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new Seeder();
-            }
-            return instance;
         }
     }
 }

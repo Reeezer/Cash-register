@@ -28,15 +28,16 @@ namespace CashRegister.View
             }
             else
             {
-                UserRepository userRepository = new UserRepository();
+                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
                 User user = userRepository.FindByEmailPassword(Email.Text, Pass.Text);
 
+                // FIXME Debug
                 foreach (User u in userRepository.FindAll("leon"))
                     Debug.WriteLine($"{u}");
 
                 if (user != null)
                 {
-                    UserManager.GetInstance().User = user;
+                    UserManager.Instance.User = user;
 
                     var navigation = Application.Current.MainPage.Navigation;
                     var lastPage = navigation.NavigationStack.LastOrDefault();

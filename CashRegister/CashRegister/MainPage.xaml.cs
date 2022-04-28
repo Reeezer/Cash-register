@@ -59,13 +59,13 @@ namespace CashRegister
 
         public async void Logout(object sender, EventArgs args)
         {
-            if (UserManager.GetInstance().User == null)
+            if (UserManager.Instance.User == null)
             {
                 await DisplayAlert("Logout", "You we're not connected, so it didn't do anything", "Ok");
             }
             else
             {
-                UserManager.GetInstance().User = null;
+                UserManager.Instance.User = null;
                 await DisplayAlert("Logout", "You have been logged out successfully", "Ok");
 
                 ChangeButtonVisibility();
@@ -74,7 +74,7 @@ namespace CashRegister
 
         public void ChangeButtonVisibility()
         {
-            if (UserManager.GetInstance().IsConnected())
+            if (UserManager.Instance.IsConnected())
             {
                 LoginButton.IsVisible = false;
                 SignupButton.IsVisible = false;
