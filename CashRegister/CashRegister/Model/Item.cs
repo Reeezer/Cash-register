@@ -5,9 +5,10 @@ namespace CashRegister.Model
 {
     public class Item : IComparable
     {
-
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        /// <summary>
+        /// IMPORTANT : Do NOT change the ID manually
+        /// </summary>
+        public int Id { get; set; } = 0;
 
         public Category Category { get; set; }
         public string Name { get; set; }

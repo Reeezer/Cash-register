@@ -7,8 +7,10 @@ namespace CashRegister.Model
 {
     public class Discount
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        /// <summary>
+        /// IMPORTANT : Do NOT change the ID manually
+        /// </summary>
+        public int Id { get; set; } = 0;
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set;  }

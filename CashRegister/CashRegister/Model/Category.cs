@@ -10,8 +10,10 @@ namespace CashRegister.Model
 {
     public class Category : ViewModelBase, IComparable
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        /// <summary>
+        /// IMPORTANT : Do NOT change the ID manually
+        /// </summary>
+        public int Id { get; set; } = 0;
 
         public string Name { get; set; }
         public Color PrincipalColor { get; set; }

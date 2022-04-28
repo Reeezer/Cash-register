@@ -8,8 +8,10 @@ namespace CashRegister.Model
 {
     public class ReceiptLine : ViewModelBase, IComparable
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        /// <summary>
+        /// IMPORTANT : Do NOT change the ID manually
+        /// </summary>
+        public int Id { get; set; } = 0;
 
         public Receipt Receipt { get; set; }
         public Item Item { get; set; }

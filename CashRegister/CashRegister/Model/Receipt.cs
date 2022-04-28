@@ -7,8 +7,10 @@ namespace CashRegister.Model
 {
     public class Receipt
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+        /// <summary>
+        /// IMPORTANT : Do NOT change the ID manually
+        /// </summary>
+        public int Id { get; set; } = 0;
 
         public DateTime Date { get; set; }
         public User Client { get; set; }
