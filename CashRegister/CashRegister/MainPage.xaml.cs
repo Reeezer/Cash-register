@@ -9,6 +9,7 @@ using OpenFoodFacts4Net.Json.Data;
 using System.Threading.Tasks;
 using MySqlConnector;
 using CashRegister.Manager;
+using System.Diagnostics;
 
 namespace CashRegister
 {
@@ -18,20 +19,20 @@ namespace CashRegister
         {
             InitializeComponent();
 
-            Console.WriteLine("Initializing database");
+            Debug.WriteLine("Initializing database");
             CashDatabase cashDatabase = CashDatabase.Instance;
-            Console.WriteLine("Opening database connection");
+            Debug.WriteLine("Opening database connection");
             cashDatabase.Open();
 
             // FIXME debug
-            Console.WriteLine("Printing all tables in database");
+            Debug.WriteLine("Printing all tables in database");
             cashDatabase.PrintTables();
 
             UserRepository userRepository = new UserRepository();
             foreach (User user in userRepository.FindAll("Meyer"))
-                Console.WriteLine($"{user}");
-            
-            Console.WriteLine($"{userRepository.FindById(2)}");
+                Debug.WriteLine($"{user}");
+
+            Debug.WriteLine($"{userRepository.FindById(2)}");
         }
 
         protected override void OnAppearing()
@@ -39,7 +40,12 @@ namespace CashRegister
             base.OnAppearing();
 
             ChangeButtonVisibility();
-        }        
+        }
+        
+        public async void ToMainMenu(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new MainMenuView());
+        }
 
         public async void ToLogin(object sender, EventArgs args)
         {

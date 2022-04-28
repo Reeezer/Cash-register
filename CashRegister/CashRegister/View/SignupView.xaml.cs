@@ -21,11 +21,6 @@ namespace CashRegister.View
             RolePicker.SelectedIndex = 0;
         }
 
-        public async void ToLogin(object sender, EventArgs args)
-        {
-            await Navigation.PushAsync(new LoginView());
-        }
-
         public async void Signup(object sender, EventArgs args)
         {
             if (Email.Text == null || Pass.Text == null || FirstName.Text == null || LastName.Text == null || PassConf.Text == null)
