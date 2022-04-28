@@ -1,20 +1,19 @@
 ﻿using CashRegister.moneyIsEverything.models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+//using System.Net;
+//using System.Net.Http;
+//using System.Threading.Tasks;
 
 namespace CashRegister.moneyIsEverything
 {
     // ICI
     // https://docs.adyen.com/get-started-with-adyen
     /**
-     * class allowing online payements using TWINT payment gateway
+     * class allowing online payements using a payment gateway
      */
     public class PayoutManager
     {
@@ -38,7 +37,7 @@ namespace CashRegister.moneyIsEverything
 
         }
 
-        private class Test : GetParams {
+        private class TestData : GetParams {
             public string name { get; set; }
             public long age { get; set; }
         };
@@ -49,21 +48,32 @@ namespace CashRegister.moneyIsEverything
          * post with params doesnt work (even if it works when posting with python, for example
          * so we use get, sorry lads
          */
-        private async void test()
+        private async Task<ServerData> Test()
         {
             string url = "http://localhost:55000/Test";
-            var test = new Test() { name = "jean", age=(long)42 };
+            var test = new TestData() { name = "jean", age=(long)42 };
 
             var client = new HttpClient();
             var response = await client.GetAsync(url + test.GetParamsString());
 
             string result = response.Content.ReadAsStringAsync().Result;
             Debug.WriteLine(result);
+
+            return new ServerData
+            {
+                PayoutId = "id_test",
+                PayoutStatus = "status_test",
+                MerchantAccount = "account_test",
+                AmountValue = 10,
+                AmountCurrency = "CHF",
+                Reference = "ref_test",
+                ClientApiKey = "api_test",
+            };
         }
+
         public async Task<ServerData> MakePayement(uint cardNumber, uint expiryMonth, uint expiryYear, uint securityCode, float amount, string reference)
         {
-            //test();
-            //return;
+            //return await Test();
             
             // amount is set in long => 10.40CHF => 1040
             long lAmount = (long)(amount * 100);
@@ -78,7 +88,14 @@ namespace CashRegister.moneyIsEverything
 
             string amountCurrency = "CHF";
 
-            string url = "http://localhost:55000/Payout";
+            string clientApiKey = "debug_api_key";
+
+            //string base_url = Environment.GetEnvironmentVariable("CASHREGISTER_ENTRYPOINT");
+            //string port = Environment.GetEnvironmentVariable("CASHREGISTER_PORT");
+            //string endpoint = Environment.GetEnvironmentVariable("CASHREGISTER_ENDPOINT");
+            //string url = base_url + ":" + port + "/" + endpoint;
+            
+            string url = "http://localhost:49153/Payout";
 
             var data = new ClientData
             {
@@ -90,10 +107,12 @@ namespace CashRegister.moneyIsEverything
                 amountValue = lAmount,
                 amountCurrency = amountCurrency,
 
-                reference = reference
+                reference = reference,
+                ClientApiKey = clientApiKey
             };
 
             var client = new HttpClient();
+
             var response = await client.GetAsync(url + data.GetParamsString());
 
             if (response.StatusCode != HttpStatusCode.OK)

@@ -40,7 +40,7 @@ namespace CashRegisterServer.Controllers
             long amountValue, string amountCurrency, string reference, string clientApiKey)
         {
             // Check if the client API key is valid
-            if (checkClientApiKey(clientApiKey) == false)
+            if (!IsClientApiKeyValid(clientApiKey))
             {
                 return BadRequest("Invalid client API key");
             }
@@ -66,14 +66,14 @@ namespace CashRegisterServer.Controllers
         /**
          * verify if the client requesting the API is valid
          */
-        public bool checkClientApiKey(string clientApiKey)
+        private bool IsClientApiKeyValid(string clientApiKey)
         {
             // TODO: add db thing
             return true;
         }
         
-            // https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
-            private ServerData DoThingWithAdyen(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode, 
+        // https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
+        private ServerData DoThingWithAdyen(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode, 
             string amountCurrency, long amountToPay, string reference)
         {
             string? apiKey = Environment.GetEnvironmentVariable("API_KEY");

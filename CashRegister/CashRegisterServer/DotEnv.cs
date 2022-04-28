@@ -1,8 +1,9 @@
-﻿namespace CashRegisterServer
+﻿using System;
+using System.IO;
+
+namespace CashRegisterServer
 {
     // https://dusted.codes/dotenv-in-dotnet
-    using System;
-    using System.IO;
     public static class DotEnv
     {
         public static void Load(string filePath)
