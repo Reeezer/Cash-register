@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CashRegister.Database
+﻿namespace CashRegister.Database
 {
     internal class RepositoryManager
     {

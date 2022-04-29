@@ -5,16 +5,16 @@
              BackgroundColor="White">
     
     <ContentPage.Content>
-        <Frame BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
-            <StackLayout Orientation="Vertical">
+        <Frame Style="{StaticResource DefaultFrame}">
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center" WidthRequest="200">
                 <Label Style="{StaticResource TitleLabel}" Text="Main menu"/>
                 <Button Style="{StaticResource DefaultButton}" x:Name="StatisticsButton" Text="To Statistics" Clicked="ToStatistics"/>
                 <Button Style="{StaticResource DefaultButton}" x:Name="CashRegisterButton" Text="To Cash register" Clicked="ToCashRegister"/>
                 <Label HeightRequest="50"/>
 
                 <Button Style="{StaticResource DefaultButton}" Text="[Debug] Scan" x:Name="ScanButton" Clicked="Scan"/>
-                <Entry x:Name="txtBarcode" Placeholder="Barcode" BackgroundColor="Black" TextColor="White"/>
-                <Entry x:Name="txtArticleDescr" Placeholder="Description" BackgroundColor="Black" TextColor="White" />
+                <Entry x:Name="txtBarcode" Placeholder="Barcode" BackgroundColor="Black" TextColor="White" PlaceholderColor="Gray"/>
+                <Entry x:Name="txtArticleDescr" Placeholder="Description" BackgroundColor="Black" TextColor="White" PlaceholderColor="Gray"/>
             </StackLayout>
         </Frame>
     </ContentPage.Content>

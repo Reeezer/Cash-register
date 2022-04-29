@@ -1,15 +1,8 @@
 ﻿using CashRegister.View;
 using System;
 using Xamarin.Forms;
-using CashRegister.Services;
 using CashRegister.Database;
-using CashRegister.Model;
-using OpenFoodFacts4Net.ApiClient;
-using OpenFoodFacts4Net.Json.Data;
-using System.Threading.Tasks;
-using MySqlConnector;
 using CashRegister.Manager;
-using System.Diagnostics;
 
 namespace CashRegister
 {
@@ -19,20 +12,8 @@ namespace CashRegister
         {
             InitializeComponent();
 
-            Debug.WriteLine("Initializing database");
             CashDatabase cashDatabase = CashDatabase.Instance;
-            Debug.WriteLine("Opening database connection");
             cashDatabase.Open();
-
-            // FIXME debug
-            Debug.WriteLine("Printing all tables in database");
-            cashDatabase.PrintTables();
-
-            UserRepository userRepository = new UserRepository();
-            foreach (User user in userRepository.FindAll("Meyer"))
-                Debug.WriteLine($"{user}");
-
-            Debug.WriteLine($"{userRepository.FindById(2)}");
         }
 
         protected override void OnAppearing()

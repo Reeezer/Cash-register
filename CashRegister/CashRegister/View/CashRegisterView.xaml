@@ -52,7 +52,7 @@
                 </Grid>
 
                 <!-- Receipt -->
-                <Frame Grid.Column="1" BackgroundColor="LightGray" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">
+                <Frame Grid.Column="1" BackgroundColor="LightGray" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="150">
                     <StackLayout  Orientation="Vertical" Padding="4">
                         <Label Style="{StaticResource BigLabel}" Text="Receipt" FontSize="18"/>
                         

@@ -3,7 +3,6 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CashRegister.Tools;
-using System.Diagnostics;
 using CashRegister.Manager;
 using System.Linq;
 using CashRegister.Database;

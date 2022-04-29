@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using CashRegister.Tools;
-using SQLite;
 using CashRegister.Database;
 using Xamarin.Forms;
 

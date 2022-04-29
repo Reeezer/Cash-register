@@ -1,10 +1,6 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using System.IO;
+﻿using Xamarin.Forms;
 using CashRegister.moneyIsEverything;
 using System.Diagnostics;
-using CashRegister.Tools;
 using CashRegister.moneyIsEverything.models;
 using System.Threading.Tasks;
 

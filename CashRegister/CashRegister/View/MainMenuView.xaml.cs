@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CashRegister.Services;
 using CashRegister.Database;
 using CashRegister.Model;
-using SQLite;
-using System.Diagnostics;
 using OpenFoodFacts4Net.ApiClient;
 using OpenFoodFacts4Net.Json.Data;
 using CashRegister.Manager;
@@ -19,18 +16,9 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuView : ContentPage
     {
-        private readonly SQLiteConnection sqliteco;
-
         public MainMenuView()
         {
             InitializeComponent();
-
-            //sqliteco = DependencyService.Get<ISQLite>().GetConnection();
-
-            //mysqlco = DependencyService.Get<IMySQL>().GetConnection(myVar);
-            //sqliteco.DropTable<User>(); // FIXME
-            //sqliteco.CreateTable<User>();
-            //mysqlco.OpenAsync();
 
             if (UserManager.Instance.User.Role == ((int)Role.Customer))
             {

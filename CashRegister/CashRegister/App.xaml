@@ -25,5 +25,14 @@
             <Setter Property="TextColor" Value="Black"/>
             <Setter Property="FontSize" Value="32"/>
         </Style>
+        
+        <!-- Frame -->
+        <Style x:Key="DefaultFrame" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="White"/>
+            <Setter Property="HasShadow" Value="True"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="CornerRadius" Value="16"/>
+        </Style>
     </Application.Resources>
 </Application>

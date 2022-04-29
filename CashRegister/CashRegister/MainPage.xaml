@@ -5,7 +5,7 @@
              x:Class="CashRegister.MainPage"
              BackgroundColor="White">
 
-    <Frame BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center" CornerRadius="16">
+    <Frame Style="{StaticResource DefaultFrame}">
         <StackLayout Orientation="Vertical">
             <Label Style="{StaticResource TitleLabel}" Text="Cas# Register" Margin="16"/>
             <Button Style="{StaticResource DefaultButton}" Text="Sign up" x:Name="SignupButton" Clicked="ToSignup"/>

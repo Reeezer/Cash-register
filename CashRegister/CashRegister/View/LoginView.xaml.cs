@@ -1,14 +1,10 @@
 ﻿using CashRegister.Manager;
 using CashRegister.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CashRegister.Database;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Diagnostics;
 using CashRegister.Tools;
 
 namespace CashRegister.View

@@ -5,15 +5,17 @@
              BackgroundColor="White">
 
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-            <Label Style="{StaticResource TitleLabel}" Text="Sign up"/>
-            <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
-            <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
-            <Entry Placeholder="Password confirmation" x:Name="PassConf" IsPassword="true"/>
-            <Entry Placeholder="First Name" x:Name="FirstName"/>
-            <Entry Placeholder="Last Name" x:Name="LastName"/>
-            <Picker x:Name="RolePicker"/>
-            <Button Style="{StaticResource DefaultButton}" Text="Sign up" Clicked="Signup"/>
-        </StackLayout>
+        <Frame Style="{StaticResource DefaultFrame}">
+            <StackLayout WidthRequest="200">
+                <Label Style="{StaticResource TitleLabel}" Text="Sign up" HorizontalOptions="Center"/>
+                <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
+                <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
+                <Entry Placeholder="Password confirmation" x:Name="PassConf" IsPassword="true"/>
+                <Entry Placeholder="First Name" x:Name="FirstName"/>
+                <Entry Placeholder="Last Name" x:Name="LastName"/>
+                <Picker x:Name="RolePicker"/>
+                <Button Style="{StaticResource DefaultButton}" Text="Sign up" Clicked="Signup"/>
+            </StackLayout>
+        </Frame>
     </ContentPage.Content>
 </ContentPage>

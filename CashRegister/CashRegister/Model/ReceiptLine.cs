@@ -1,8 +1,5 @@
 ﻿using CashRegister.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using SQLite;
 
 namespace CashRegister.Model
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CashRegister.Model
+﻿namespace CashRegister.Model
 {
     public class User
     {
