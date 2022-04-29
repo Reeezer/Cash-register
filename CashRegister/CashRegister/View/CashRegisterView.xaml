@@ -86,7 +86,7 @@
                 <Button Style="{StaticResource DefaultButton}" Grid.Column="0" Text="Scan"/>
 
                 <!-- Price -->
-                <Frame Grid.Column="1" BackgroundColor="SandyBrown" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">
+                <Frame Grid.Column="1" BackgroundColor="LightCoral" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">
                     <StackLayout  Orientation="Vertical">
                         <Label Style="{StaticResource BigLabel}" Text="{Binding TotalPrice, StringFormat='Total price:    {0:0.00}.-'}" Padding="4"/>
                         <Button Style="{StaticResource DefaultButton}" Text="Send email" Clicked="SendEmail"/>

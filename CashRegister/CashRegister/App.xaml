@@ -6,7 +6,7 @@
         <!-- Button -->
         <Style x:Key="DefaultButton" TargetType="Button">
             <Setter Property="TextColor" Value="Black"/>
-            <Setter Property="BackgroundColor" Value="LightGray"/>
+            <Setter Property="BackgroundColor" Value="LightSteelBlue"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
 

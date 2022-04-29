@@ -6,6 +6,7 @@ using CashRegister.Database;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CashRegister.Tools;
+using System.Diagnostics;
 
 namespace CashRegister.View
 {
@@ -25,24 +26,30 @@ namespace CashRegister.View
             }
             else
             {
-                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
-                User user = userRepository.FindByEmail(Email.Text);
+                User user = RepositoryManager.Instance.UserRepository.FindByEmail(Email.Text);
 
-                string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
-                if (user != null && user.Password == encryptedPassword)
+                if (user == null)
                 {
-                    UserManager.Instance.User = user;
-
-                    var navigation = Application.Current.MainPage.Navigation;
-                    var lastPage = navigation.NavigationStack.LastOrDefault();
-
-                    await Navigation.PushAsync(new MainMenuView());
-
-                    navigation.RemovePage(lastPage);
+                    await DisplayAlert("Login failed", "Email is incorrect", "Ok");
                 }
                 else
                 {
-                    await DisplayAlert("Login failed", "Email or password is incorrect", "Ok");
+                    string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
+                    if (user.Password == encryptedPassword)
+                    {
+                        UserManager.Instance.User = user;
+
+                        var navigation = Application.Current.MainPage.Navigation;
+                        var lastPage = navigation.NavigationStack.LastOrDefault();
+
+                        await Navigation.PushAsync(new MainMenuView());
+
+                        navigation.RemovePage(lastPage);
+                    }
+                    else
+                    {
+                        await DisplayAlert("Login failed", "The password does not fit for this email", "Ok");
+                    }
                 }
             }
         }

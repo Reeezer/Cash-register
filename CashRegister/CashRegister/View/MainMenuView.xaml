@@ -7,7 +7,8 @@
     <ContentPage.Content>
         <Frame Style="{StaticResource DefaultFrame}">
             <StackLayout Orientation="Vertical" HorizontalOptions="Center" WidthRequest="200">
-                <Label Style="{StaticResource TitleLabel}" Text="Main menu"/>
+                <Label Style="{StaticResource TitleLabel}" Text="Main menu" HorizontalOptions="Center"/>
+                <Label HeightRequest="16"/>
                 <Button Style="{StaticResource DefaultButton}" x:Name="StatisticsButton" Text="To Statistics" Clicked="ToStatistics"/>
                 <Button Style="{StaticResource DefaultButton}" x:Name="CashRegisterButton" Text="To Cash register" Clicked="ToCashRegister"/>
                 <Label HeightRequest="50"/>
