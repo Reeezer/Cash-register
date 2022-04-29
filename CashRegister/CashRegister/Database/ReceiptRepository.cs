@@ -7,7 +7,7 @@ namespace CashRegister.Database
 {
     internal class ReceiptRepository
     {
-        private CashDatabase cashDatabase;
+        private readonly CashDatabase cashDatabase;
 
         public ReceiptRepository()
         {

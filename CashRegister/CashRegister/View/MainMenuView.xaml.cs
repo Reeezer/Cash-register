@@ -3,23 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
-using CashRegister.View;
 using CashRegister.Services;
-using Xamarin.Essentials;
 using CashRegister.Database;
 using CashRegister.Model;
 using SQLite;
 using System.Diagnostics;
 using OpenFoodFacts4Net.ApiClient;
-using OpenFoodFacts4Net.Csv;
 using OpenFoodFacts4Net.Json.Data;
-using OpenFoodFacts4Net.Taxonomy.Json;
-using OpenFoodFacts4Net.Taxonomy.Json.Data;
-using MySqlConnector;
 using CashRegister.Manager;
 
 namespace CashRegister.View
@@ -67,12 +59,11 @@ namespace CashRegister.View
                 {
                     txtBarcode.Text = result.Trim();
 
-                    ItemRepository itemRepository = new ItemRepository();
-                    Item foundItem = itemRepository.FindByEAN(txtBarcode.Text);
+                    Item foundItem = RepositoryManager.Instance.ItemRepository.FindByEAN(txtBarcode.Text);
 
-                    //If the item doesn't exists in DB
+                    // If the item doesn't exists in DB
                     if (foundItem == null)
-                        GetProductAsync(txtBarcode.Text);
+                        await GetProductAsync(txtBarcode.Text);
                     else
                         txtArticleDescr.Text = "DB : " + foundItem.Name;
                 }
@@ -107,18 +98,20 @@ namespace CashRegister.View
                 else
                     newCat = cat[0];
 
-                Item newItem = new Item();
-                newItem.Name = productResponse.Product.ProductName;
-                newItem.Category = newCat;
-                newItem.EAN = barcode.Trim();
-                newItem.Price = 0.0;
-                newItem.Quantity = 0;
+                Item newItem = new Item
+                {
+                    Name = productResponse.Product.ProductName,
+                    Category = newCat,
+                    EAN = barcode.Trim(),
+                    Price = 0.0,
+                    Quantity = 0
+                };
 
                 ItemRepository itemRepository = new ItemRepository();
                 itemRepository.Save(newItem);
                 txtArticleDescr.Text = productResponse.Product.ProductName;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("Article not found");
                 txtArticleDescr.Text = "Article not found";

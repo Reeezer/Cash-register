@@ -10,7 +10,7 @@ namespace CashRegister.Database
     public class CashDatabase
     {
         private const string connectionString = "Server=213.193.78.182;Database=dotnetapp;Uid=root;Pwd=M0nM0tD3P4ss3MySQ12022!;Port=3307;";
-        private MySqlConnection sqlConnection;
+        private readonly MySqlConnection sqlConnection;
         
         private CashDatabase()
         {
@@ -51,10 +51,12 @@ namespace CashRegister.Database
         /// <param name="parameters">Dictionary of parameters mapping a key to an object</param>
         /// <returns>A data reader object corresponding to the query</returns>
         internal MySqlDataReader ExecuteReader(string command, Dictionary<string, object> parameters)
-        {            
-            MySqlCommand sqlcommand = new MySqlCommand();
-            sqlcommand.CommandText = command;
-            sqlcommand.Connection = sqlConnection;
+        {
+            MySqlCommand sqlcommand = new MySqlCommand
+            {
+                CommandText = command,
+                Connection = sqlConnection
+            };
 
             foreach (KeyValuePair<string, object> entry in parameters)
                 sqlcommand.Parameters.AddWithValue(entry.Key, entry.Value);
@@ -71,9 +73,11 @@ namespace CashRegister.Database
         /// <returns>ID of last inserted element. Returns 0 if the command did not insert anything.</returns>
         internal int ExecuteNonQuery(string command, Dictionary<string, object> parameters)
         {
-            MySqlCommand sqlcommand = new MySqlCommand();
-            sqlcommand.CommandText = command;
-            sqlcommand.Connection = sqlConnection;
+            MySqlCommand sqlcommand = new MySqlCommand
+            {
+                CommandText = command,
+                Connection = sqlConnection
+            };
 
             foreach (KeyValuePair<string, object> entry in parameters)
                 sqlcommand.Parameters.AddWithValue(entry.Key, entry.Value);
