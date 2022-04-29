@@ -19,7 +19,7 @@ namespace CashRegister.ViewModel
             Categories = new List<StatisticCategory>();
             TotalIncome = 0;
 
-            /* ----- */
+            /* ----- Fetch every thing we need in db ----- */
 
             Dictionary<Category, double> pricesPerCategory = new Dictionary<Category, double>();
             Dictionary<Category, SortedList<Item, double>> pricePerItemPerCategory = new Dictionary<Category, SortedList<Item, double>>();
@@ -38,7 +38,7 @@ namespace CashRegister.ViewModel
                 }
             }
 
-            /* ----- */
+            /* ----- Populate things for the view ----- */
 
             List<Category> categories = RepositoryManager.Instance.CategoryRepository.GetAll();
             foreach (Category category in categories)

@@ -13,7 +13,7 @@ namespace CashRegister.ViewModel
 {
     public class CashRegisterViewModel : ViewModelBase
     {
-        
+        public List<Item> AllItems { get; }
         public List<Category> Categories { get; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
@@ -54,9 +54,10 @@ namespace CashRegister.ViewModel
         public CashRegisterViewModel()
         {
             Categories = RepositoryManager.Instance.CategoryRepository.GetAll();
-            
+
+            AllItems = RepositoryManager.Instance.ItemRepository.GetAll();
             Items = new ObservableCollection<Item>();
-            Toolbox.PopulateList(Items, RepositoryManager.Instance.ItemRepository.GetAll());
+            Toolbox.PopulateList(Items, AllItems);
 
             Receipt = new Receipt
             {
@@ -116,7 +117,7 @@ namespace CashRegister.ViewModel
             if (CurrentCategory != null && category == CurrentCategory)
             {
                 CurrentCategory = null;
-                Toolbox.PopulateList(Items, RepositoryManager.Instance.ItemRepository.GetAll());
+                Toolbox.PopulateList(Items, AllItems);
 
                 // Color gesture
                 foreach (Category c in Categories)

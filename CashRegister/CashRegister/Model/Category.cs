@@ -43,17 +43,7 @@ namespace CashRegister.Model
 
         public List<Item> GetItems()
         {
-            List<Item> items = new List<Item>();
-
-            foreach (Item item in RepositoryManager.Instance.ItemRepository.FindAllByCategory(Id))
-            {
-                if (item.Category == this)
-                {
-                    items.Add(item);
-                }
-            }
-
-            return items;
+            return RepositoryManager.Instance.ItemRepository.FindAllByCategory(Id);
         }
 
         public int CompareTo(object obj)
