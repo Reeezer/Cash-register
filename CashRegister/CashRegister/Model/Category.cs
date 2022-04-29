@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using CashRegister.Manager;
 using CashRegister.ViewModel;
-using SQLite;
+using CashRegister.Database;
 
 namespace CashRegister.Model
 {
@@ -47,7 +45,7 @@ namespace CashRegister.Model
         {
             List<Item> items = new List<Item>();
 
-            foreach (Item item in Seeder.Instance.Items)
+            foreach (Item item in RepositoryManager.Instance.ItemRepository.FindAllByCategory(Id))
             {
                 if (item.Category == this)
                 {

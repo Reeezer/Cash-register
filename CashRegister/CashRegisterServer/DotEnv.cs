@@ -9,7 +9,9 @@ namespace CashRegisterServer
         public static void Load(string filePath)
         {
             if (!File.Exists(filePath))
-                return;
+            {
+                throw new FileNotFoundException("No .env");
+            }
             
             Console.WriteLine("\nReading .env file...");
             foreach (var line in File.ReadAllLines(filePath))

@@ -70,14 +70,7 @@ namespace CashRegister.ViewModel
 
         public void AddItemOnReceiptFromEAN(string ean)
         {
-            foreach (Item i in Seeder.Instance.Items)
-            {
-                if (i.EAN == ean)
-                {
-                    AddItemOnReceipt(i);
-                    break; // Each EAN is unique, then if we find one don't want to look for another
-                }
-            }
+            AddItemOnReceipt(RepositoryManager.Instance.ItemRepository.FindByEAN(ean));
         }
 
         public void AddItemOnReceipt(Item item)
@@ -123,7 +116,7 @@ namespace CashRegister.ViewModel
             if (CurrentCategory != null && category == CurrentCategory)
             {
                 CurrentCategory = null;
-                Toolbox.PopulateList(Items, Seeder.Instance.Items);
+                Toolbox.PopulateList(Items, RepositoryManager.Instance.ItemRepository.GetAll());
 
                 // Color gesture
                 foreach (Category c in Categories)

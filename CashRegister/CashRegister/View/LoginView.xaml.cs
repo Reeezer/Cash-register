@@ -9,6 +9,7 @@ using CashRegister.Database;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Diagnostics;
+using CashRegister.Tools;
 
 namespace CashRegister.View
 {
@@ -29,13 +30,10 @@ namespace CashRegister.View
             else
             {
                 UserRepository userRepository = RepositoryManager.Instance.UserRepository;
-                User user = userRepository.FindByEmailPassword(Email.Text, Pass.Text);
+                User user = userRepository.FindByEmail(Email.Text);
 
-                // FIXME Debug
-                foreach (User u in userRepository.FindAll("leon"))
-                    Debug.WriteLine($"{u}");
-
-                if (user != null)
+                string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
+                if (user != null && user.Password == encryptedPassword)
                 {
                     UserManager.Instance.User = user;
 

@@ -77,6 +77,39 @@ namespace CashRegister.Database
         }
 
         /// <summary>
+        /// Returns a list of all items where the search query matches category id
+        /// </summary>
+        /// <param name="id">id of the category</param>
+        /// <returns>A list of the items (might be empty if none are found)</returns>
+        public List<Item> FindAllByCategory(int id)
+        {
+            string querystring = "SELECT * FROM items WHERE category == @id";
+            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
+                { "id", id }
+            });
+
+            List<Item> items = new List<Item>();
+            while (reader.Read())
+            {
+                CategoryRepository categoryRepository = new CategoryRepository();
+                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+
+                items.Add(new Item
+                {
+                    Id = reader.GetInt32("id"),
+                    Category = cat, //créer une catégorie à partir d'un INT qui est l'id.
+                    Name = reader.GetString("name"),
+                    Price = reader.GetDouble("price"),
+                    Quantity = reader.GetInt32("quantity"),
+                    EAN = reader.GetString("ean")
+                });
+            }
+            reader.Close();
+
+            return items;
+        }
+
+        /// <summary>
         /// Inserts a new item into the database. Its Id value is then set to the value of the last inserted id.
         /// </summary>
         /// <param name="item">The item to add</param>

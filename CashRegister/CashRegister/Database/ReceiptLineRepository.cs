@@ -77,6 +77,39 @@ namespace CashRegister.Database
         */
 
         /// <summary>
+        /// Returns a list of all receiptlines matching a receipt.
+        /// </summary>
+        /// <param name="id">the id of the receipt</param>
+        /// <returns>List of all receiptlines in the database</returns>
+        public List<ReceiptLine> FindAllByReceipt(int id)
+        {
+            string querystring = "SELECT * FROM receiptlines WHERE receipt = @receipt";
+            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
+                { "receipt", id}
+            });
+
+            List<ReceiptLine> receiptLines = new List<ReceiptLine>();
+            while (reader.Read())
+            {
+                ReceiptRepository receiptRepository = new ReceiptRepository();
+                Receipt rec = receiptRepository.FindById(reader.GetInt32("receipt"));
+
+                ItemRepository itemRepository = new ItemRepository();
+                Item item = itemRepository.FindById(reader.GetInt32("item"));
+
+                receiptLines.Add(new ReceiptLine
+                {
+                    Id = reader.GetInt32("id"),
+                    Receipt = rec,
+                    Item = item,
+                });
+            }
+            reader.Close();
+
+            return receiptLines;
+        }
+
+        /// <summary>
         /// Inserts a new receiptline into the database. Its Id value is then set to the value of the last inserted id.
         /// </summary>
         /// <param name="receiptline">The receiptline to add</param>

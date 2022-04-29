@@ -83,23 +83,6 @@ namespace CashRegister.View
             }
         }
 
-        private async void AddUser(object sender, EventArgs e)
-        {
-            User testUser = new User("Wesh", "Man", "bleh@bleh.com", "password", 0);
-
-            sqliteco.Insert(testUser);
-        }
-
-        private async void ShowUsers(object sender, EventArgs e)
-        {
-            IEnumerable<User> users = (from t in sqliteco.Table<User>() select t).ToList();
-            foreach (User user in users)
-            {
-                Console.WriteLine(user.Id + " " + user.FirstName);
-            }
-            await DisplayAlert("Users", "All users displayed in console", "OK");
-        }
-
         private async Task GetProductAsync(string barcode)
         {
             try

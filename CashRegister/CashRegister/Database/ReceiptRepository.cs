@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CashRegister.Model;
 using MySqlConnector;
 
@@ -122,6 +123,36 @@ namespace CashRegister.Database
             {
                 Update(receipt);
             }
+        }
+
+        public List<Receipt> FindAllByDate(DateTime date)
+        {
+            string querystring = "SELECT * FROM receipt WHERE date >= @date_begin AND date < @date_end";
+            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
+                { "date_begin", date.Date },
+                { "date_end", date.Date.AddDays(1) }
+            });
+
+            List<Receipt> receipts = new List<Receipt>();
+            while (reader.Read())
+            {
+                UserRepository userRepository = new UserRepository();
+                User usr = userRepository.FindById(reader.GetInt32("client"));
+
+                DiscountRepository discountRepository = new DiscountRepository();
+                Discount dis = discountRepository.FindById(reader.GetInt32("discount"));
+
+                receipts.Add(new Receipt
+                {
+                    Id = reader.GetInt32("id"),
+                    Date = reader.GetDateTime("date"),
+                    Client = usr,
+                    Discount = dis,
+                });
+            }
+            reader.Close();
+
+            return receipts;
         }
 
         /// <summary>

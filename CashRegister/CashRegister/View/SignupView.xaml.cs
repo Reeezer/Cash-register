@@ -25,31 +25,40 @@ namespace CashRegister.View
         {
             if (Email.Text == null || Pass.Text == null || FirstName.Text == null || LastName.Text == null || PassConf.Text == null)
             {
-                await DisplayAlert("Sign up failed", "Something is missing", "Okay", "Cancel");
+                await DisplayAlert("Sign up failed", "Something is missing", "Ok");
             }
             else
             {
                 if (Pass.Text != PassConf.Text)
                 {
-                    await DisplayAlert("Sign up failed", "Your passwords has to be similar", "Okay", "Cancel");
+                    await DisplayAlert("Sign up failed", "Your passwords has to be similar", "Ok");
                 }
                 else
                 {
-                    // Password encryption
-                    string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
+                    User u = RepositoryManager.Instance.UserRepository.FindByEmail(Email.Text);
 
-                    User user = new User(FirstName.Text, LastName.Text, Email.Text, encryptedPassword, 0);
-                    UserManager.Instance.User = user;
-                    
-                    // Save
-                    RepositoryManager.Instance.UserRepository.Save(user);
+                    if (u == null)
+                    {
+                        // Password encryption
+                        string encryptedPassword = Toolbox.EncryptPassword(Pass.Text);
 
-                    var navigation = Application.Current.MainPage.Navigation;
-                    var lastPage = navigation.NavigationStack.LastOrDefault();
+                        User user = new User(FirstName.Text, LastName.Text, Email.Text, encryptedPassword, (Role)RolePicker.SelectedItem);
+                        UserManager.Instance.User = user;
 
-                    await Navigation.PushAsync(new MainMenuView());
+                        // Save
+                        RepositoryManager.Instance.UserRepository.Save(user);
 
-                    navigation.RemovePage(lastPage);
+                        var navigation = Application.Current.MainPage.Navigation;
+                        var lastPage = navigation.NavigationStack.LastOrDefault();
+
+                        await Navigation.PushAsync(new MainMenuView());
+
+                        navigation.RemovePage(lastPage);
+                    }
+                    else
+                    {
+                        await DisplayAlert("Sign up failed", "This email already exists", "Ok");
+                    }
                 }
             }
         }
