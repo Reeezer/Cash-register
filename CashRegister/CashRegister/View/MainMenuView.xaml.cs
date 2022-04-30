@@ -16,6 +16,8 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuView : ContentPage
     {
+        GetProductResponse productResponse;
+
         public MainMenuView()
         {
             InitializeComponent();
@@ -47,11 +49,15 @@ namespace CashRegister.View
                 {
                     txtBarcode.Text = result.Trim();
 
-                    Item foundItem = RepositoryManager.Instance.ItemRepository.FindByEAN(txtBarcode.Text);
-
+                    ItemRepository itemRepository = new ItemRepository(new CashDatabase());
+                    itemRepository.cashDatabase.Open();
+                    Item foundItem = itemRepository.FindByEAN(txtBarcode.Text);
+                    itemRepository.cashDatabase.Close();
+                    
                     // If the item doesn't exists in DB
-                    if (foundItem == null)
+                    if (foundItem == null || foundItem.Name.Trim() == "")
                         await GetProductAsync(txtBarcode.Text);
+
                     else
                         txtArticleDescr.Text = "DB : " + foundItem.Name;
                 }
@@ -68,12 +74,18 @@ namespace CashRegister.View
             {
                 String userAgent = UserAgentHelper.GetUserAgent("OpenFoodFacts4Net.ApiClient.CashRegister", ".Net Standard", "2.0", null);
                 Client client = new Client(Constants.BaseUrl, userAgent);
-                GetProductResponse productResponse = await client.GetProductAsync(barcode);
+                productResponse = await client.GetProductAsync(barcode);
                 string foundCat = productResponse.Product.CategoriesTags.First();
 
-                CategoryRepository categoryRepository = new CategoryRepository();
+
+                Console.WriteLine($"foundcat : {foundCat}");
+
+                CategoryRepository categoryRepository = new CategoryRepository(new CashDatabase());
+                categoryRepository.cashDatabase.Open();
                 List<Category> cat = categoryRepository.FindAll(foundCat);
                 Category newCat = new Category();
+
+                Console.WriteLine($"cat.Count : {cat.Count}");
 
                 if (cat.Count <= 0)
                 {
@@ -84,26 +96,42 @@ namespace CashRegister.View
                     categoryRepository.Save(newCat);
                 }
                 else
+                {
                     newCat = cat[0];
+                    Console.WriteLine($"newCat : {newCat}");
+                }
+
+                categoryRepository.cashDatabase.Close();
+                string value = await DisplayPromptAsync("Price", "Please give a price","OK","Cancel",null,-1,Keyboard.Numeric,"");
+                double price = 0.0;
+                Double.TryParse(value, out price);
+                value = await DisplayPromptAsync("Quantity", "Please give a quantity", "OK", "Cancel", null, -1, Keyboard.Numeric,"");
+                int quantity = 0;
+                Int32.TryParse(value, out quantity);
 
                 Item newItem = new Item
                 {
                     Name = productResponse.Product.ProductName,
                     Category = newCat,
                     EAN = barcode.Trim(),
-                    Price = 0.0,
-                    Quantity = 0
+                    Price = price,
+                    Quantity = quantity
                 };
 
-                ItemRepository itemRepository = new ItemRepository();
+                ItemRepository itemRepository = new ItemRepository(new CashDatabase());
+                itemRepository.cashDatabase.Open();
                 itemRepository.Save(newItem);
+                itemRepository.cashDatabase.Close();
+
                 txtArticleDescr.Text = productResponse.Product.ProductName;
+                Console.WriteLine($"End ? ");
             }
             catch (Exception)
             {
                 Console.WriteLine("Article not found");
                 txtArticleDescr.Text = "Article not found";
             }
+
         }
     }
 }

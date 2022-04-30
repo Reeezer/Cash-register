@@ -6,11 +6,16 @@ namespace CashRegister.Database
 {
     internal class ItemRepository
     {
-        private readonly CashDatabase cashDatabase;
+        public CashDatabase cashDatabase;
 
         public ItemRepository()
         {
             cashDatabase = CashDatabase.Instance;
+        }
+
+        public ItemRepository(CashDatabase _cashdatabase)
+        {
+            cashDatabase = _cashdatabase;
         }
 
         /// <summary>
@@ -202,7 +207,7 @@ namespace CashRegister.Database
             });
 
             Item item = null;
-            if (reader.Read())
+            if (reader.Read() && reader.HasRows)
             {
                 CategoryRepository categoryRepository = new CategoryRepository();
                 Category cat = categoryRepository.FindById(reader.GetInt32("category"));

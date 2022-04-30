@@ -12,7 +12,7 @@ namespace CashRegister.Database
         private const string connectionString = "Server=213.193.78.182;Database=dotnetapp;Uid=root;Pwd=M0nM0tD3P4ss3MySQ12022!;Port=3307;";
         private readonly MySqlConnection sqlConnection;
         
-        private CashDatabase()
+        public CashDatabase()
         {
             sqlConnection = new MySqlConnection(connectionString);
         }

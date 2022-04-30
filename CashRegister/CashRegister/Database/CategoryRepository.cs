@@ -7,11 +7,16 @@ namespace CashRegister.Database
 {
     internal class CategoryRepository
     {
-        private readonly CashDatabase cashDatabase;
+        public CashDatabase cashDatabase;
 
         public CategoryRepository()
         {
             cashDatabase = CashDatabase.Instance;
+        }
+
+        public CategoryRepository(CashDatabase _cashdatabase)
+        {
+            cashDatabase = _cashdatabase;
         }
 
         /// <summary>
