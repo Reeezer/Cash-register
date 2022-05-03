@@ -20,7 +20,7 @@ namespace CashRegister.ViewModel
     public class CashRegisterViewModel : ViewModelBase
     {
         public List<Item> AllItems { get; set; }
-        public ObservableCollection<Category> Categories { get; set; }
+        public ObservableCollection<Category> Categories { get; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
 
@@ -79,7 +79,9 @@ namespace CashRegister.ViewModel
         }
         
         public void FetchAllData()
-        {            
+        {
+            AllItems = ItemRepository.Instance.GetAll();
+            
             Items.Clear();
             Toolbox.PopulateList(Items, AllItems);
 
