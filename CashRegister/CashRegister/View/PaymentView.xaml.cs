@@ -19,9 +19,9 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PaymentView : ContentPage
     {
-        private double totalPrice;
-        private Receipt receipt;
-        private List<ReceiptLine> receiptLines;
+        private readonly double totalPrice;
+        private readonly Receipt receipt;
+        private readonly List<ReceiptLine> receiptLines;
 
         public PaymentView()
         {

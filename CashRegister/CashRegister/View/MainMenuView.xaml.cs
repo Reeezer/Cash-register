@@ -50,9 +50,7 @@ namespace CashRegister.View
                     txtBarcode.Text = result.Trim();
 
                     ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
-                    //itemRepository.cashDatabase.Open();
                     Item foundItem = itemRepository.FindByEAN(txtBarcode.Text);
-                    //itemRepository.cashDatabase.Close();
                     
                     // If the item doesn't exists in DB
                     if (foundItem == null || foundItem.Name.Trim() == "")
@@ -95,11 +93,9 @@ namespace CashRegister.View
                 }
 
                 string value = await DisplayPromptAsync("Price", "Please give a price","OK","Cancel",null,-1,Keyboard.Numeric,"");
-                double price = 0.0;
-                Double.TryParse(value, out price);
+                Double.TryParse(value, out double price);
                 value = await DisplayPromptAsync("Quantity", "Please give a quantity", "OK", "Cancel", null, -1, Keyboard.Numeric,"");
-                int quantity = 0;
-                Int32.TryParse(value, out quantity);
+                Int32.TryParse(value, out int quantity);
 
                 Item newItem = new Item
                 {
