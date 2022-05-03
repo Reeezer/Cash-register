@@ -8,8 +8,9 @@ namespace CashRegister.Database
     internal class ReceiptRepository
     {
         private readonly CashDatabase cashDatabase;
+        public static ReceiptRepository Instance { get; } = new ReceiptRepository();
 
-        public ReceiptRepository()
+        private ReceiptRepository()
         {
             cashDatabase = new CashDatabase();
             cashDatabase.Open();
@@ -32,11 +33,8 @@ namespace CashRegister.Database
             List<Receipt> receipts = new List<Receipt>();
             while (reader.Read())
             {
-                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
-                User usr = userRepository.FindById(reader.GetInt32("client"));
-
-                DiscountRepository discountRepository = RepositoryManager.Instance.DiscountRepository;
-                Discount dis = discountRepository.FindById(reader.GetInt32("discount"));
+                User usr = UserRepository.Instance.FindById(reader.GetInt32("client"));
+                Discount dis = DiscountRepository.Instance.FindById(reader.GetInt32("discount"));
 
                 receipts.Add(new Receipt
                 {
@@ -50,39 +48,6 @@ namespace CashRegister.Database
 
             return receipts;
         }
-
-        /// <summary>
-        /// Returns a list of all receipts where the search query matches their first name, last name or email.
-        /// </summary>
-        /// <param name="search">The search query</param>
-        /// <returns>A list of the receipts (might be empty if none are found)</returns>
-        /// 
-        /*
-        public List<User> FindAll(string search)
-        {
-            string querystring = "SELECT * FROM receipt WHERE firstname LIKE @search OR lastname LIKE @search OR email LIKE @search";
-            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
-                { "search", $"%{search}%" }
-            });
-
-            List<User> users = new List<User>();
-            while (reader.Read())
-            {
-                users.Add(new User
-                {
-                    Id = reader.GetInt32("id"),
-                    FirstName = reader.GetString("firstname"),
-                    LastName = reader.GetString("lastname"),
-                    Email = reader.GetString("email"),
-                    Password = reader.GetString("password"),
-                    Role = reader.GetInt32("role")
-                });
-            }
-            reader.Close();
-
-            return users;
-        }
-        */
 
         /// <summary>
         /// Inserts a new receipt into the database. Its Id value is then set to the value of the last inserted id.
@@ -133,7 +98,7 @@ namespace CashRegister.Database
 
         public List<Receipt> FindAllByDate(DateTime date)
         {
-            string querystring = "SELECT * FROM receipt WHERE date >= @date_begin AND date < @date_end";
+            string querystring = "SELECT * FROM receipts WHERE date >= @date_begin AND date < @date_end";
             MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
                 { "date_begin", date.Date },
                 { "date_end", date.Date.AddDays(1) }
@@ -142,11 +107,8 @@ namespace CashRegister.Database
             List<Receipt> receipts = new List<Receipt>();
             while (reader.Read())
             {
-                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
-                User usr = userRepository.FindById(reader.GetInt32("client"));
-
-                DiscountRepository discountRepository = RepositoryManager.Instance.DiscountRepository;
-                Discount dis = discountRepository.FindById(reader.GetInt32("discount"));
+                User usr = UserRepository.Instance.FindById(reader.GetInt32("client"));
+                Discount dis = DiscountRepository.Instance.FindById(reader.GetInt32("discount"));
 
                 receipts.Add(new Receipt
                 {
@@ -176,11 +138,8 @@ namespace CashRegister.Database
             Receipt receipt = null;
             if (reader.Read())
             {
-                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
-                User usr = userRepository.FindById(reader.GetInt32("client"));
-
-                DiscountRepository discountRepository = RepositoryManager.Instance.DiscountRepository;
-                Discount dis = discountRepository.FindById(reader.GetInt32("discount"));
+                User usr = UserRepository.Instance.FindById(reader.GetInt32("client"));
+                Discount dis = DiscountRepository.Instance.FindById(reader.GetInt32("discount"));
 
                 receipt = new Receipt
                 {

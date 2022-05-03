@@ -8,8 +8,9 @@ namespace CashRegister.Database
     internal class CategoryRepository
     {
         private readonly CashDatabase cashDatabase;
+        public static CategoryRepository Instance { get; } = new CategoryRepository();
 
-        public CategoryRepository()
+        private CategoryRepository()
         {
             cashDatabase = new CashDatabase();
             cashDatabase.Open();

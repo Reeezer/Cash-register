@@ -52,7 +52,7 @@
                 </Grid>
 
                 <!-- Receipt -->
-                <Frame Grid.Column="1" BackgroundColor="LightGray" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="150">
+                <Frame Grid.Column="1" BackgroundColor="LightGray" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="180">
                     <StackLayout  Orientation="Vertical" Padding="4">
                         <Label Style="{StaticResource BigLabel}" Text="Receipt" FontSize="18"/>
                         
@@ -61,9 +61,9 @@
                                 <BindableLayout.ItemTemplate>
                                     <DataTemplate>
                                         <Frame BackgroundColor="Aquamarine" Padding="0" CornerRadius="4" HasShadow="False">
-                                            <StackLayout Orientation="Horizontal" Padding="4" >
-                                                <Label Style="{StaticResource DefaultLabel}" Text="{Binding Item.Name}" VerticalOptions="Center"/>
-                                                <Label Style="{StaticResource DefaultLabel}" Text="{Binding Quantity}" VerticalOptions="Center"  HorizontalOptions="StartAndExpand"/>
+                                            <StackLayout Orientation="Horizontal" Padding="4" Spacing="2" >
+                                                <Label Style="{StaticResource LittleLabel}" Text="{Binding Item.Name}" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                                                <Label Style="{StaticResource LittleLabel}" Text="{Binding Quantity}" VerticalOptions="Center"/>
                                                 <Button Style="{StaticResource DefaultButton}" Text="-" Clicked="RemoveItem" WidthRequest="30" HeightRequest="30" Padding="0" VerticalOptions="Center"/>
                                                 <Button Style="{StaticResource DefaultLabel}" Text="X" Clicked="RemoveAllSameItems" WidthRequest="30" HeightRequest="30" Padding="0" VerticalOptions="Center"/>
                                             </StackLayout>

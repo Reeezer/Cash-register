@@ -56,9 +56,9 @@ namespace CashRegister.ViewModel
 
         public CashRegisterViewModel()
         {
-            Categories = RepositoryManager.Instance.CategoryRepository.GetAll();
+            Categories = CategoryRepository.Instance.GetAll();
 
-            AllItems = RepositoryManager.Instance.ItemRepository.GetAll();
+            AllItems = ItemRepository.Instance.GetAll();
             Items = new ObservableCollection<Item>();
             Toolbox.PopulateList(Items, AllItems);
 
@@ -74,7 +74,7 @@ namespace CashRegister.ViewModel
 
         public void AddItemOnReceiptFromEAN(string ean)
         {
-            AddItemOnReceipt(RepositoryManager.Instance.ItemRepository.FindByEAN(ean));
+            AddItemOnReceipt(ItemRepository.Instance.FindByEAN(ean));
         }
 
         public void AddItemOnReceipt(Item item)
@@ -133,7 +133,7 @@ namespace CashRegister.ViewModel
                 CurrentCategory = category;
 
                 Items.Clear();
-                foreach (Item item in CurrentCategory.GetItems())
+                foreach (Item item in CurrentCategory.GetItems(AllItems))
                 {
                     Items.Add(item);
                 }

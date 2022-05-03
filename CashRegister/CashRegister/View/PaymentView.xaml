@@ -9,10 +9,12 @@
             <StackLayout WidthRequest="200">
                 <Label Style="{StaticResource TitleLabel}" Text="Payment" HorizontalOptions="Center"/>
                 <Label HeightRequest="16"/>
-                <Entry Placeholder="Card number" x:Name="CardNumber" Keyboard="Numeric"/>
-                <Entry Placeholder="Security code" x:Name="SecurityCode" Keyboard="Numeric"/>
-                <Entry Placeholder="Expiration month" x:Name="ExpirationMonth" Keyboard="Numeric"/>
-                <Entry Placeholder="Expiration year" x:Name="ExpirationYear" Keyboard="Numeric"/>
+                <Label Style="{StaticResource BigLabel}" x:Name="Price"/>
+                <Label HeightRequest="16"/>
+                <Entry Placeholder="Card number" Text="4111111111111111" x:Name="CardNumber" Keyboard="Numeric"/>
+                <Entry Placeholder="Security code" Text="737" x:Name="SecurityCode" Keyboard="Numeric"/>
+                <Entry Placeholder="Expiration month" Text="03" x:Name="ExpirationMonth" Keyboard="Numeric"/>
+                <Entry Placeholder="Expiration year" Text="2030" x:Name="ExpirationYear" Keyboard="Numeric"/>
                 <Button Style="{StaticResource DefaultButton}" Text="Pay" Clicked="Pay"/>
             </StackLayout>
         </Frame>

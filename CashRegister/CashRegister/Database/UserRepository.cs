@@ -7,8 +7,9 @@ namespace CashRegister.Database
     internal class UserRepository
     {
         private readonly CashDatabase cashDatabase;
-        
-        public UserRepository()
+        public static UserRepository Instance { get; } = new UserRepository();
+
+        private UserRepository()
         {
             cashDatabase = new CashDatabase();
             cashDatabase.Open();

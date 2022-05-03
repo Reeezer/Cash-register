@@ -23,16 +23,15 @@ namespace CashRegister.View
         private readonly Receipt receipt;
         private readonly List<ReceiptLine> receiptLines;
 
-        public PaymentView()
-        {
-            InitializeComponent();
-        }
-
         public PaymentView(double totalPrice, Receipt receipt, ObservableCollection<ReceiptLine> receiptLines)
         {
+            InitializeComponent();
+            
             this.totalPrice = totalPrice;
             this.receipt = receipt;
             this.receiptLines = receiptLines.ToList();
+
+            Price.Text = $"Price: {totalPrice}.-";
         }
 
         public async void Pay(object sender, EventArgs args)
@@ -40,38 +39,38 @@ namespace CashRegister.View
             // Check if card is valid
             if (CardNumber.Text == null || CardNumber.Text.Length != 16)
             {
-                await DisplayAlert("Error", "Invalid card number", "OK");
+                await DisplayAlert("Error", "Invalid card number, has to be 16 digits", "Ok");
                 return;
             }
 
             if (SecurityCode.Text == null || SecurityCode.Text.Length != 3)
             {
-                await DisplayAlert("Error", "Invalid security code", "OK");
+                await DisplayAlert("Error", "Invalid security code, has to be 3 digits", "Ok");
                 return;
             }
 
-            if (ExpirationMonth.Text == null || ExpirationMonth.Text.Length != 2)
+            if (ExpirationMonth.Text == null || ExpirationMonth.Text.Length != 2 || int.Parse(ExpirationMonth.Text) > 12 || int.Parse(ExpirationMonth.Text) < 1)
             {
-                await DisplayAlert("Error", "Invalid expiration month", "OK");
+                await DisplayAlert("Error", "Invalid expiration month, has to be 2 digits", "Ok");
                 return;
             }
 
             if (ExpirationYear.Text == null || ExpirationYear.Text.Length != 4)
             {
-                await DisplayAlert("Error", "Invalid expiration year", "OK");
+                await DisplayAlert("Error", "Invalid expiration year, has to be 4 digits", "Ok");
                 return;
             }
 
             if (int.Parse(ExpirationYear.Text) < int.Parse(DateTime.Now.Year.ToString()))
             {
-                await DisplayAlert("Error", "Card expired", "OK");
+                await DisplayAlert("Error", "Card expired", "Ok");
                 return;
             }
             else
             {
                 if (int.Parse(ExpirationYear.Text) == int.Parse(DateTime.Now.Year.ToString()) && int.Parse(ExpirationMonth.Text) < int.Parse(DateTime.Now.Month.ToString()))
                 {
-                    await DisplayAlert("Error", "Card expired", "OK");
+                    await DisplayAlert("Error", "Card expired", "Ok");
                     return;
                 }
             }
@@ -85,20 +84,25 @@ namespace CashRegister.View
             }
             catch
             {
-                await DisplayAlert("Error", "Payment has not been made", "Ok");
+                await DisplayAlert("Error", "There has been a problem with the payment", "Ok");
                 return;
             }
 
             // Update DB
-            RepositoryManager.Instance.ReceiptRepository.Save(receipt);
+            if (receipt.Discount == null)
+            {
+                Discount discount = new Discount(DateTime.Now, DateTime.Now, receiptLines.FirstOrDefault().Item.Category, 0);
+                receipt.Discount = discount;
+                DiscountRepository.Instance.Save(discount);
+            }
+            ReceiptRepository.Instance.Save(receipt);
             foreach (ReceiptLine line in receiptLines)
             {
-                RepositoryManager.Instance.ReceiptLineRepository.Save(line);
+                ReceiptLineRepository.Instance.Save(line);
             }
 
-            User user = UserManager.Instance.User;
-
             // Send Mail
+            User user = UserManager.Instance.User;
             try
             {
                 string file = Toolbox.GenerateReceiptFile(receipt, receiptLines, totalPrice);

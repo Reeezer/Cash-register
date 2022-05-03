@@ -13,7 +13,14 @@ namespace CashRegister
         {
             InitializeComponent();
 
-            _ = RepositoryManager.Instance;
+            // Connect all repository to db
+            _ = CategoryRepository.Instance;
+            _ = ItemRepository.Instance;
+            _ = DiscountRepository.Instance;
+            _ = ReceiptLineRepository.Instance;
+            _ = ReceiptRepository.Instance;
+            _ = UserRepository.Instance;
+
             MainPage = new NavigationPage(new MainPage());
         }
 
