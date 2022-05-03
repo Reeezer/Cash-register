@@ -16,8 +16,6 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuView : ContentPage
     {
-        GetProductResponse productResponse;
-
         public MainMenuView()
         {
             InitializeComponent();
@@ -36,84 +34,6 @@ namespace CashRegister.View
         public async void ToStatistics(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new StatisticsView());
-        }
-
-        private async void Scan(object sender, EventArgs e)
-        {
-            try
-            {
-                IQrScanningService scanner = DependencyService.Get<IQrScanningService>();
-                string result = await scanner.ScanAsync();
-
-                if (result != null)
-                {
-                    txtBarcode.Text = result.Trim();
-
-                    Item foundItem = ItemRepository.Instance.FindByEAN(txtBarcode.Text);
-                    
-                    // If the item doesn't exists in DB
-                    if (foundItem == null || foundItem.Name.Trim() == "")
-                        await GetProductAsync(txtBarcode.Text);
-
-                    else
-                        txtArticleDescr.Text = "DB : " + foundItem.Name;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        private async Task GetProductAsync(string barcode)
-        {
-            try
-            {
-                String userAgent = UserAgentHelper.GetUserAgent("OpenFoodFacts4Net.ApiClient.CashRegister", ".Net Standard", "2.0", null);
-                Client client = new Client(Constants.BaseUrl, userAgent);
-                productResponse = await client.GetProductAsync(barcode);
-                string foundCat = productResponse.Product.CategoriesTags.First();
-
-                CategoryRepository categoryRepository = CategoryRepository.Instance;
-                List<Category> cat = categoryRepository.FindAll(foundCat);
-                Category newCat = new Category();
-
-                if (cat.Count <= 0)
-                {
-                    newCat.Name = foundCat;
-                    newCat.PrincipalColor = new Color(0.0);
-                    newCat.SecondaryColor = new Color(0.0);
-                    newCat.ActualColor = new Color(0.0);
-                    categoryRepository.Save(newCat);
-                }
-                else
-                {
-                    newCat = cat[0];
-                }
-
-                string value = await DisplayPromptAsync("Price", "Please give a price","OK","Cancel",null,-1,Keyboard.Numeric,"");
-                Double.TryParse(value, out double price);
-                value = await DisplayPromptAsync("Quantity", "Please give a quantity", "OK", "Cancel", null, -1, Keyboard.Numeric,"");
-                Int32.TryParse(value, out int quantity);
-
-                Item newItem = new Item
-                {
-                    Name = productResponse.Product.ProductName,
-                    Category = newCat,
-                    EAN = barcode.Trim(),
-                    Price = price,
-                    Quantity = quantity
-                };
-
-                ItemRepository.Instance.Save(newItem);
-
-                txtArticleDescr.Text = productResponse.Product.ProductName;
-            }
-            catch (Exception)
-            {
-                txtArticleDescr.Text = "Article not found";
-            }
-
         }
     }
 }
