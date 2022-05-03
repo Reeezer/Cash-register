@@ -56,7 +56,7 @@ namespace CashRegister.Model
             List<Item> items = new List<Item>();
             foreach (Item item in allItems)
             {
-                if (item.Category == this)
+                if (item.Category.Id == Id)
                 {
                     items.Add(item);
                 }

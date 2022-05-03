@@ -65,13 +65,6 @@ namespace CashRegister.ViewModel
         public CashRegisterViewModel()
         {     
             Categories = CategoryRepository.Instance.GetAll();
-            foreach(Category cat in Categories)
-            {
-                Debug.WriteLine("---");
-                Debug.WriteLine(cat.PrincipalColor);
-                Debug.WriteLine(cat.SecondaryColor);
-                Debug.WriteLine(cat.ActualColor);
-            }
 
             AllItems = ItemRepository.Instance.GetAll();
             Items = new ObservableCollection<Item>();
