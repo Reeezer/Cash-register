@@ -124,6 +124,8 @@ namespace CashRegister.View
                             itemRepository.Save(resultItem);
 
                             cashRegisterVM.AddItemOnReceiptFromEAN(result);
+
+                            cashRegisterVM.FetchAllData();
                         }
                         else
                         {
