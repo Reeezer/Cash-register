@@ -42,8 +42,9 @@ namespace CashRegister.Model
         {
             Random random = new Random();
             Name = name;
-            PrincipalColor = Toolbox.ColorFromHSL(random.NextDouble() * 255, 0.5, 0.6);
-            SecondaryColor = System.Drawing.Color.FromArgb(125, PrincipalColor.R, PrincipalColor.G, PrincipalColor.B);
+            PrincipalColor = Toolbox.ColorFromHSL(random.NextDouble(), 0.5, 0.6);
+            SecondaryColor = Color.FromArgb(125, PrincipalColor.R, PrincipalColor.G, PrincipalColor.B);
+            ActualColor = PrincipalColor;
         }
 
         public Category()

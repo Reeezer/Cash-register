@@ -108,23 +108,20 @@ namespace CashRegister.View
 
                         //setting the Price
                         string value = await DisplayPromptAsync($"Price {start}/{end}", "Please give a price", "OK", null, null, -1, Keyboard.Numeric, "");
-                        Double.TryParse(value, out double price);
+                        double.TryParse(value, out double price);
                         start++;
                         resultItem.Price = price;
 
                         //setting the Quantity
                         value = await DisplayPromptAsync($"Quantity {start}/{end}", "Please give a quantity", "OK", null, null, -1, Keyboard.Numeric, "");
-                        Int32.TryParse(value, out int quantity);
+                        int.TryParse(value, out int quantity);
                         resultItem.Quantity = quantity;
 
                         ItemRepository itemRepository = ItemRepository.Instance;
                         itemRepository.Save(resultItem);
 
                         cashRegisterVM.AddItemOnReceiptFromEAN(result);
-
-
                     }
-
                 }
             }
             catch (Exception)
