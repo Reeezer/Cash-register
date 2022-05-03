@@ -64,7 +64,7 @@ namespace CashRegister.View
                 IQrScanningService scanner = DependencyService.Get<IQrScanningService>();
                 string result = await scanner.ScanAsync();
 
-                if (result != null)
+                if (result != null && result.Length > 0)
                 {
                     result = result.Trim(); //removing some eventual 
                     CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
