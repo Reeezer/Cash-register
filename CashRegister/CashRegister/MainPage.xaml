@@ -9,7 +9,7 @@
         <StackLayout Orientation="Vertical" WidthRequest="250">
             <Label Style="{StaticResource TitleLabel}" Text="Cas# Register" HorizontalOptions="Center"/>
             <Label HeightRequest="16"/>
-            <Label Style="{StaticResource BigLabel}" Text="Une application pour vendeurs et consommateurs" TextColor="Gray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+            <Label Style="{StaticResource BigLabel}" Text="An application for both customers and sellers" TextColor="Gray" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
             <Label HeightRequest="8"/>
             <Button Style="{StaticResource DefaultButton}" Text="Sign up" x:Name="SignupButton" Clicked="ToSignup"/>
             <Button Style="{StaticResource DefaultButton}" Text="Login" x:Name="LoginButton" Clicked="ToLogin"/>
