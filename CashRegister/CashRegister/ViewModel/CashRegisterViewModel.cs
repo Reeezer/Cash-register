@@ -20,7 +20,7 @@ namespace CashRegister.ViewModel
     public class CashRegisterViewModel : ViewModelBase
     {
         public List<Item> AllItems { get; set; }
-        public List<Category> Categories { get; set; }
+        public ObservableCollection<Category> Categories { get; set; }
         public ObservableCollection<Item> Items { get; }
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
 
@@ -65,6 +65,7 @@ namespace CashRegister.ViewModel
         public CashRegisterViewModel()
         {
             Items = new ObservableCollection<Item>();
+            Categories = new ObservableCollection<Category>();
             FetchAllData();
 
             Receipt = new Receipt
@@ -78,11 +79,12 @@ namespace CashRegister.ViewModel
         }
         
         public void FetchAllData()
-        {
-            Categories = CategoryRepository.Instance.GetAll();
-            AllItems = ItemRepository.Instance.GetAll();
+        {            
             Items.Clear();
             Toolbox.PopulateList(Items, AllItems);
+
+            Categories.Clear();
+            Toolbox.PopulateList(Categories, CategoryRepository.Instance.GetAll());
         }
 
         public async Task<Item> AddItemOnReceiptFromEAN(string ean)
