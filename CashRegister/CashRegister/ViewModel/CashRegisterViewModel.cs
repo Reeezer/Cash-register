@@ -88,24 +88,26 @@ namespace CashRegister.ViewModel
             if (foundItem == null || foundItem.Name.Trim() == "")
             {
                 handledItem = null;
-                handledItem = await GetProductAsync(ean);
-                //while (handledItem == null) ; //waiting untill handledItem is affected 
+                handledItem = await GetProductAsync(ean, GetHandledItem());
                 return handledItem;
-
             }
             else
             {
                 AddItemOnReceipt(foundItem);
                 return null;
             }
-
         }
 
-        private async Task<Item> GetProductAsync(string barcode)
+        private Item GetHandledItem()
+        {
+            return handledItem;
+        }
+
+        private async Task<Item> GetProductAsync(string barcode, Item handledItem)
         {
             try
             {
-                String userAgent = UserAgentHelper.GetUserAgent("OpenFoodFacts4Net.ApiClient.CashRegister", ".Net Standard", "2.0", null);
+                string userAgent = UserAgentHelper.GetUserAgent("OpenFoodFacts4Net.ApiClient.CashRegister", ".Net Standard", "2.0", null);
                 Client client = new Client(Constants.BaseUrl, userAgent);
 
                 productResponse = await client.GetProductAsync(barcode);
@@ -125,26 +127,26 @@ namespace CashRegister.ViewModel
                     newCat = cat[0];
                 }
 
-                handledItem = new Item();
-                handledItem.Name = productResponse.Product.ProductName;
-                handledItem.Category = newCat;
-                handledItem.EAN = barcode;
+                handledItem = new Item
+                {
+                    Name = productResponse.Product.ProductName,
+                    Category = newCat,
+                    EAN = barcode
+                };
 
-                ItemRepository itemRepository = ItemRepository.Instance;
-                itemRepository.Save(handledItem);
-
-
+                ItemRepository.Instance.Save(handledItem);
             }
             catch (Exception)
             {
-                handledItem = new Item();
-                handledItem.Name = "";
-                handledItem.Category = null;
-                handledItem.EAN = barcode;
+                handledItem = new Item
+                {
+                    Name = "",
+                    Category = null,
+                    EAN = barcode
+                };
             }
 
             return handledItem;
-
         }
 
         public void AddItemOnReceipt(Item item)

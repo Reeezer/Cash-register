@@ -109,7 +109,7 @@ namespace CashRegisterServer.Controllers
                 Reference = reference,
                 ReturnUrl = @"dunno"
             };
-            var paymentsResponse = checkout.Payments(paymentRequest);
+            _ = checkout.Payments(paymentRequest);
 
             if (!amount.Value.HasValue)
             {
@@ -127,7 +127,7 @@ namespace CashRegisterServer.Controllers
             };
         }
 
-        private ServerData test(string apiKey, string merchantAccount)
+        private ServerData Test(string apiKey, string merchantAccount)
         {
             var client = new Client(apiKey, Adyen.Model.Enum.Environment.Test);
             var checkout = new Checkout(client);
@@ -148,7 +148,7 @@ namespace CashRegisterServer.Controllers
                 Reference = "Reference 01231ca2",
                 ReturnUrl = @"http://localhost:8000/redirect?shopperOrder=myRef"
             };
-            var paymentsResponse = checkout.Payments(paymentRequest);
+            _ = checkout.Payments(paymentRequest);
             return new ServerData
             {
                 PayoutId = "an id mha man",
