@@ -133,7 +133,7 @@ namespace CashRegister.Database
 
         public List<Receipt> FindAllByDate(DateTime date)
         {
-            string querystring = "SELECT * FROM receipt WHERE date >= @date_begin AND date < @date_end";
+            string querystring = "SELECT * FROM receipts WHERE date >= @date_begin AND date < @date_end";
             MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
                 { "date_begin", date.Date },
                 { "date_end", date.Date.AddDays(1) }
