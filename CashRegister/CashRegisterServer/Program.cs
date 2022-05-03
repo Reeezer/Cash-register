@@ -15,6 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+// statically set the port, will generate a error dialog that means nothing
+builder.WebHost.ConfigureKestrel(options => options.ListenLocalhost(49157));
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
