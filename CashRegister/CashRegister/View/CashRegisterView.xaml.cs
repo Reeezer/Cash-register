@@ -1,4 +1,6 @@
-﻿using CashRegister.Model;
+﻿using CashRegister.Database;
+using CashRegister.Model;
+using CashRegister.Services;
 using CashRegister.ViewModel;
 using System;
 using System.Threading.Tasks;
@@ -52,6 +54,27 @@ namespace CashRegister.View
 
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
             cashRegisterVM.RemoveAllSameItemsOnReceipt(line);
+        }
+
+        private async void ScanCode(object sender, EventArgs e)
+        {
+            try
+            {
+                IQrScanningService scanner = DependencyService.Get<IQrScanningService>();
+                string result = await scanner.ScanAsync();
+
+                if (result != null)
+                {
+                    result = result.Trim(); //removing some eventual 
+                    CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
+                    cashRegisterVM.AddItemOnReceiptFromEAN(result);
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async void ToPayment(object sender, EventArgs args)

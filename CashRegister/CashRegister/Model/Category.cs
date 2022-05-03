@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using CashRegister.ViewModel;
 using CashRegister.Database;
+using CashRegister.Tools;
 
 namespace CashRegister.Model
 {
@@ -35,6 +36,14 @@ namespace CashRegister.Model
             SecondaryColor = secondaryColor;
 
             ActualColor = principalColor;
+        }
+
+        public Category(string name)
+        {
+            Random random = new Random();
+            Name = name;
+            PrincipalColor = Toolbox.ColorFromHSL(random.NextDouble() * 255, 0.5, 0.6);
+            SecondaryColor = System.Drawing.Color.FromArgb(125, PrincipalColor.R, PrincipalColor.G, PrincipalColor.B);
         }
 
         public Category()
