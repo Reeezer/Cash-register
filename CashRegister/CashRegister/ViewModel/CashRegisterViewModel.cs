@@ -80,22 +80,28 @@ namespace CashRegister.ViewModel
             TotalPrice = 0;
         }
 
-        public async void AddItemOnReceiptFromEAN(string ean)
+        public async Task<Item> AddItemOnReceiptFromEAN(string ean)
         {
-            Item foundItem = RepositoryManager.Instance.ItemRepository.FindByEAN(ean);
+            Item foundItem = ItemRepository.Instance.FindByEAN(ean);
 
             // If the item doesn't exists in DB
             if (foundItem == null || foundItem.Name.Trim() == "")
-                await GetProductAsync(ean);
+            {
+                handledItem = null;
+                handledItem = await GetProductAsync(ean);
+                //while (handledItem == null) ; //waiting untill handledItem is affected 
+                return handledItem;
 
+            }
             else
-                //txtArticleDescr.Text = "DB : " + foundItem.Name;
-
-            AddItemOnReceipt(foundItem);
+            {
+                AddItemOnReceipt(foundItem);
+                return null;
+            }
 
         }
 
-        private async Task GetProductAsync(string barcode)
+        private async Task<Item> GetProductAsync(string barcode)
         {
             try
             {
@@ -105,16 +111,13 @@ namespace CashRegister.ViewModel
                 productResponse = await client.GetProductAsync(barcode);
                 string foundCat = productResponse.Product.CategoriesTags.First().Substring(3);
 
-                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
+                CategoryRepository categoryRepository = CategoryRepository.Instance;
                 List<Category> cat = categoryRepository.FindAll(foundCat);
-                Category newCat = new Category();
+                Category newCat;
 
                 if (cat.Count <= 0)
                 {
-                    newCat.Name = foundCat;
-                    newCat.PrincipalColor = new Color(0.0);
-                    newCat.SecondaryColor = new Color(0.0);
-                    newCat.ActualColor = new Color(0.0);
+                    newCat = new Category(foundCat);
                     categoryRepository.Save(newCat);
                 }
                 else
@@ -127,12 +130,7 @@ namespace CashRegister.ViewModel
                 handledItem.Category = newCat;
                 handledItem.EAN = barcode;
 
-                //string value = await DisplayPromptAsync("Price", "Please give a price", "OK", "Cancel", null, -1, Keyboard.Numeric, "");
-                //Double.TryParse(value, out double price);
-                //value = await DisplayPromptAsync("Quantity", "Please give a quantity", "OK", "Cancel", null, -1, Keyboard.Numeric, "");
-                //Int32.TryParse(value, out int quantity);
-
-                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
+                ItemRepository itemRepository = ItemRepository.Instance;
                 itemRepository.Save(handledItem);
 
 
@@ -144,6 +142,8 @@ namespace CashRegister.ViewModel
                 handledItem.Category = null;
                 handledItem.EAN = barcode;
             }
+
+            return handledItem;
 
         }
 

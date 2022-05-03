@@ -3,6 +3,7 @@ using CashRegister.Model;
 using CashRegister.Services;
 using CashRegister.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -67,7 +68,62 @@ namespace CashRegister.View
                 {
                     result = result.Trim(); //removing some eventual 
                     CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
-                    cashRegisterVM.AddItemOnReceiptFromEAN(result);
+                    Item resultItem = await cashRegisterVM.AddItemOnReceiptFromEAN(result);
+
+                    if (resultItem != null)
+                    {
+                        int start = 1;
+                        int end;
+                        //Verifying how to complete the Item:
+                        if (resultItem.Category == null)
+                        {
+                            end = 4;
+                            //setting the Name 
+                            string name = await DisplayPromptAsync($"Name {start}/{end}", "Please give a name", "OK", null, null, -1, Keyboard.Default, "");
+                            start++;
+                            resultItem.Name = name;
+
+                            //setting the Category 
+                            string category = await DisplayPromptAsync($"Category {start}/{end}", "Please give a category", "OK", null, null, -1, Keyboard.Default, "");
+                            start++;
+                            Category newCat = new Category(category);
+                            CategoryRepository catRepository = CategoryRepository.Instance;
+                            List<Category> foundCat = catRepository.FindAll(newCat.Name);
+                            resultItem.Category = newCat;
+
+                            if (foundCat.Count == 0)
+                            {
+                                catRepository.Save(newCat);
+                                resultItem.Category = newCat;
+                            }
+                            else
+                            {
+                                resultItem.Category = foundCat[0];
+                            }
+                        }
+                        else
+                        {
+                            end = 2;
+                        }
+
+                        //setting the Price
+                        string value = await DisplayPromptAsync($"Price {start}/{end}", "Please give a price", "OK", null, null, -1, Keyboard.Numeric, "");
+                        Double.TryParse(value, out double price);
+                        start++;
+                        resultItem.Price = price;
+
+                        //setting the Quantity
+                        value = await DisplayPromptAsync($"Quantity {start}/{end}", "Please give a quantity", "OK", null, null, -1, Keyboard.Numeric, "");
+                        Int32.TryParse(value, out int quantity);
+                        resultItem.Quantity = quantity;
+
+                        ItemRepository itemRepository = ItemRepository.Instance;
+                        itemRepository.Save(resultItem);
+
+                        cashRegisterVM.AddItemOnReceiptFromEAN(result);
+
+
+                    }
 
                 }
             }
