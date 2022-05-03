@@ -11,7 +11,6 @@
                 <Label HeightRequest="16"/>
                 <Button Style="{StaticResource DefaultButton}" x:Name="StatisticsButton" Text="To Statistics" Clicked="ToStatistics"/>
                 <Button Style="{StaticResource DefaultButton}" x:Name="CashRegisterButton" Text="To Cash register" Clicked="ToCashRegister"/>
-                <Label HeightRequest="50"/>
             </StackLayout>
         </Frame>
     </ContentPage.Content>
