@@ -11,6 +11,9 @@ using CashRegister.Database;
 using CashRegister.moneyIsEverything.models;
 using System.Threading.Tasks;
 using CashRegister.moneyIsEverything;
+using OpenFoodFacts4Net.ApiClient;
+using Xamarin.Forms;
+using OpenFoodFacts4Net.Json.Data;
 
 namespace CashRegister.ViewModel
 {
@@ -22,6 +25,11 @@ namespace CashRegister.ViewModel
         public ObservableCollection<ReceiptLine> ReceiptLines { get; }
 
         private Category currentCategory;
+
+        private GetProductResponse productResponse;
+
+        private Item handledItem;
+
         public Category CurrentCategory
         {
             get => currentCategory;
@@ -72,9 +80,71 @@ namespace CashRegister.ViewModel
             TotalPrice = 0;
         }
 
-        public void AddItemOnReceiptFromEAN(string ean)
+        public async void AddItemOnReceiptFromEAN(string ean)
         {
-            AddItemOnReceipt(RepositoryManager.Instance.ItemRepository.FindByEAN(ean));
+            Item foundItem = RepositoryManager.Instance.ItemRepository.FindByEAN(ean);
+
+            // If the item doesn't exists in DB
+            if (foundItem == null || foundItem.Name.Trim() == "")
+                await GetProductAsync(ean);
+
+            else
+                //txtArticleDescr.Text = "DB : " + foundItem.Name;
+
+            AddItemOnReceipt(foundItem);
+
+        }
+
+        private async Task GetProductAsync(string barcode)
+        {
+            try
+            {
+                String userAgent = UserAgentHelper.GetUserAgent("OpenFoodFacts4Net.ApiClient.CashRegister", ".Net Standard", "2.0", null);
+                Client client = new Client(Constants.BaseUrl, userAgent);
+
+                productResponse = await client.GetProductAsync(barcode);
+                string foundCat = productResponse.Product.CategoriesTags.First().Substring(3);
+
+                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
+                List<Category> cat = categoryRepository.FindAll(foundCat);
+                Category newCat = new Category();
+
+                if (cat.Count <= 0)
+                {
+                    newCat.Name = foundCat;
+                    newCat.PrincipalColor = new Color(0.0);
+                    newCat.SecondaryColor = new Color(0.0);
+                    newCat.ActualColor = new Color(0.0);
+                    categoryRepository.Save(newCat);
+                }
+                else
+                {
+                    newCat = cat[0];
+                }
+
+                handledItem = new Item();
+                handledItem.Name = productResponse.Product.ProductName;
+                handledItem.Category = newCat;
+                handledItem.EAN = barcode;
+
+                //string value = await DisplayPromptAsync("Price", "Please give a price", "OK", "Cancel", null, -1, Keyboard.Numeric, "");
+                //Double.TryParse(value, out double price);
+                //value = await DisplayPromptAsync("Quantity", "Please give a quantity", "OK", "Cancel", null, -1, Keyboard.Numeric, "");
+                //Int32.TryParse(value, out int quantity);
+
+                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
+                itemRepository.Save(handledItem);
+
+
+            }
+            catch (Exception)
+            {
+                handledItem = new Item();
+                handledItem.Name = "";
+                handledItem.Category = null;
+                handledItem.EAN = barcode;
+            }
+
         }
 
         public void AddItemOnReceipt(Item item)
