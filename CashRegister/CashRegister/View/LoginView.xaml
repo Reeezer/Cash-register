@@ -9,8 +9,8 @@
             <StackLayout WidthRequest="200">
                 <Label Style="{StaticResource TitleLabel}" Text="Login" HorizontalOptions="Center"/>
                 <Label HeightRequest="16"/>
-                <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
-                <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
+                <Entry Placeholder="Email" Text="leon" x:Name="Email" Keyboard="Email"/>
+                <Entry Placeholder="Password" Text="leon" x:Name="Pass" IsPassword="true"/>
                 <Button Style="{StaticResource DefaultButton}" Text="Login" Clicked="Login"/>
             </StackLayout>
         </Frame>

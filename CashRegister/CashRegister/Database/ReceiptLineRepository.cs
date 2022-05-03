@@ -7,8 +7,9 @@ namespace CashRegister.Database
     class ReceiptLineRepository
     {
         private readonly CashDatabase cashDatabase;
+        public static ReceiptLineRepository Instance { get; } = new ReceiptLineRepository();
 
-        public ReceiptLineRepository()
+        private ReceiptLineRepository()
         {
             cashDatabase = new CashDatabase();
             cashDatabase.Open();
@@ -31,11 +32,8 @@ namespace CashRegister.Database
             List<ReceiptLine> receiptLines = new List<ReceiptLine>();
             while (reader.Read())
             {
-                ReceiptRepository receiptRepository = RepositoryManager.Instance.ReceiptRepository;
-                Receipt rec = receiptRepository.FindById(reader.GetInt32("receipt"));
-
-                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
-                Item item = itemRepository.FindById(reader.GetInt32("item"));
+                Receipt rec = ReceiptRepository.Instance.FindById(reader.GetInt32("receipt"));
+                Item item = ItemRepository.Instance.FindById(reader.GetInt32("item"));
 
                 receiptLines.Add(new ReceiptLine
                 {
@@ -49,39 +47,6 @@ namespace CashRegister.Database
 
             return receiptLines;
         }
-
-        /// <summary>
-        /// Returns a list of all receiptlines where the search query matches their first name, last name or email.
-        /// </summary>
-        /// <param name="search">The search query</param>
-        /// <returns>A list of the receiptlines (might be empty if none are found)</returns>
-        /// 
-        /*
-        public List<User> FindAll(string search)
-        {
-            string querystring = "SELECT * FROM users WHERE firstname LIKE @search OR lastname LIKE @search OR email LIKE @search";
-            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
-                { "search", $"%{search}%" }
-            });
-
-            List<User> users = new List<User>();
-            while (reader.Read())
-            {
-                users.Add(new User
-                {
-                    Id = reader.GetInt32("id"),
-                    FirstName = reader.GetString("firstname"),
-                    LastName = reader.GetString("lastname"),
-                    Email = reader.GetString("email"),
-                    Password = reader.GetString("password"),
-                    Role = reader.GetInt32("role")
-                });
-            }
-            reader.Close();
-
-            return users;
-        }
-        */
 
         /// <summary>
         /// Returns a list of all receiptlines matching a receipt.
@@ -98,11 +63,8 @@ namespace CashRegister.Database
             List<ReceiptLine> receiptLines = new List<ReceiptLine>();
             while (reader.Read())
             {
-                ReceiptRepository receiptRepository = RepositoryManager.Instance.ReceiptRepository;
-                Receipt rec = receiptRepository.FindById(reader.GetInt32("receipt"));
-
-                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
-                Item item = itemRepository.FindById(reader.GetInt32("item"));
+                Receipt rec = ReceiptRepository.Instance.FindById(reader.GetInt32("receipt"));
+                Item item = ItemRepository.Instance.FindById(reader.GetInt32("item"));
 
                 receiptLines.Add(new ReceiptLine
                 {
@@ -179,11 +141,8 @@ namespace CashRegister.Database
             ReceiptLine receiptLine = null;
             if (reader.Read())
             {
-                ReceiptRepository receiptRepository = RepositoryManager.Instance.ReceiptRepository;
-                Receipt rec = receiptRepository.FindById(reader.GetInt32("receipt"));
-
-                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
-                Item item = itemRepository.FindById(reader.GetInt32("item"));
+                Receipt rec = ReceiptRepository.Instance.FindById(reader.GetInt32("receipt"));
+                Item item = ItemRepository.Instance.FindById(reader.GetInt32("item"));
 
                 receiptLine = new ReceiptLine
                 {

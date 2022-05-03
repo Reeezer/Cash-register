@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CashRegister.Database;
+using System.Diagnostics;
 
 namespace CashRegister.ViewModel
 {
@@ -24,27 +25,54 @@ namespace CashRegister.ViewModel
             Dictionary<Category, SortedList<Item, double>> pricePerItemPerCategory = new Dictionary<Category, SortedList<Item, double>>();
 
             List<Item> allItems = new List<Item>();
-            foreach(Receipt receipt in RepositoryManager.Instance.ReceiptRepository.FindAllByDate(DateTime.Now))
+            foreach(Receipt receipt in ReceiptRepository.Instance.FindAllByDate(DateTime.Now))
             {
-                foreach (ReceiptLine receiptLine in RepositoryManager.Instance.ReceiptLineRepository.FindAllByReceipt(receipt.Id))
+                foreach (ReceiptLine receiptLine in ReceiptLineRepository.Instance.FindAllByReceipt(receipt.Id))
                 {
                     allItems.Add(receiptLine.Item);
-                    
+
                     TotalIncome += receiptLine.LinePrice;
-                    
-                    pricesPerCategory[receiptLine.Item.Category] += receiptLine.LinePrice;
-                    pricePerItemPerCategory[receiptLine.Item.Category][receiptLine.Item] += receiptLine.LinePrice;
+
+                    if (pricesPerCategory.ContainsKey(receiptLine.Item.Category))
+                    {
+                        pricesPerCategory[receiptLine.Item.Category] += receiptLine.LinePrice;
+                    }
+                    else
+                    {
+                        pricesPerCategory.Add(receiptLine.Item.Category, receiptLine.LinePrice);
+                    }
+
+                    if (pricePerItemPerCategory.ContainsKey(receiptLine.Item.Category))
+                    {
+                        if (pricePerItemPerCategory[receiptLine.Item.Category].ContainsKey(receiptLine.Item))
+                        {
+                            pricePerItemPerCategory[receiptLine.Item.Category][receiptLine.Item] += receiptLine.LinePrice;
+                        }
+                        else
+                        {
+                            pricePerItemPerCategory[receiptLine.Item.Category].Add(receiptLine.Item, receiptLine.LinePrice);
+                        }
+                    }
+                    else
+                    {
+                        pricePerItemPerCategory.Add(receiptLine.Item.Category, new SortedList<Item, double>());
+                        pricePerItemPerCategory[receiptLine.Item.Category].Add(receiptLine.Item, receiptLine.LinePrice);
+                    }              
                 }
             }
 
             /* ----- Populate things for the view ----- */
 
-            List<Category> categories = RepositoryManager.Instance.CategoryRepository.GetAll();
+            List<Category> categories = CategoryRepository.Instance.GetAll();
             foreach (Category category in categories)
             {
+                Debug.WriteLine(category.Name);
                 // For the day
-                List<Item> items = pricePerItemPerCategory[category].OrderByDescending(x => x.Value).Select(y => y.Key).Take(3).ToList();
-                Categories.Add(new StatisticCategory(category, pricesPerCategory[category], items));
+                if (pricePerItemPerCategory.Keys.Contains(category))
+                {
+                    List<Item> items = pricePerItemPerCategory[category].OrderByDescending(x => x.Value).Select(y => y.Key).Take(3).ToList();
+                    Categories.Add(new StatisticCategory(category, pricesPerCategory[category], items));
+                }
             }
         }
     }

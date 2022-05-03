@@ -50,7 +50,7 @@ namespace CashRegister.moneyIsEverything
          */
         private async Task<ServerData> Test()
         {
-            string url = "http://localhost:55000/Test";
+            string url = "http://localhost:5018/Test";
             var test = new TestData() { Name = "jean", Age=(long)42 };
 
             var client = new HttpClient();

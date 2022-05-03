@@ -34,7 +34,7 @@ namespace CashRegister.View
                 }
                 else
                 {
-                    User u = RepositoryManager.Instance.UserRepository.FindByEmail(Email.Text);
+                    User u = UserRepository.Instance.FindByEmail(Email.Text);
 
                     if (u == null)
                     {
@@ -45,7 +45,7 @@ namespace CashRegister.View
                         UserManager.Instance.User = user;
 
                         // Save
-                        RepositoryManager.Instance.UserRepository.Save(user);
+                        UserRepository.Instance.Save(user);
 
                         var navigation = Application.Current.MainPage.Navigation;
                         var lastPage = navigation.NavigationStack.LastOrDefault();

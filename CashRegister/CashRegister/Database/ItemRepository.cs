@@ -7,8 +7,9 @@ namespace CashRegister.Database
     internal class ItemRepository
     {
         private readonly CashDatabase cashDatabase;
+        public static ItemRepository Instance { get; } = new ItemRepository();
 
-        public ItemRepository()
+        private ItemRepository()
         {
             cashDatabase = new CashDatabase();
             cashDatabase.Open();
@@ -31,8 +32,7 @@ namespace CashRegister.Database
             List<Item> items = new List<Item>();
             while (reader.Read())
             {
-                CategoryRepository categoryRepository = new CategoryRepository();
-                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+                Category cat = CategoryRepository.Instance.FindById(reader.GetInt32("category"));
 
                 items.Add(new Item
                 {
@@ -64,8 +64,7 @@ namespace CashRegister.Database
             List<Item> items = new List<Item>();
             while (reader.Read())
             {
-                CategoryRepository categoryRepository = new CategoryRepository();
-                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+                Category cat = CategoryRepository.Instance.FindById(reader.GetInt32("category"));
 
                 items.Add(new Item
                 {
@@ -89,7 +88,7 @@ namespace CashRegister.Database
         /// <returns>A list of the items (might be empty if none are found)</returns>
         public List<Item> FindAllByCategory(int id)
         {
-            string querystring = "SELECT * FROM items WHERE category == @id";
+            string querystring = "SELECT * FROM items WHERE category = @id";
             MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
                 { "id", id }
             });
@@ -97,8 +96,7 @@ namespace CashRegister.Database
             List<Item> items = new List<Item>();
             while (reader.Read())
             {
-                CategoryRepository categoryRepository = new CategoryRepository();
-                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+                Category cat = CategoryRepository.Instance.FindById(reader.GetInt32("category"));
 
                 items.Add(new Item
                 {
@@ -182,8 +180,7 @@ namespace CashRegister.Database
             Item item = null;
             if (reader.Read())
             {
-                CategoryRepository categoryRepository = new CategoryRepository();
-                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+                Category cat = CategoryRepository.Instance.FindById(reader.GetInt32("category"));
 
                 item = new Item
                 {
@@ -210,8 +207,7 @@ namespace CashRegister.Database
             Item item = null;
             if (reader.Read() && reader.HasRows)
             {
-                CategoryRepository categoryRepository = new CategoryRepository();
-                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+                Category cat = CategoryRepository.Instance.FindById(reader.GetInt32("category"));
 
                 item = new Item
                 {

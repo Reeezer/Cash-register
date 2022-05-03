@@ -7,8 +7,9 @@ namespace CashRegister.Database
     internal class DiscountRepository
     {
         private readonly CashDatabase cashDatabase;
+        public static DiscountRepository Instance { get; } = new DiscountRepository();
 
-        public DiscountRepository()
+        private DiscountRepository()
         {
             cashDatabase = new CashDatabase();
             cashDatabase.Open();
@@ -31,8 +32,7 @@ namespace CashRegister.Database
             List<Discount> discounts = new List<Discount>();
             while (reader.Read())
             {
-                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
-                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+                Category cat = CategoryRepository.Instance.FindById(reader.GetInt32("category"));
 
                 discounts.Add(new Discount
                 {
@@ -49,38 +49,6 @@ namespace CashRegister.Database
         }
 
         /// <summary>
-        /// Returns a list of all discounts where the search query matches their first name, last name or email.
-        /// </summary>
-        /// <param name="search">The search query</param>
-        /// <returns>A list of the discounts (might be empty if none are found)</returns>
-        /*
-        public List<Discount> FindAll(string search)
-        {
-            string querystring = "SELECT * FROM discounts WHERE firstname LIKE @search OR lastname LIKE @search OR email LIKE @search";
-            MySqlDataReader reader = cashDatabase.ExecuteReader(querystring, new Dictionary<string, object>() {
-                { "search", $"%{search}%" }
-            });
-
-            List<User> users = new List<User>();
-            while (reader.Read())
-            {
-                users.Add(new User
-                {
-                    Id = reader.GetInt32("id"),
-                    FirstName = reader.GetString("firstname"),
-                    LastName = reader.GetString("lastname"),
-                    Email = reader.GetString("email"),
-                    Password = reader.GetString("password"),
-                    Role = reader.GetInt32("role")
-                });
-            }
-            reader.Close();
-
-            return users;
-        }
-        */
-
-        /// <summary>
         /// Inserts a new discount into the database. Its Id value is then set to the value of the last inserted id.
         /// </summary>
         /// <param name="discount">The discount to add</param>
@@ -90,7 +58,7 @@ namespace CashRegister.Database
             Dictionary<string, object> parameters = new Dictionary<string, object>() {
                 { "startdate", discount.StartDate },
                 { "enddate", discount.EndDate },
-                { "category", discount.Category },
+                { "category", discount.Category.Id },
                 { "percentage", discount.Percentage }
             };
 
@@ -108,7 +76,7 @@ namespace CashRegister.Database
                 { "id", discount.Id },
                 { "startdate", discount.StartDate },
                 { "enddate", discount.EndDate },
-                { "category", discount.Category },
+                { "category", discount.Category.Id },
                 { "percentage", discount.Percentage }
             };
             cashDatabase.ExecuteNonQuery(querystring, parameters);
@@ -145,8 +113,7 @@ namespace CashRegister.Database
             Discount discount = null;
             if (reader.Read())
             {
-                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
-                Category cat = categoryRepository.FindById(reader.GetInt32("category"));
+                Category cat = CategoryRepository.Instance.FindById(reader.GetInt32("category"));
 
                 discount = new Discount
                 {

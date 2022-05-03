@@ -80,6 +80,11 @@ namespace CashRegister.View
         public async void ToPayment(object sender, EventArgs args)
         {
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
+            if (cashRegisterVM.TotalPrice == 0)
+            {
+                await DisplayAlert("Error", "You first need to add items to the receipt", "Ok");
+                return;
+            }
             
             await Navigation.PushAsync(new PaymentView(cashRegisterVM.TotalPrice, cashRegisterVM.Receipt, cashRegisterVM.ReceiptLines));
         }

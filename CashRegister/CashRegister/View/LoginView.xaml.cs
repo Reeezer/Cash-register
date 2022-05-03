@@ -26,7 +26,7 @@ namespace CashRegister.View
             }
             else
             {
-                User user = RepositoryManager.Instance.UserRepository.FindByEmail(Email.Text);
+                User user = UserRepository.Instance.FindByEmail(Email.Text);
 
                 if (user == null)
                 {

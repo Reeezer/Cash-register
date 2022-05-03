@@ -49,8 +49,7 @@ namespace CashRegister.View
                 {
                     txtBarcode.Text = result.Trim();
 
-                    ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
-                    Item foundItem = itemRepository.FindByEAN(txtBarcode.Text);
+                    Item foundItem = ItemRepository.Instance.FindByEAN(txtBarcode.Text);
                     
                     // If the item doesn't exists in DB
                     if (foundItem == null || foundItem.Name.Trim() == "")
@@ -75,7 +74,7 @@ namespace CashRegister.View
                 productResponse = await client.GetProductAsync(barcode);
                 string foundCat = productResponse.Product.CategoriesTags.First();
 
-                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
+                CategoryRepository categoryRepository = CategoryRepository.Instance;
                 List<Category> cat = categoryRepository.FindAll(foundCat);
                 Category newCat = new Category();
 
@@ -106,8 +105,7 @@ namespace CashRegister.View
                     Quantity = quantity
                 };
 
-                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
-                itemRepository.Save(newItem);
+                ItemRepository.Instance.Save(newItem);
 
                 txtArticleDescr.Text = productResponse.Product.ProductName;
             }

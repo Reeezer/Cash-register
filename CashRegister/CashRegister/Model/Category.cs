@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using CashRegister.ViewModel;
 using CashRegister.Database;
+using CashRegister.Tools;
 
 namespace CashRegister.Model
 {
@@ -37,13 +38,30 @@ namespace CashRegister.Model
             ActualColor = principalColor;
         }
 
+        public Category(string name)
+        {
+            Random random = new Random();
+            Name = name;
+            PrincipalColor = Toolbox.ColorFromHSL(random.NextDouble() * 255, 0.5, 0.6);
+            SecondaryColor = System.Drawing.Color.FromArgb(125, PrincipalColor.R, PrincipalColor.G, PrincipalColor.B);
+        }
+
         public Category()
         {
         }
 
-        public List<Item> GetItems()
+        public List<Item> GetItems(List<Item> allItems)
         {
-            return RepositoryManager.Instance.ItemRepository.FindAllByCategory(Id);
+            List<Item> items = new List<Item>();
+            foreach (Item item in allItems)
+            {
+                if (item.Category == this)
+                {
+                    items.Add(item);
+                }
+            }
+
+            return items;
         }
 
         public int CompareTo(object obj)
