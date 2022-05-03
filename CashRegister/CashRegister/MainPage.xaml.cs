@@ -3,6 +3,10 @@ using System;
 using Xamarin.Forms;
 using CashRegister.Database;
 using CashRegister.Manager;
+using CashRegister.moneyIsEverything;
+using CashRegister.moneyIsEverything.models;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace CashRegister
 {

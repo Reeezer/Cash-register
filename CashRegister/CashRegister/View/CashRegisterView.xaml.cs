@@ -54,16 +54,11 @@ namespace CashRegister.View
             cashRegisterVM.RemoveAllSameItemsOnReceipt(line);
         }
 
-        public void SendEmail(object sender, EventArgs args)
+        public async void ToPayment(object sender, EventArgs args)
         {
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;
-            _ = SendEmailAsync(cashRegisterVM);
-        }
-
-        private async Task SendEmailAsync(CashRegisterViewModel cashRegisterVM)
-        {
-            string result = await DisplayPromptAsync("Mail", "Please enter your email to receive the receipt");
-            cashRegisterVM.SendMail(result);
+            
+            await Navigation.PushAsync(new PaymentView(cashRegisterVM.TotalPrice, cashRegisterVM.Receipt, cashRegisterVM.ReceiptLines));
         }
     }
 }

@@ -11,8 +11,6 @@ namespace CashRegister
         public App()
         {
             InitializeComponent();
-
-            TryServer();
             
             MainPage = new NavigationPage(new MainPage());
         }
@@ -27,20 +25,6 @@ namespace CashRegister
 
         protected override void OnResume()
         {
-        }
-
-        private async void TryServer()
-        {
-            try
-            {
-                Task<ServerData> tsd = PayoutManager.Instance.MakePayement(13, 13, 13, 13, 12.5f, "my-ref");
-                ServerData sd = await tsd;
-                Debug.WriteLine("result:\n" + sd);
-            }
-            catch
-            {
-                Debug.WriteLine("Error Try server");
-            }
         }
     }
 }

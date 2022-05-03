@@ -4,21 +4,21 @@ using System.Runtime.Serialization;
 namespace CashRegister.moneyIsEverything
 {
     [Serializable]
-    internal class amountInvalidException : Exception
+    internal class AmountInvalidException : Exception
     {
-        public amountInvalidException()
+        public AmountInvalidException()
         {
         }
 
-        public amountInvalidException(string message) : base(message)
+        public AmountInvalidException(string message) : base(message)
         {
         }
 
-        public amountInvalidException(string message, Exception innerException) : base(message, innerException)
+        public AmountInvalidException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        protected amountInvalidException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected AmountInvalidException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

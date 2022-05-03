@@ -39,6 +39,8 @@ namespace CashRegisterServer.Controllers
         public IActionResult Post(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode,
             long amountValue, string amountCurrency, string reference, string clientApiKey)
         {
+            // TODO: log transaction
+            
             // Check if the client API key is valid
             if (!IsClientApiKeyValid(clientApiKey))
             {
@@ -53,12 +55,15 @@ namespace CashRegisterServer.Controllers
                 
                 data.ClientApiKey = clientApiKey;
                 
+                // TODO: add to log transaction OK
                 return Ok(JsonSerializer.Serialize<ServerData>(data));
             } catch (CustomException500 e)
             {
+                // TODO: add to log transaction KO
                 return StatusCode(500, e.Message);
             } catch(Exception e)
             {
+                // TODO: add to log transaction KO
                 return StatusCode(501, e.Message);
             }
         }

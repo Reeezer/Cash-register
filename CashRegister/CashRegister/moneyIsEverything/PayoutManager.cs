@@ -38,8 +38,8 @@ namespace CashRegister.moneyIsEverything
         }
 
         private class TestData : GetParams {
-            public string name { get; set; }
-            public long age { get; set; }
+            public string Name { get; set; }
+            public long Age { get; set; }
         };
 
         /**
@@ -51,7 +51,7 @@ namespace CashRegister.moneyIsEverything
         private async Task<ServerData> Test()
         {
             string url = "http://localhost:55000/Test";
-            var test = new TestData() { name = "jean", age=(long)42 };
+            var test = new TestData() { Name = "jean", Age=(long)42 };
 
             var client = new HttpClient();
             var response = await client.GetAsync(url + test.GetParamsString());
@@ -71,20 +71,20 @@ namespace CashRegister.moneyIsEverything
             };
         }
 
-        public async Task<ServerData> MakePayement(uint cardNumber, uint expiryMonth, uint expiryYear, uint securityCode, float amount, string reference)
+        public async Task<ServerData> MakePayement(string cardNumber, string expiryMonth, string expiryYear, string securityCode, double amount, string reference)
         {
             //return await Test();
             
             // amount is set in long => 10.40CHF => 1040
             long lAmount = (long)(amount * 100);
             if (lAmount != amount * 100)
-                throw new amountInvalidException();
+                throw new AmountInvalidException();
 
             // TODO: encrypt things
-            string encryptedCardNumber = "test_4111111111111111";
-            string encryptedExpiryMonth = "test_03";
-            string encryptedExpiryYear = "test_2030";
-            string encryptedSecurityCode = "test_737";
+            string encryptedCardNumber = $"test_{cardNumber}";
+            string encryptedExpiryMonth = $"test_{expiryMonth}";
+            string encryptedExpiryYear = $"test_{expiryYear}";
+            string encryptedSecurityCode = $"test_{securityCode}";
 
             string amountCurrency = "CHF";
 
@@ -95,19 +95,19 @@ namespace CashRegister.moneyIsEverything
             //string endpoint = Environment.GetEnvironmentVariable("CASHREGISTER_ENDPOINT");
             //string url = base_url + ":" + port + "/" + endpoint;
             
-            string url = "http://localhost:49153/Payout";
+            string url = "http://localhost:5018/Payout";
 
             var data = new ClientData
             {
-                encryptedCardNumber = encryptedCardNumber,
-                encryptedExpiryMonth = encryptedExpiryMonth,
-                encryptedExpiryYear = encryptedExpiryYear,
-                encryptedSecurityCode = encryptedSecurityCode,
+                EncryptedCardNumber = encryptedCardNumber,
+                EncryptedExpiryMonth = encryptedExpiryMonth,
+                EncryptedExpiryYear = encryptedExpiryYear,
+                EncryptedSecurityCode = encryptedSecurityCode,
 
-                amountValue = lAmount,
-                amountCurrency = amountCurrency,
+                AmountValue = lAmount,
+                AmountCurrency = amountCurrency,
 
-                reference = reference,
+                Reference = reference,
                 ClientApiKey = clientApiKey
             };
 

@@ -8,6 +8,9 @@ using CashRegister.Tools;
 using System.Diagnostics;
 using System.Net.Mail;
 using CashRegister.Database;
+using CashRegister.moneyIsEverything.models;
+using System.Threading.Tasks;
+using CashRegister.moneyIsEverything;
 
 namespace CashRegister.ViewModel
 {
@@ -54,8 +57,10 @@ namespace CashRegister.ViewModel
         public CashRegisterViewModel()
         {
             Categories = RepositoryManager.Instance.CategoryRepository.GetAll();
+            Debug.WriteLine("before 2");
 
             AllItems = RepositoryManager.Instance.ItemRepository.GetAll();
+            Debug.WriteLine("after");
             Items = new ObservableCollection<Item>();
             Toolbox.PopulateList(Items, AllItems);
 
@@ -147,44 +152,6 @@ namespace CashRegister.ViewModel
                         c.ActualColor = c.SecondaryColor;
                     }
                 }
-            }
-        }
-
-        public void SendMail(string clientMail)
-        {
-            // Save into db
-            RepositoryManager.Instance.ReceiptRepository.Save(Receipt);
-            foreach (ReceiptLine line in ReceiptLines)
-            {
-                RepositoryManager.Instance.ReceiptLineRepository.Save(line);
-            }
-
-            try
-            {
-                string file = Toolbox.GenerateReceiptFile(Receipt, ReceiptLines.ToList(), TotalPrice);
-
-                MailMessage mail = new MailMessage
-                {
-                    From = new MailAddress("cashregister@he-arc.ch"),
-                    Subject = $"Receipt from Cas#h Register on {Receipt.Date}",
-                    Body = "Receipt from Cas# Register"
-                };
-                mail.To.Add(clientMail);
-                mail.Attachments.Add(new Attachment(file));
-
-                SmtpClient SmtpServer = new SmtpClient
-                {
-                    Port = 25,
-                    Host = "smtprel.he-arc.ch",
-                    UseDefaultCredentials = false,
-                    Credentials = new System.Net.NetworkCredential("cashregister@he-arc.ch", "azertyuiop")
-                };
-
-                SmtpServer.Send(mail);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error SMTP: {ex}");
             }
         }
 
