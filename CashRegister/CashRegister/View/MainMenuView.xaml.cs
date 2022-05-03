@@ -49,10 +49,10 @@ namespace CashRegister.View
                 {
                     txtBarcode.Text = result.Trim();
 
-                    ItemRepository itemRepository = new ItemRepository(new CashDatabase());
-                    itemRepository.cashDatabase.Open();
+                    ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
+                    //itemRepository.cashDatabase.Open();
                     Item foundItem = itemRepository.FindByEAN(txtBarcode.Text);
-                    itemRepository.cashDatabase.Close();
+                    //itemRepository.cashDatabase.Close();
                     
                     // If the item doesn't exists in DB
                     if (foundItem == null || foundItem.Name.Trim() == "")
@@ -77,15 +77,9 @@ namespace CashRegister.View
                 productResponse = await client.GetProductAsync(barcode);
                 string foundCat = productResponse.Product.CategoriesTags.First();
 
-
-                Console.WriteLine($"foundcat : {foundCat}");
-
-                CategoryRepository categoryRepository = new CategoryRepository(new CashDatabase());
-                categoryRepository.cashDatabase.Open();
+                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
                 List<Category> cat = categoryRepository.FindAll(foundCat);
                 Category newCat = new Category();
-
-                Console.WriteLine($"cat.Count : {cat.Count}");
 
                 if (cat.Count <= 0)
                 {
@@ -98,10 +92,8 @@ namespace CashRegister.View
                 else
                 {
                     newCat = cat[0];
-                    Console.WriteLine($"newCat : {newCat}");
                 }
 
-                categoryRepository.cashDatabase.Close();
                 string value = await DisplayPromptAsync("Price", "Please give a price","OK","Cancel",null,-1,Keyboard.Numeric,"");
                 double price = 0.0;
                 Double.TryParse(value, out price);
@@ -118,17 +110,13 @@ namespace CashRegister.View
                     Quantity = quantity
                 };
 
-                ItemRepository itemRepository = new ItemRepository(new CashDatabase());
-                itemRepository.cashDatabase.Open();
+                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
                 itemRepository.Save(newItem);
-                itemRepository.cashDatabase.Close();
 
                 txtArticleDescr.Text = productResponse.Product.ProductName;
-                Console.WriteLine($"End ? ");
             }
             catch (Exception)
             {
-                Console.WriteLine("Article not found");
                 txtArticleDescr.Text = "Article not found";
             }
 

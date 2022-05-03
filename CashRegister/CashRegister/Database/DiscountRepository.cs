@@ -10,7 +10,13 @@ namespace CashRegister.Database
 
         public DiscountRepository()
         {
-            cashDatabase = CashDatabase.Instance;
+            cashDatabase = new CashDatabase();
+            cashDatabase.Open();
+        }
+
+        ~DiscountRepository()
+        {
+            cashDatabase.Close();
         }
 
         /// <summary>
@@ -25,7 +31,7 @@ namespace CashRegister.Database
             List<Discount> discounts = new List<Discount>();
             while (reader.Read())
             {
-                CategoryRepository categoryRepository = new CategoryRepository();
+                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
                 Category cat = categoryRepository.FindById(reader.GetInt32("category"));
 
                 discounts.Add(new Discount
@@ -139,7 +145,7 @@ namespace CashRegister.Database
             Discount discount = null;
             if (reader.Read())
             {
-                CategoryRepository categoryRepository = new CategoryRepository();
+                CategoryRepository categoryRepository = RepositoryManager.Instance.CategoryRepository;
                 Category cat = categoryRepository.FindById(reader.GetInt32("category"));
 
                 discount = new Discount

@@ -11,7 +11,13 @@ namespace CashRegister.Database
 
         public ReceiptRepository()
         {
-            cashDatabase = CashDatabase.Instance;
+            cashDatabase = new CashDatabase();
+            cashDatabase.Open();
+        }
+
+        ~ReceiptRepository()
+        {
+            cashDatabase.Close();
         }
 
         /// <summary>
@@ -26,10 +32,10 @@ namespace CashRegister.Database
             List<Receipt> receipts = new List<Receipt>();
             while (reader.Read())
             {
-                UserRepository userRepository = new UserRepository();
+                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
                 User usr = userRepository.FindById(reader.GetInt32("client"));
 
-                DiscountRepository discountRepository = new DiscountRepository();
+                DiscountRepository discountRepository = RepositoryManager.Instance.DiscountRepository;
                 Discount dis = discountRepository.FindById(reader.GetInt32("discount"));
 
                 receipts.Add(new Receipt
@@ -136,10 +142,10 @@ namespace CashRegister.Database
             List<Receipt> receipts = new List<Receipt>();
             while (reader.Read())
             {
-                UserRepository userRepository = new UserRepository();
+                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
                 User usr = userRepository.FindById(reader.GetInt32("client"));
 
-                DiscountRepository discountRepository = new DiscountRepository();
+                DiscountRepository discountRepository = RepositoryManager.Instance.DiscountRepository;
                 Discount dis = discountRepository.FindById(reader.GetInt32("discount"));
 
                 receipts.Add(new Receipt
@@ -170,10 +176,10 @@ namespace CashRegister.Database
             Receipt receipt = null;
             if (reader.Read())
             {
-                UserRepository userRepository = new UserRepository();
+                UserRepository userRepository = RepositoryManager.Instance.UserRepository;
                 User usr = userRepository.FindById(reader.GetInt32("client"));
 
-                DiscountRepository discountRepository = new DiscountRepository();
+                DiscountRepository discountRepository = RepositoryManager.Instance.DiscountRepository;
                 Discount dis = discountRepository.FindById(reader.GetInt32("discount"));
 
                 receipt = new Receipt

@@ -10,7 +10,13 @@ namespace CashRegister.Database
         
         public UserRepository()
         {
-            cashDatabase = CashDatabase.Instance;
+            cashDatabase = new CashDatabase();
+            cashDatabase.Open();
+        }
+
+        ~UserRepository()
+        {
+            cashDatabase.Close();
         }
 
         /// <summary>

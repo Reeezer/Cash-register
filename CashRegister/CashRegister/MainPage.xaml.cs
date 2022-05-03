@@ -15,9 +15,6 @@ namespace CashRegister
         public MainPage()
         {
             InitializeComponent();
-
-            CashDatabase cashDatabase = CashDatabase.Instance;
-            cashDatabase.Open();
         }
 
         protected override void OnAppearing()

@@ -10,7 +10,13 @@ namespace CashRegister.Database
 
         public ReceiptLineRepository()
         {
-            cashDatabase = CashDatabase.Instance;
+            cashDatabase = new CashDatabase();
+            cashDatabase.Open();
+        }
+
+        ~ReceiptLineRepository()
+        {
+            cashDatabase.Close();
         }
 
         /// <summary>
@@ -25,10 +31,10 @@ namespace CashRegister.Database
             List<ReceiptLine> receiptLines = new List<ReceiptLine>();
             while (reader.Read())
             {
-                ReceiptRepository receiptRepository = new ReceiptRepository();
+                ReceiptRepository receiptRepository = RepositoryManager.Instance.ReceiptRepository;
                 Receipt rec = receiptRepository.FindById(reader.GetInt32("receipt"));
 
-                ItemRepository itemRepository = new ItemRepository();
+                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
                 Item item = itemRepository.FindById(reader.GetInt32("item"));
 
                 receiptLines.Add(new ReceiptLine
@@ -92,10 +98,10 @@ namespace CashRegister.Database
             List<ReceiptLine> receiptLines = new List<ReceiptLine>();
             while (reader.Read())
             {
-                ReceiptRepository receiptRepository = new ReceiptRepository();
+                ReceiptRepository receiptRepository = RepositoryManager.Instance.ReceiptRepository;
                 Receipt rec = receiptRepository.FindById(reader.GetInt32("receipt"));
 
-                ItemRepository itemRepository = new ItemRepository();
+                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
                 Item item = itemRepository.FindById(reader.GetInt32("item"));
 
                 receiptLines.Add(new ReceiptLine
@@ -173,10 +179,10 @@ namespace CashRegister.Database
             ReceiptLine receiptLine = null;
             if (reader.Read())
             {
-                ReceiptRepository receiptRepository = new ReceiptRepository();
+                ReceiptRepository receiptRepository = RepositoryManager.Instance.ReceiptRepository;
                 Receipt rec = receiptRepository.FindById(reader.GetInt32("receipt"));
 
-                ItemRepository itemRepository = new ItemRepository();
+                ItemRepository itemRepository = RepositoryManager.Instance.ItemRepository;
                 Item item = itemRepository.FindById(reader.GetInt32("item"));
 
                 receiptLine = new ReceiptLine

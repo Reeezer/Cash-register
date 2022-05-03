@@ -3,6 +3,7 @@ using CashRegister.moneyIsEverything;
 using System.Diagnostics;
 using CashRegister.moneyIsEverything.models;
 using System.Threading.Tasks;
+using CashRegister.Database;
 
 namespace CashRegister
 {
@@ -11,7 +12,8 @@ namespace CashRegister
         public App()
         {
             InitializeComponent();
-            
+
+            _ = RepositoryManager.Instance;
             MainPage = new NavigationPage(new MainPage());
         }
 

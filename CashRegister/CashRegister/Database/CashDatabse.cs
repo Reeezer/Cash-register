@@ -16,7 +16,6 @@ namespace CashRegister.Database
         {
             sqlConnection = new MySqlConnection(connectionString);
         }
-        public static CashDatabase Instance { get; } = new CashDatabase();
 
         public void Open()
         {

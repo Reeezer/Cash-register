@@ -57,10 +57,8 @@ namespace CashRegister.ViewModel
         public CashRegisterViewModel()
         {
             Categories = RepositoryManager.Instance.CategoryRepository.GetAll();
-            Debug.WriteLine("before 2");
 
             AllItems = RepositoryManager.Instance.ItemRepository.GetAll();
-            Debug.WriteLine("after");
             Items = new ObservableCollection<Item>();
             Toolbox.PopulateList(Items, AllItems);
 
