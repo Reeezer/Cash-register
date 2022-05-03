@@ -63,6 +63,17 @@ namespace CashRegister.Tools
             return file;
         }
 
+        public static string GetStringFromColor(Color color)
+        {
+            return $"{color.R}/{color.G}/{color.B}/{color.A}";
+        }
+
+        public static Color GetColorFromString(string color)
+        {
+            string[] values = color.Split('/');
+            return System.Drawing.Color.FromArgb(int.Parse(values[3]), int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]));
+        }
+
         public static Color ColorFromHSL(double h, double s, double l)
         {
             double r = 0, g = 0, b = 0;
@@ -80,9 +91,8 @@ namespace CashRegister.Tools
                     b = GetColorComponent(temp1, temp2, h - 1.0 / 3.0);
                 }
             }
-            
-            return Color.FromArgb((int)(255 * r), (int)(255 * g), (int)(255 * b));
 
+            return Color.FromArgb((int)(255 * r), (int)(255 * g), (int)(255 * b));
         }
 
         public static string EncryptPassword(string password)

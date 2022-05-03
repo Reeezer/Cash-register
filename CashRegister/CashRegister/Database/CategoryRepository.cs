@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using CashRegister.Model;
+using CashRegister.Tools;
 using MySqlConnector;
 
 namespace CashRegister.Database
@@ -37,9 +38,9 @@ namespace CashRegister.Database
                 {
                     Id = reader.GetInt32("id"),
                     Name = reader.GetString("name"),
-                    PrincipalColor = Color.FromName(reader.GetString("principalcolor")),
-                    SecondaryColor = Color.FromName(reader.GetString("secondarycolor")),
-                    ActualColor = Color.FromName(reader.GetString("actualcolor")),
+                    PrincipalColor = Toolbox.GetColorFromString(reader.GetString("principalcolor")),
+                    SecondaryColor = Toolbox.GetColorFromString(reader.GetString("secondarycolor")),
+                    ActualColor = Toolbox.GetColorFromString(reader.GetString("actualcolor")),
                 });
             }
             reader.Close();
@@ -66,9 +67,9 @@ namespace CashRegister.Database
                 {
                     Id = reader.GetInt32("id"),
                     Name = reader.GetString("name"),
-                    PrincipalColor = Color.FromName(reader.GetString("principalcolor")),
-                    SecondaryColor = Color.FromName(reader.GetString("secondarycolor")),
-                    ActualColor = Color.FromName(reader.GetString("actualcolor")),
+                    PrincipalColor = Toolbox.GetColorFromString(reader.GetString("principalcolor")),
+                    SecondaryColor = Toolbox.GetColorFromString(reader.GetString("secondarycolor")),
+                    ActualColor = Toolbox.GetColorFromString(reader.GetString("actualcolor")),
                 });
             }
             reader.Close();
@@ -85,9 +86,9 @@ namespace CashRegister.Database
             string querystring = "INSERT INTO category (name, principalcolor, secondarycolor, actualcolor) VALUES (@name, @principalcolor, @secondarycolor, @actualcolor)";
             Dictionary<string, object> parameters = new Dictionary<string, object>() {
                 { "name", category.Name },
-                { "principalcolor", category.PrincipalColor.ToString() },
-                { "secondarycolor", category.SecondaryColor.ToString() },
-                { "actualcolor", category.ActualColor.ToString() }
+                { "principalcolor", Toolbox.GetStringFromColor(category.PrincipalColor) },
+                { "secondarycolor", Toolbox.GetStringFromColor(category.SecondaryColor) },
+                { "actualcolor", Toolbox.GetStringFromColor(category.ActualColor) }
             };
 
             category.Id = cashDatabase.ExecuteNonQuery(querystring, parameters);
@@ -103,9 +104,9 @@ namespace CashRegister.Database
             Dictionary<string, object> parameters = new Dictionary<string, object>() {
                 { "id", category.Id },
                 { "name", category.Name },
-                { "principalcolor", category.PrincipalColor.ToString() },
-                { "secondarycolor", category.SecondaryColor.ToString() },
-                { "actualcolor", category.ActualColor.ToString() }
+                { "principalcolor", Toolbox.GetStringFromColor(category.PrincipalColor) },
+                { "secondarycolor", Toolbox.GetStringFromColor(category.SecondaryColor) },
+                { "actualcolor", Toolbox.GetStringFromColor(category.ActualColor) }
             };
             cashDatabase.ExecuteNonQuery(querystring, parameters);
         }
@@ -145,9 +146,9 @@ namespace CashRegister.Database
                 {
                     Id = reader.GetInt32("id"),
                     Name = reader.GetString("name"),
-                    PrincipalColor = Color.FromName(reader.GetString("principalcolor")),
-                    SecondaryColor = Color.FromName(reader.GetString("secondarycolor")),
-                    ActualColor = Color.FromName(reader.GetString("actualcolor")),
+                    PrincipalColor = Toolbox.GetColorFromString(reader.GetString("principalcolor")),
+                    SecondaryColor = Toolbox.GetColorFromString(reader.GetString("secondarycolor")),
+                    ActualColor = Toolbox.GetColorFromString(reader.GetString("actualcolor")),
                 };
             }
             reader.Close();
