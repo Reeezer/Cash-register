@@ -6,11 +6,23 @@ using MySqlConnector;
 
 namespace CashRegister.Database
 {
+    /// <summary>
+    /// Singleton. Repository for the product *categories*.
+    /// </summary>
     internal class CategoryRepository
     {
+        /// <summary>
+        /// Database connection.
+        /// </summary>
         private readonly CashDatabase cashDatabase;
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         public static CategoryRepository Instance { get; } = new CategoryRepository();
 
+        /// <summary>
+        /// Create a connection to the database and open it.
+        /// </summary>
         private CategoryRepository()
         {
             cashDatabase = new CashDatabase();
