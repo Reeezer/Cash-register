@@ -16,6 +16,9 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainMenuView : ContentPage
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainMenuView()
         {
             InitializeComponent();
@@ -26,11 +29,21 @@ namespace CashRegister.View
             }
         }
 
+        /// <summary>
+        /// Navigate to the cash register view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void ToCashRegister(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new CashRegisterView());
         }
 
+        /// <summary>
+        /// Navigate to the statistics view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void ToStatistics(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new StatisticsView());

@@ -10,14 +10,28 @@ namespace CashRegister.Model
     public class Category : ViewModelBase, IComparable
     {
         /// <summary>
-        /// IMPORTANT : Do NOT change the ID manually
+        /// IMPORTANT : Do NOT change the ID manually. It is handled by the DB.
         /// </summary>
         public int Id { get; set; } = 0;
 
+        /// <summary>
+        /// Name of the category
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Main color of the category
+        /// </summary>
         public Color PrincipalColor { get; set; }
+
+        /// <summary>
+        /// Secondary color in case two categories has the same main color.
+        /// </summary>
         public Color SecondaryColor { get; set; }
 
+        /// <summary>
+        /// The color displayed in the screen
+        /// </summary>
         private Color actualColor;
         public Color ActualColor
         {
@@ -29,6 +43,12 @@ namespace CashRegister.Model
             }
         }
 
+        /// <summary>
+        /// Constructor with name and two main colors
+        /// </summary>
+        /// <param name="name">The name of the category</param>
+        /// <param name="principalColor">The principal color</param>
+        /// <param name="secondaryColor">The secondary color</param>
         public Category(string name, Color principalColor, Color secondaryColor)
         {
             Name = name;
@@ -38,6 +58,10 @@ namespace CashRegister.Model
             ActualColor = principalColor;
         }
 
+        /// <summary>
+        /// Constructor with only the name. The colors are picked randomly
+        /// </summary>
+        /// <param name="name">The name of the category</param>
         public Category(string name)
         {
             Random random = new Random();
@@ -47,10 +71,18 @@ namespace CashRegister.Model
             ActualColor = PrincipalColor;
         }
 
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public Category()
         {
         }
 
+        /// <summary>
+        /// Gets all the items linked to the category
+        /// </summary>
+        /// <param name="allItems">List of all items selected</param>
+        /// <returns></returns>
         public List<Item> GetItems(List<Item> allItems)
         {
             List<Item> items = new List<Item>();
@@ -65,6 +97,11 @@ namespace CashRegister.Model
             return items;
         }
 
+        /// <summary>
+        /// Helps to compare two categories
+        /// </summary>
+        /// <param name="obj">category to compare with</param>
+        /// <returns></returns>
         public int CompareTo(object obj)
         {
             Category c2 = obj as Category;

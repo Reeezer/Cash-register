@@ -14,11 +14,19 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginView : ContentPage
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public LoginView()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Check if the credentials are correct and log in the user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void Login(object sender, EventArgs args)
         {
             if (Email.Text == null || Pass.Text == null)
