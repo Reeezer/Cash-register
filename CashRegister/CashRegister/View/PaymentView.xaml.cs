@@ -121,7 +121,10 @@ namespace CashRegister.View
                 else
                 {
                     string result = await DisplayPromptAsync("Mail", "Please enter your email to receive the receipt");
-                    mail.To.Add(result.Trim());
+                    if (result != null)
+                    {
+                        mail.To.Add(result.Trim());
+                    }
                 }
                 mail.Attachments.Add(new Attachment(file));
 
