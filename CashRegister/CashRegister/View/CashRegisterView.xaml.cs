@@ -14,6 +14,9 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CashRegisterView : ContentPage
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public CashRegisterView()
         {
             InitializeComponent();
@@ -23,6 +26,9 @@ namespace CashRegister.View
             CheckScanAvailability();
         }
 
+        /// <summary>
+        /// Check if the barcode scanner is available
+        /// </summary>
         private void CheckScanAvailability()
         {
             if (Device.RuntimePlatform != Device.Android)
@@ -35,6 +41,11 @@ namespace CashRegister.View
             }
         }
 
+        /// <summary>
+        /// Select a category (and his items) for the view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public void SelectCategory(object sender, EventArgs args)
         {
             Button button = sender as Button;
@@ -44,6 +55,11 @@ namespace CashRegister.View
             cashRegisterVM.SelectCategory(category);
         }
 
+        /// <summary>
+        /// Add an item on the receipt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public void SelectItem(object sender, EventArgs args)
         {
             Button button = sender as Button;
@@ -53,6 +69,11 @@ namespace CashRegister.View
             cashRegisterVM.AddItemOnReceipt(item);
         }
 
+        /// <summary>
+        /// Remove an item from the receipt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public void RemoveItem(object sender, EventArgs args)
         {
             Button button = sender as Button;
@@ -62,6 +83,11 @@ namespace CashRegister.View
             cashRegisterVM.RemoveItemOnReceipt(line);
         }
 
+        /// <summary>
+        /// Remove all same items from the receipt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public void RemoveAllSameItems(object sender, EventArgs args)
         {
             Button button = sender as Button;
@@ -71,6 +97,11 @@ namespace CashRegister.View
             cashRegisterVM.RemoveAllSameItemsOnReceipt(line);
         }
 
+        /// <summary> 
+        /// Launch barcode scanner and add item on receipt and in db if not already registered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ScanCode(object sender, EventArgs e)
         {
             try
@@ -157,6 +188,11 @@ namespace CashRegister.View
             }
         }
 
+        /// <summary>
+        /// Navigate to payment if there's at least an item selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void ToPayment(object sender, EventArgs args)
         {
             CashRegisterViewModel cashRegisterVM = BindingContext as CashRegisterViewModel;

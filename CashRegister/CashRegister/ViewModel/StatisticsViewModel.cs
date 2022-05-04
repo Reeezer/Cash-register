@@ -13,6 +13,9 @@ namespace CashRegister.ViewModel
         public List<StatisticCategory> Categories { get; }
         public DateTime Date { get; }
 
+        /// <summary>
+        /// Constructor: fetch all data and populate lists for the view
+        /// </summary>
         public StatisticsViewModel()
         {
             Date = DateTime.Now;
@@ -86,6 +89,9 @@ namespace CashRegister.ViewModel
         }
     }
 
+    /// <summary>
+    /// Class used for the view
+    /// </summary>
     public class StatisticCategory
     {
         public Category Category { get; }

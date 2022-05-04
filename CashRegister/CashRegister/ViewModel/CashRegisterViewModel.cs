@@ -62,6 +62,9 @@ namespace CashRegister.ViewModel
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public CashRegisterViewModel()
         {
             Items = new ObservableCollection<Item>();
@@ -77,7 +80,10 @@ namespace CashRegister.ViewModel
 
             TotalPrice = 0;
         }
-        
+
+        /// <summary>
+        /// Fetch all data from the database
+        /// </summary>
         public void FetchAllData()
         {
             AllItems = ItemRepository.Instance.GetAll();
@@ -89,6 +95,11 @@ namespace CashRegister.ViewModel
             Toolbox.PopulateList(Categories, CategoryRepository.Instance.GetAll());
         }
 
+        /// <summary>
+        /// Add an item from ean code to receipt
+        /// </summary>
+        /// <param name="ean">ean code</param>
+        /// <returns></returns>
         public async Task<Item> AddItemOnReceiptFromEAN(string ean)
         {
             Item foundItem = ItemRepository.Instance.FindByEAN(ean);
@@ -97,7 +108,7 @@ namespace CashRegister.ViewModel
             if (foundItem == null || foundItem.Name.Trim() == "")
             {
                 handledItem = null;
-                handledItem = await GetProductAsync(ean, GetHandledItem());
+                handledItem = await GetProductAsync(ean);
                 return handledItem;
             }
             else
@@ -107,12 +118,12 @@ namespace CashRegister.ViewModel
             }
         }
 
-        private Item GetHandledItem()
-        {
-            return handledItem;
-        }
-
-        private async Task<Item> GetProductAsync(string barcode, Item handledItem)
+        /// <summary>
+        /// Get asynchronously an item from Open Food Facts
+        /// </summary>
+        /// <param name="barcode">ean code</param>
+        /// <returns>item found</returns>
+        private async Task<Item> GetProductAsync(string barcode)
         {
             try
             {
@@ -158,6 +169,10 @@ namespace CashRegister.ViewModel
             return handledItem;
         }
 
+        /// <summary>
+        /// Add item on receipt
+        /// </summary>
+        /// <param name="item">item to add</param>
         public void AddItemOnReceipt(Item item)
         {
             ReceiptLine line = ReceiptLines.FirstOrDefault(i => i.Item == item);
@@ -177,6 +192,10 @@ namespace CashRegister.ViewModel
             RefreshTotalPrice();
         }
 
+        /// <summary>
+        /// Remove item on receipt from receipt line
+        /// </summary>
+        /// <param name="line">receipt line</param>
         public void RemoveItemOnReceipt(ReceiptLine line)
         {
             line.RemoveItem();
@@ -189,6 +208,10 @@ namespace CashRegister.ViewModel
             RefreshTotalPrice();
         }
 
+        /// <summary>
+        /// Remove every same items on receipt from receipt line
+        /// </summary>
+        /// <param name="line">receipt line</param>
         public void RemoveAllSameItemsOnReceipt(ReceiptLine line)
         {
             ReceiptLines.Remove(line);
@@ -196,6 +219,10 @@ namespace CashRegister.ViewModel
             RefreshTotalPrice();
         }
 
+        /// <summary>
+        /// Category (and his items) for the front
+        /// </summary>
+        /// <param name="category">category</param>
         public void SelectCategory(Category category)
         {
             if (CurrentCategory != null && category == CurrentCategory)
@@ -234,6 +261,9 @@ namespace CashRegister.ViewModel
             }
         }
 
+        /// <summary>
+        /// Refresh total price
+        /// </summary>
         private void RefreshTotalPrice()
         {
             TotalPrice = 0;

@@ -12,11 +12,17 @@ namespace CashRegister
 {
     public partial class MainPage : ContentPage
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainPage()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Change visible buttons on view appearing
+        /// </summary>
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -24,21 +30,41 @@ namespace CashRegister
             ChangeButtonVisibility();
         }
 
+        /// <summary>
+        /// Navigate to main menu view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void ToMainMenu(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new MainMenuView());
         }
 
+        /// <summary>
+        /// Navigate to login view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void ToLogin(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new LoginView());
         }
 
+        /// <summary>
+        /// Navigate to sign up view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void ToSignup(object sender, EventArgs args)
         {
             await Navigation.PushAsync(new SignupView());
         }
 
+        /// <summary>
+        /// Logout the current user and change buttons visibility
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void Logout(object sender, EventArgs args)
         {
             if (UserManager.Instance.User == null)
@@ -54,6 +80,9 @@ namespace CashRegister
             }
         }
 
+        /// <summary>
+        /// Change visible buttons if the user is connected or not
+        /// </summary>
         public void ChangeButtonVisibility()
         {
             if (UserManager.Instance.IsConnected())

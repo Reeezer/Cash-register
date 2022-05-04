@@ -4,11 +4,23 @@ using MySqlConnector;
 
 namespace CashRegister.Database
 {
+    /// <summary>
+    /// Singleton. Repository for the discounts.
+    /// </summary>
     internal class DiscountRepository
     {
+        /// <summary>
+        /// Database connection.
+        /// </summary>
         private readonly CashDatabase cashDatabase;
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         public static DiscountRepository Instance { get; } = new DiscountRepository();
 
+        /// <summary>
+        /// Create a connection to the database and open it.
+        /// </summary>
         private DiscountRepository()
         {
             cashDatabase = new CashDatabase();
