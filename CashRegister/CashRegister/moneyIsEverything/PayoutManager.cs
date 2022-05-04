@@ -4,9 +4,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-//using System.Net;
-//using System.Net.Http;
-//using System.Threading.Tasks;
 
 namespace CashRegister.moneyIsEverything
 {
@@ -68,7 +65,9 @@ namespace CashRegister.moneyIsEverything
         //    };
         //}
 
-        // Ask to request a payement on the CashRegister server
+        /// <summary>
+        /// Ask to request a payement on the CashRegister server
+        /// </summary>
         public async Task<ServerData> MakePayement(string cardNumber, string expiryMonth, string expiryYear, string securityCode, double amount, string reference)
         {
             // amount is set in long => 10.40CHF => 1040

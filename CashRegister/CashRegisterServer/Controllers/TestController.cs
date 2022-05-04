@@ -2,9 +2,6 @@
 
 namespace CashRegisterServer.Controllers
 {
-    /**
-     * url to test if the server is up and running
-     */
     [ApiController]
     [Route("[controller]")]
     public class TestController : ControllerBase
@@ -15,7 +12,12 @@ namespace CashRegisterServer.Controllers
         {
             _logger = logger;
         }
-
+        /// <summary>
+        /// url to test if the server is up and running
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="age">age</param>
+        /// <returns>custom hello world, for test purpose</returns>
         [HttpGet(Name = "PostTest")]
         public string Test(string name, long age)
         {

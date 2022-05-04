@@ -4,7 +4,9 @@ using System.Text;
 
 namespace CashRegister.moneyIsEverything.models
 {
-    // model abstract class used to transform a model into a string reprenting data for a get request
+    /// <summary>
+    /// model abstract class used to transform a model into a string reprenting data for a get request
+    /// </summary>
     public abstract class GetParams
     {
         public string GetParamsString()

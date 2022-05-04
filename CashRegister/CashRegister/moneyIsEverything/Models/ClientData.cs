@@ -1,7 +1,9 @@
 ﻿
 namespace CashRegister.moneyIsEverything.models
 {
-    // model representing the data the client send to the cashregister server
+    /// <summary>
+    /// model representing the data the client send to the cashregister server
+    /// </summary>
     public class ClientData : GetParams
     {
         public string EncryptedCardNumber { get; set; }

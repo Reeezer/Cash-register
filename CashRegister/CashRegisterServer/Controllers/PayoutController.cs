@@ -21,10 +21,12 @@ namespace CashRegisterServer.Controllers
             _logger = logger;
         }
 
-        /**
-         * this method is here only because the CashRegister client couldnt do a Post request with params
-         * even if I got to do it with python
-         */
+        /// <summary>
+        /// Ask to the Adyen API to execute a payement
+        /// 
+        /// params are the same as the Post method
+        /// </summary>
+        /// <returns>same return as the Post method</returns>
         [HttpGet(Name = "GetPayout")]
         public IActionResult Get(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode,
             long amountValue, string amountCurrency, string reference, string clientApiKey)
@@ -32,9 +34,20 @@ namespace CashRegisterServer.Controllers
             return Post(encryptedCardNumber, encryptedExpiryMonth, encryptedExpiryYear, encryptedSecurityCode, amountValue, amountCurrency, reference, clientApiKey);
         }
 
-        /**
-         * Ask to the Adyen API to execute a payement
-         */
+
+        /// <summary>
+        /// this method is here only because the CashRegister client couldnt do a Post request with params
+        /// even if I got to do it with python
+        /// </summary>
+        /// <param name="encryptedCardNumber">encrypter card number</param>
+        /// <param name="encryptedExpiryMonth">encrypted expiry month</param>
+        /// <param name="encryptedExpiryYear">encrypted expiry year</param>
+        /// <param name="encryptedSecurityCode">encrypted security code</param>
+        /// <param name="amountValue">value to pay, in long (10.40CHF => 1040)</param>
+        /// <param name="amountCurrency">currency of the money ("EUR", "CHF", ...)</param>
+        /// <param name="reference">reference of the payement</param>
+        /// <param name="clientApiKey">api key of the client</param>
+        /// <returns>a response indicating if the payement has been proceeded, or the payement issues</returns>
         [HttpPost(Name = "PostPayout")]	
         public IActionResult Post(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode,
             long amountValue, string amountCurrency, string reference, string clientApiKey)
@@ -66,19 +79,25 @@ namespace CashRegisterServer.Controllers
             }
         }
 
-        /**
-         * verify if the client requesting the API is valid
-         */
+        /// <summary>
+        /// verify if the client requesting the API is valid
+        /// </summary>
+        /// <param name="clientApiKey">API key of the client</param>
+        /// <returns>return if it is valid or no</returns>
         private bool IsClientApiKeyValid(string clientApiKey)
         {
             // TODO: add db control
             return true;
         }
-        
-        /**
-         * create and execute a request on the Adyen API
-         * https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
-         */
+
+        /// <summary>
+        /// create and execute a request on the Adyen API
+        /// https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
+        /// 
+        /// params are the same as the Post method
+        /// </summary>
+        /// <returns>return is the same as the Post method</returns>
+        /// <exception cref="CustomException500">Exception raised if there is an issue with the server (see exception details for more)</exception>
         private ServerData DoThingWithAdyen(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode, 
             string amountCurrency, long amountToPay, string reference)
         {
