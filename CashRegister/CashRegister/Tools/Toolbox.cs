@@ -33,7 +33,19 @@ namespace CashRegister.Tools
         public static string GenerateReceiptFile(Receipt receipt, List<ReceiptLine> lines, double totalPrice)
         {
             string fileName = "Receipt.txt";
-            string file = Path.Combine(FileSystem.CacheDirectory, fileName); // TODO Delete it before creating it
+            string file = Path.Combine(FileSystem.CacheDirectory, fileName);
+
+            if (File.Exists(file))
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception)
+                { 
+                }
+            }            
+
             string text = "";
 
             // Receipt informations

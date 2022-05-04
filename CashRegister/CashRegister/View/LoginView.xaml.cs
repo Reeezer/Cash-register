@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using CashRegister.Tools;
 using System.Diagnostics;
+using System.Net.Mail;
 
 namespace CashRegister.View
 {

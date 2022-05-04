@@ -9,11 +9,11 @@
             <StackLayout WidthRequest="200">
                 <Label Style="{StaticResource TitleLabel}" Text="Sign up" HorizontalOptions="Center"/>
                 <Label HeightRequest="16"/>
-                <Entry Placeholder="Email" x:Name="Email" Keyboard="Email"/>
-                <Entry Placeholder="Password" x:Name="Pass" IsPassword="true"/>
-                <Entry Placeholder="Password confirmation" x:Name="PassConf" IsPassword="true"/>
-                <Entry Placeholder="First Name" x:Name="FirstName"/>
-                <Entry Placeholder="Last Name" x:Name="LastName"/>
+                <Entry Style="{StaticResource DefaultEntry}" Placeholder="Email" x:Name="Email" Keyboard="Email"/>
+                <Entry Style="{StaticResource DefaultEntry}" Placeholder="Password" x:Name="Pass" IsPassword="true"/>
+                <Entry Style="{StaticResource DefaultEntry}" Placeholder="Password confirmation" x:Name="PassConf" IsPassword="true"/>
+                <Entry Style="{StaticResource DefaultEntry}" Placeholder="First Name" x:Name="FirstName"/>
+                <Entry Style="{StaticResource DefaultEntry}" Placeholder="Last Name" x:Name="LastName"/>
                 <Picker x:Name="RolePicker"/>
                 <Button Style="{StaticResource DefaultButton}" Text="Sign up" Clicked="Signup"/>
             </StackLayout>

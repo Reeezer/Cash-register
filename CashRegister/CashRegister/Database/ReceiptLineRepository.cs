@@ -71,6 +71,7 @@ namespace CashRegister.Database
                     Id = reader.GetInt32("id"),
                     Receipt = rec,
                     Item = item,
+                    Quantity = reader.GetInt32("quantity")
                 });
             }
             reader.Close();

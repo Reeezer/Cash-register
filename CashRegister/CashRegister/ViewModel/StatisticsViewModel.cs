@@ -21,43 +21,46 @@ namespace CashRegister.ViewModel
 
             /* ----- Fetch every thing we need in db ----- */
 
-            Dictionary<Category, double> pricesPerCategory = new Dictionary<Category, double>();
-            Dictionary<Category, SortedList<Item, double>> pricePerItemPerCategory = new Dictionary<Category, SortedList<Item, double>>();
+            Dictionary<int, double> pricesPerCategory = new Dictionary<int, double>();
+            Dictionary<int, SortedList<int, double>> pricePerItemPerCategory = new Dictionary<int, SortedList<int, double>>();
 
             List<Item> allItems = new List<Item>();
-            foreach(Receipt receipt in ReceiptRepository.Instance.FindAllByDate(DateTime.Now))
+            foreach (Receipt receipt in ReceiptRepository.Instance.FindAllByDate(DateTime.Now))
             {
                 foreach (ReceiptLine receiptLine in ReceiptLineRepository.Instance.FindAllByReceipt(receipt.Id))
                 {
                     allItems.Add(receiptLine.Item);
 
-                    TotalIncome += receiptLine.LinePrice;
+                    double linePrice = receiptLine.Quantity * receiptLine.Item.Price;
+                    Debug.WriteLine(receiptLine.Item.Name + ": " + linePrice + "(" + receiptLine.Quantity + " * " + receiptLine.Item.Price + ")");
 
-                    if (pricesPerCategory.ContainsKey(receiptLine.Item.Category))
+                    TotalIncome += linePrice;
+
+                    if (pricesPerCategory.ContainsKey(receiptLine.Item.Category.Id))
                     {
-                        pricesPerCategory[receiptLine.Item.Category] += receiptLine.LinePrice;
+                        pricesPerCategory[receiptLine.Item.Category.Id] += linePrice;
                     }
                     else
                     {
-                        pricesPerCategory.Add(receiptLine.Item.Category, receiptLine.LinePrice);
+                        pricesPerCategory.Add(receiptLine.Item.Category.Id, linePrice);
                     }
 
-                    if (pricePerItemPerCategory.ContainsKey(receiptLine.Item.Category))
+                    if (pricePerItemPerCategory.ContainsKey(receiptLine.Item.Category.Id))
                     {
-                        if (pricePerItemPerCategory[receiptLine.Item.Category].ContainsKey(receiptLine.Item))
+                        if (pricePerItemPerCategory[receiptLine.Item.Category.Id].ContainsKey(receiptLine.Item.Id))
                         {
-                            pricePerItemPerCategory[receiptLine.Item.Category][receiptLine.Item] += receiptLine.LinePrice;
+                            pricePerItemPerCategory[receiptLine.Item.Category.Id][receiptLine.Item.Id] += linePrice;
                         }
                         else
                         {
-                            pricePerItemPerCategory[receiptLine.Item.Category].Add(receiptLine.Item, receiptLine.LinePrice);
+                            pricePerItemPerCategory[receiptLine.Item.Category.Id].Add(receiptLine.Item.Id, linePrice);
                         }
                     }
                     else
                     {
-                        pricePerItemPerCategory.Add(receiptLine.Item.Category, new SortedList<Item, double>());
-                        pricePerItemPerCategory[receiptLine.Item.Category].Add(receiptLine.Item, receiptLine.LinePrice);
-                    }              
+                        pricePerItemPerCategory.Add(receiptLine.Item.Category.Id, new SortedList<int, double>());
+                        pricePerItemPerCategory[receiptLine.Item.Category.Id].Add(receiptLine.Item.Id, linePrice);
+                    }
                 }
             }
 
@@ -66,12 +69,18 @@ namespace CashRegister.ViewModel
             List<Category> categories = CategoryRepository.Instance.GetAll();
             foreach (Category category in categories)
             {
-                Debug.WriteLine(category.Name);
                 // For the day
-                if (pricePerItemPerCategory.Keys.Contains(category))
+                if (pricePerItemPerCategory.ContainsKey(category.Id))
                 {
-                    List<Item> items = pricePerItemPerCategory[category].OrderByDescending(x => x.Value).Select(y => y.Key).Take(3).ToList();
-                    Categories.Add(new StatisticCategory(category, pricesPerCategory[category], items));
+                    List<int> itemsId = pricePerItemPerCategory[category.Id].OrderByDescending(x => x.Value).Select(y => y.Key).Take(3).ToList();
+                    List<Item> items = new List<Item>();
+                    foreach(int id in itemsId)
+                    {
+                        items.Add(ItemRepository.Instance.FindById(id));
+                    }
+
+                    StatisticCategory statisticCategory = new StatisticCategory(category, pricesPerCategory[category.Id], items);
+                    Categories.Add(statisticCategory);
                 }
             }
         }

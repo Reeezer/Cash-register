@@ -26,7 +26,7 @@ namespace CashRegister.View
         public PaymentView(double totalPrice, Receipt receipt, ObservableCollection<ReceiptLine> receiptLines)
         {
             InitializeComponent();
-            
+
             this.totalPrice = totalPrice;
             this.receipt = receipt;
             this.receiptLines = receiptLines.ToList();
@@ -98,6 +98,7 @@ namespace CashRegister.View
             ReceiptRepository.Instance.Save(receipt);
             foreach (ReceiptLine line in receiptLines)
             {
+                Debug.WriteLine(line.Item.Name + ": " + line.Quantity + " * " + line.Item.Price);
                 ReceiptLineRepository.Instance.Save(line);
             }
 
@@ -120,8 +121,11 @@ namespace CashRegister.View
                 else
                 {
                     string result = await DisplayPromptAsync("Mail", "Please enter your email to receive the receipt");
-                    mail.To.Add(result);
-                }                
+                    if (result != null)
+                    {
+                        mail.To.Add(result.Trim());
+                    }
+                }
                 mail.Attachments.Add(new Attachment(file));
 
                 SmtpClient SmtpServer = new SmtpClient
