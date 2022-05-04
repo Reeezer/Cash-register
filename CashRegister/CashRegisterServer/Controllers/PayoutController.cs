@@ -21,21 +21,21 @@ namespace CashRegisterServer.Controllers
             _logger = logger;
         }
 
+        /**
+         * this method is here only because the CashRegister client couldnt do a Post request with params
+         * even if I got to do it with python
+         */
         [HttpGet(Name = "GetPayout")]
         public IActionResult Get(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode,
             long amountValue, string amountCurrency, string reference, string clientApiKey)
         {
             return Post(encryptedCardNumber, encryptedExpiryMonth, encryptedExpiryYear, encryptedSecurityCode, amountValue, amountCurrency, reference, clientApiKey);
-        }            
+        }
 
-        [HttpPost(Name = "PostPayout")]
-        // 'encryptedCardNumber': 'test_4111111111111111',
-        // 'encryptedExpiryMonth': 'test_03',
-        // 'encryptedExpiryYear': 'test_2030',
-        // 'encryptedSecurityCode': 'test_737',
-        // 'amountValue': 300,
-        // 'amountCurrency': 'CHF',
-        // 'reference': 'Reference ' + str(uuid.uuid4()),	
+        /**
+         * Ask to the Adyen API to execute a payement
+         */
+        [HttpPost(Name = "PostPayout")]	
         public IActionResult Post(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode,
             long amountValue, string amountCurrency, string reference, string clientApiKey)
         {
@@ -46,10 +46,8 @@ namespace CashRegisterServer.Controllers
             {
                 return BadRequest("Invalid client API key");
             }
-                try
+            try
             {
-                //var data = test(apiKey, merchantAccount);
-
                 ServerData data = DoThingWithAdyen(encryptedCardNumber, encryptedExpiryMonth, encryptedExpiryYear, encryptedSecurityCode, 
                     amountCurrency, amountValue, reference);
                 
@@ -73,20 +71,26 @@ namespace CashRegisterServer.Controllers
          */
         private bool IsClientApiKeyValid(string clientApiKey)
         {
-            // TODO: add db thing
+            // TODO: add db control
             return true;
         }
         
-        // https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
+        /**
+         * create and execute a request on the Adyen API
+         * https://docs.adyen.com/online-payments/api-only?tab=codeBlockmethods_request_dcSnj_cs_6
+         */
         private ServerData DoThingWithAdyen(string encryptedCardNumber, string encryptedExpiryMonth, string encryptedExpiryYear, string encryptedSecurityCode, 
             string amountCurrency, long amountToPay, string reference)
         {
+            // get the API Key and the merchant account from the environment variables
             string? apiKey = Environment.GetEnvironmentVariable("API_KEY");
             string? merchantAccount = Environment.GetEnvironmentVariable("MERCHANT_ACCOUNT");
             if (apiKey == null || merchantAccount == null)
             {
                 throw new CustomException500("API_KEY or MERCHANT_ACCOUNT not set");
             }
+            
+            
             var client = new Client(apiKey, Adyen.Model.Enum.Environment.Test);
             var checkout = new Checkout(client);
                         
@@ -127,37 +131,39 @@ namespace CashRegisterServer.Controllers
             };
         }
 
-        private ServerData Test(string apiKey, string merchantAccount)
-        {
-            var client = new Client(apiKey, Adyen.Model.Enum.Environment.Test);
-            var checkout = new Checkout(client);
-            var details = new Adyen.Model.Checkout.DefaultPaymentMethodDetails
-            {
-                Type = "scheme",
-                EncryptedCardNumber = "test_4111111111111111",
-                EncryptedExpiryMonth = "test_03",
-                EncryptedExpiryYear = "test_2030",
-                EncryptedSecurityCode = "test_737"
-            };
-            var amount = new Adyen.Model.Checkout.Amount("EUR", 1000);
-            var paymentRequest = new Adyen.Model.Checkout.PaymentRequest
-            {
-                PaymentMethod = details,
-                MerchantAccount = merchantAccount,
-                Amount = amount,
-                Reference = "Reference 01231ca2",
-                ReturnUrl = @"http://localhost:8000/redirect?shopperOrder=myRef"
-            };
-            _ = checkout.Payments(paymentRequest);
-            return new ServerData
-            {
-                PayoutId = "an id mha man",
-                PayoutStatus = "status",
-                MerchantAccount = "merch",
-                AmountValue = 1000,
-                AmountCurrency = "CHF",
-                Reference = "reference"
-            };
-        }
+        // I let this to have a visual representation of what's happening with adyen
+        //
+        //private ServerData Test(string apiKey, string merchantAccount)
+        //{
+        //    var client = new Client(apiKey, Adyen.Model.Enum.Environment.Test);
+        //    var checkout = new Checkout(client);
+        //    var details = new Adyen.Model.Checkout.DefaultPaymentMethodDetails
+        //    {
+        //        Type = "scheme",
+        //        EncryptedCardNumber = "test_4111111111111111",
+        //        EncryptedExpiryMonth = "test_03",
+        //        EncryptedExpiryYear = "test_2030",
+        //        EncryptedSecurityCode = "test_737"
+        //    };
+        //    var amount = new Adyen.Model.Checkout.Amount("EUR", 1000);
+        //    var paymentRequest = new Adyen.Model.Checkout.PaymentRequest
+        //    {
+        //        PaymentMethod = details,
+        //        MerchantAccount = merchantAccount,
+        //        Amount = amount,
+        //        Reference = "Reference 01231ca2",
+        //        ReturnUrl = @"http://localhost:8000/redirect?shopperOrder=myRef"
+        //    };
+        //    _ = checkout.Payments(paymentRequest);
+        //    return new ServerData
+        //    {
+        //        PayoutId = "an id mha man",
+        //        PayoutStatus = "status",
+        //        MerchantAccount = "merch",
+        //        AmountValue = 1000,
+        //        AmountCurrency = "CHF",
+        //        Reference = "reference"
+        //    };
+        //}
     }
 }

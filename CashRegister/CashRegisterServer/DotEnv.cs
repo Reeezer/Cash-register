@@ -3,7 +3,10 @@ using System.IO;
 
 namespace CashRegisterServer
 {
-    // https://dusted.codes/dotenv-in-dotnet
+    /**
+     * Search if a .env file exists, then load it as environment var.
+     * https://dusted.codes/dotenv-in-dotnet
+     */
     public static class DotEnv
     {
         public static void Load(string filePath)

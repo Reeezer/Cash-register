@@ -16,16 +16,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-// statically set the port, will generate a error dialog that means nothing
+// statically set the port, will generate a error dialog that means nothing when running without debugger
 builder.WebHost.ConfigureKestrel(options => options.ListenLocalhost(5018));
 
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 app.UseDeveloperExceptionPage();
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
+    // open a swagger UI on the navigator (localhost:5018/swagger)
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CashRegister V1"));
 }

@@ -2,7 +2,9 @@
 
 namespace CashRegisterServer.Controllers
 {
-
+    /**
+     * url to test if the server is up and running
+     */
     [ApiController]
     [Route("[controller]")]
     public class TestController : ControllerBase

@@ -5,6 +5,7 @@ using System.Text.Json;
 
 namespace CashRegister.moneyIsEverything.models
 {
+    // model representing the data the the cashregister server responds to the client
     public class ServerData
     {
         public string PayoutId { get; set; }
