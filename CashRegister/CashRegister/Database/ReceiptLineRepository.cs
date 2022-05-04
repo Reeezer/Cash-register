@@ -4,11 +4,23 @@ using MySqlConnector;
 
 namespace CashRegister.Database
 {
+    /// <summary>
+    /// Singleton. Repository that contains the receipts on a line basis.
+    /// </summary>
     class ReceiptLineRepository
     {
+        /// <summary>
+        /// Database connection.
+        /// </summary>        
         private readonly CashDatabase cashDatabase;
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         public static ReceiptLineRepository Instance { get; } = new ReceiptLineRepository();
 
+        /// <summary>
+        /// Create a connection to the database and open it.
+        /// </summary>
         private ReceiptLineRepository()
         {
             cashDatabase = new CashDatabase();

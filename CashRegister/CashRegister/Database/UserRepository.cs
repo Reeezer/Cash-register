@@ -4,11 +4,23 @@ using MySqlConnector;
 
 namespace CashRegister.Database
 {
+    /// <summary>
+    /// Singleton. Repository for the users.
+    /// </summary>
     internal class UserRepository
     {
+        /// <summary>
+        /// Database connection.
+        /// </summary>
         private readonly CashDatabase cashDatabase;
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>        
         public static UserRepository Instance { get; } = new UserRepository();
 
+        /// <summary>
+        /// Create a connection to the database and open it.
+        /// </summary>
         private UserRepository()
         {
             cashDatabase = new CashDatabase();
