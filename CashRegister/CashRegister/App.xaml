@@ -10,6 +10,14 @@
             <Setter Property="FontSize" Value="14"/>
         </Style>
 
+        <!-- Entry -->
+        <Style x:Key="DefaultEntry" TargetType="Entry">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="BackgroundColor" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="PlaceholderColor" Value="Gray"/>
+        </Style>
+
         <!-- Label -->
         <Style x:Key="DefaultLabel" TargetType="Label">
             <Setter Property="TextColor" Value="Black"/>

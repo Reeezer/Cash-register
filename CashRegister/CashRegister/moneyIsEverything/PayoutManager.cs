@@ -37,7 +37,8 @@ namespace CashRegister.moneyIsEverything
 
         }
 
-        private class TestData : GetParams {
+        private class TestData : GetParams
+        {
             public string Name { get; set; }
             public long Age { get; set; }
         };
@@ -51,7 +52,7 @@ namespace CashRegister.moneyIsEverything
         private async Task<ServerData> Test()
         {
             string url = "http://localhost:5018/Test";
-            var test = new TestData() { Name = "jean", Age=(long)42 };
+            var test = new TestData() { Name = "jean", Age = (long)42 };
 
             var client = new HttpClient();
             var response = await client.GetAsync(url + test.GetParamsString());
@@ -74,7 +75,7 @@ namespace CashRegister.moneyIsEverything
         public async Task<ServerData> MakePayement(string cardNumber, string expiryMonth, string expiryYear, string securityCode, double amount, string reference)
         {
             //return await Test();
-            
+
             // amount is set in long => 10.40CHF => 1040
             long lAmount = (long)(amount * 100);
             if (lAmount != amount * 100)
@@ -94,8 +95,8 @@ namespace CashRegister.moneyIsEverything
             //string port = Environment.GetEnvironmentVariable("CASHREGISTER_PORT");
             //string endpoint = Environment.GetEnvironmentVariable("CASHREGISTER_ENDPOINT");
             //string url = base_url + ":" + port + "/" + endpoint;
-            
-            string url = "http://localhost:49157/Payout";
+
+            string url = "http://localhost:5018/Payout";
 
             var data = new ClientData
             {
@@ -119,8 +120,8 @@ namespace CashRegister.moneyIsEverything
             {
                 throw new PaymentFailedException(response.Content.ReadAsStringAsync().Result);
             }
-            
-                ServerData serverData = ServerData.CreateFromJsonString(response.Content.ReadAsStringAsync().Result);
+
+            ServerData serverData = ServerData.CreateFromJsonString(response.Content.ReadAsStringAsync().Result);
 
             return serverData;
             // proxy thing ?

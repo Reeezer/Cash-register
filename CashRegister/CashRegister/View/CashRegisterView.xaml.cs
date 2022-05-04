@@ -122,10 +122,9 @@ namespace CashRegister.View
 
                             ItemRepository itemRepository = ItemRepository.Instance;
                             itemRepository.Save(resultItem);
-
-                            cashRegisterVM.AddItemOnReceiptFromEAN(result);
-
+                            
                             cashRegisterVM.FetchAllData();
+                            cashRegisterVM.AddItemOnReceiptFromEAN(result);
                         }
                         else
                         {

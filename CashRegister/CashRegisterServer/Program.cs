@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // statically set the port, will generate a error dialog that means nothing
-builder.WebHost.ConfigureKestrel(options => options.ListenLocalhost(49157));
+builder.WebHost.ConfigureKestrel(options => options.ListenLocalhost(5018));
 
 builder.Services.AddSwaggerGen();
 
