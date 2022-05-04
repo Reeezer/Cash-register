@@ -83,7 +83,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Scan EAN -->
-                <Button Style="{StaticResource DefaultButton}" Grid.Column="0" Text="Scan" Clicked="ScanCode"/>
+                <Button x:Name="scanButton" Style="{StaticResource DefaultButton}" Grid.Column="0" Text="Scan" Clicked="ScanCode"/>
 
                 <!-- Price -->
                 <Frame Grid.Column="1" BackgroundColor="LightCoral" Padding="0" CornerRadius="4" HasShadow="False" WidthRequest="200">

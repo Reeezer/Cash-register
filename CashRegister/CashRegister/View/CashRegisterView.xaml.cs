@@ -20,6 +20,19 @@ namespace CashRegister.View
 
             CashRegisterViewModel cashRegisterVM = new CashRegisterViewModel();
             BindingContext = cashRegisterVM;
+            CheckScanAvailability();
+        }
+
+        private void CheckScanAvailability()
+        {
+            if (Device.RuntimePlatform != Device.Android)
+            {
+                scanButton.IsEnabled = false;
+            }
+            else
+            {
+                scanButton.IsEnabled = true;
+            }
         }
 
         public void SelectCategory(object sender, EventArgs args)
@@ -82,12 +95,16 @@ namespace CashRegister.View
                             {
                                 end = 4;
                                 //setting the Name 
-                                string name = await DisplayPromptAsync($"Name {start}/{end}", "Please give a name", "OK", null, null, -1, Keyboard.Default, "");
+                                string name = await DisplayPromptAsync($"Name {start}/{end}", "Please give a name", "OK", "Cancel", null, -1, Keyboard.Default, "");
                                 start++;
+                                if (name == null || name.Length <= 0)
+                                    return;
                                 resultItem.Name = name;
 
                                 //setting the Category 
                                 string category = await DisplayPromptAsync($"Category {start}/{end}", "Please give a category", "OK", null, null, -1, Keyboard.Default, "");
+                                if (category == null || category.Length <= 0)
+                                    return;
                                 start++;
                                 Category newCat = new Category(category);
                                 CategoryRepository catRepository = CategoryRepository.Instance;
