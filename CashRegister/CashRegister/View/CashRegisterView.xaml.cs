@@ -136,7 +136,7 @@ namespace CashRegister.View
             catch (Exception)
             {
                 await DisplayAlert("Invalid Item", $"The item does not exist.", "Ok");
-                throw;
+                //throw;
             }
         }
 
