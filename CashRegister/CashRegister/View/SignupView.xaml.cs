@@ -12,6 +12,9 @@ namespace CashRegister.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignupView : ContentPage
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SignupView()
         {
             InitializeComponent();
@@ -20,6 +23,11 @@ namespace CashRegister.View
             RolePicker.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// Check if the credentials are valid and create a new user, and log in
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void Signup(object sender, EventArgs args)
         {
             if (Email.Text == null || Pass.Text == null || FirstName.Text == null || LastName.Text == null || PassConf.Text == null)

@@ -23,6 +23,9 @@ namespace CashRegister.View
         private readonly Receipt receipt;
         private readonly List<ReceiptLine> receiptLines;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public PaymentView(double totalPrice, Receipt receipt, ObservableCollection<ReceiptLine> receiptLines)
         {
             InitializeComponent();
@@ -34,6 +37,11 @@ namespace CashRegister.View
             Price.Text = $"Price: {totalPrice}.-";
         }
 
+        /// <summary>
+        /// Check if the credentials are correct, make the payment and send the receipt via mail
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         public async void Pay(object sender, EventArgs args)
         {
             // Check if card is valid

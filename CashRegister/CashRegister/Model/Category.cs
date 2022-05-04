@@ -29,6 +29,13 @@ namespace CashRegister.Model
             }
         }
 
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">name of the category</param>
+        /// <param name="principalColor">principal color</param>
+        /// <param name="secondaryColor">secorndary color</param>
         public Category(string name, Color principalColor, Color secondaryColor)
         {
             Name = name;
@@ -38,6 +45,10 @@ namespace CashRegister.Model
             ActualColor = principalColor;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">name of the category</param>
         public Category(string name)
         {
             Random random = new Random();

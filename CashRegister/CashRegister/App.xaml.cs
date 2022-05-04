@@ -9,6 +9,9 @@ namespace CashRegister
 {
     public partial class App : Application
     {
+        /// <summary>
+        /// Constructor: initialize the database 
+        /// </summary>
         public App()
         {
             InitializeComponent();
