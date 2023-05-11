@@ -1,41 +1,15 @@
 # CashRegister
- C# crossplateform cash register app for small companies
 
-## Objectifs principaux
+CashRegister is a cross-platform cash register application developed in C# for small companies. The main objectives of this project are to provide a versatile cash register solution that can run on multiple platforms (iOS, Android, Windows), utilize an Azure server as a MySQL database, handle article scanning through portable devices and webcams, send receipts to email addresses, and automate currency management.
 
-- Multiplateforme (iOS, Android, Windows)
-- Utilisation d'un serveur Azure servant de SGBD MySQL
-- Gestion des scans d'articles (portable & webcam)
-- Envois des tickets de caisse à une adresse mail
-- Gestion automatique des devises
+The application features three distinct modes: Cashier mode, Customer mode, and Administration mode.
 
-### 3 modes
+In Cashier mode, users can add articles to a customer's cart and process their payment. This mode supports scanning articles or manually adding them, removing articles, displaying ongoing articles with their details (name, description, quantity, total price, unit price), making payments (using the Twint platform), and adding new articles to the database by scanning their barcodes through an API (e.g., Open Food Facts).
 
-- Mode caissier: ajouter articles d'un client et le faire payer
-    - scanner un article / ajouter à la main (un ou plusieurs)
-	- supprimer article
-	- voir les articles en cours (nom, description, quantite, prix total, prix unitaire)
-	- payement (twint)
-	- ajout de nouveaux articles dans la db grâce au code barre depuis une api (ex. openfoodfacts)
-- Mode client: ajouter soi-même les articles et payer en caisse
-    - Comme le passabene du magasin Suisse "Coop" (aussi connu sous le nom de Coopé, ou Là Coopéy)
-	- scan final à un terminal
-- Mode administration: modification du stock
-    - Ajout de produit
-        - Ajout de nouveaux produits
-        - Quantité disponible
-    - Gestion des stocks
-    - Contrôle d'inventaire
-        - Effectuer l'inventaire en listant tous les articles physiquement présents dans le stock comparé à ceux qui devraient y être d'après la base de donnée
-    - Statistiques de vente
+Customer mode allows customers to add articles themselves and make payments at the cash register. Similar to the "Passabene" system in Swiss stores like "Coop" (also known as Coopé or Là Coopéy), customers can scan their items at a terminal before finalizing the purchase.
 
-## Répartition des objectifs
+Administration mode is designed for stock management. It enables users to add new products, track available quantities, manage stock levels, perform inventory checks by comparing physical stock with database records, and view sales statistics.
 
-BDD / Serveur Azure
-ajout/suppression/visualisation articles dans le panier
-scan code barre
-ajout de nouveaux articles avec API
-génération de tickets de caisse & envoi par mail
-payement
-mode admin
-gestion des devises
+The project's scope includes the development of the backend database and Azure server, implementing functionalities such as adding, removing, and viewing articles in the cart, barcode scanning, adding new articles through an API, generating and sending receipts via email, handling payments, and creating an administration mode for currency management.
+
+CashRegister provides a comprehensive cash register solution that combines convenience, cross-platform compatibility, and efficient stock management for small businesses.
